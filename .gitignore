@@ -1,0 +1,5 @@
+node_modules/
+.project
+sgx_esa_servicearea/
+package-lock.json
+package.json
