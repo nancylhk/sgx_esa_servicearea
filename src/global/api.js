@@ -248,4 +248,29 @@ export default {
 	"getAutomaticBusinessRange": BASE_URL + '/system/dimension/getAutomaticBusinessRange',  
 	"getPriceUnit": BASE_URL + '/system/dimension/getPriceUnit',  
 	"getToiletType": BASE_URL + '/system/dimension/getToiletType',  
+
+	
+	
+	"getRestAreaInfo": BASE_URL + '/restarea/getRestAreaInfo',//查看服务区基础信息
+
+	"getManagePost": BASE_URL + '/post/getManagePost',//查看管理岗位信息
+	//基础设施-其他设施
+	"getOtherInfrastructure": BASE_URL + '/basedev/getOtherInfrastructure',
+	"updateOtherInfrastructure": BASE_URL +'/basedev/updateOtherInfrastructure',
+	"deleteOtherInfrastructure": BASE_URL +"/basedev/deleteOtherInfrastructure",
+	"addOtherInfrastructure": BASE_URL + "/basedev/addOtherInfrastructure",
+	'getOtherInfrastructureInfo':BASE_URL +'/basedev/getOtherInfrastructureInfo',
+	// 项目跟踪
+	"getMajorProjectInfoList":BASE_URL +"/project/getMajorProjectInfoList",
+	"getProjectTypeList":BASE_URL +'/project/getProjectTypeList',
+	"":'',//
+	"":'',//
+	"":'',//
+	"":'',//
+	"":'',//
+	"":'',//
+	"":'',//
+	"":'',//
+	// 自营收入
+	"getSelfSupportSaleInfo": BASE_URL + "/income/getSelfSupportSaleInfo"
 }

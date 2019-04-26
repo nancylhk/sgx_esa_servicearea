@@ -34,7 +34,30 @@ const OperateIncome = r => require.ensure([], () => r(require('../pages/operateM
 const OperateOutcome = r => require.ensure([], () => r(require('../pages/operateMgmt/outcome/index')), 'outcome')
 const OperateTarget = r => require.ensure([], () => r(require('../pages/operateMgmt/target/index')), 'target')
 // 收入填报
-const OperateIncomeFill = r => require.ensure([], () => r(require('../pages/operateMgmt/incomeFill/list')), 'incomeFill')
+const OperateIncomeFill = r => require.ensure([], () => r(require('../pages/operateMgmt/incomeFill/index')), 'incomeFill')
+const OperateSelfIncomeFill = r => require.ensure([], () => r(require('../pages/operateMgmt/incomeFill/selfOperate/list')), 'selfOperate')
+const OperateSelfIncomeView = r => require.ensure([], () => r(require('../pages/operateMgmt/incomeFill/selfOperate/view')), 'selfOperate')
+const OperateBusinessIncomeFill = r => require.ensure([], () => r(require('../pages/operateMgmt/incomeFill/business/list')), 'business')
+const OperateBusinessIncomeView = r => require.ensure([], () => r(require('../pages/operateMgmt/incomeFill/business/view')), 'business')
+const OperateRentIncomeFill = r => require.ensure([], () => r(require('../pages/operateMgmt/incomeFill/rent/list')), 'rent')
+const OperateRentIncomeView = r => require.ensure([], () => r(require('../pages/operateMgmt/incomeFill/rent/view')), 'rent')
+const OperateEnergySalesFill = r => require.ensure([], () => r(require('../pages/operateMgmt/incomeFill/energySales/list')), 'energySales')
+const OperateEnergySalesView = r => require.ensure([], () => r(require('../pages/operateMgmt/incomeFill/energySales/view')), 'energySales')
+const OperateHolidaySalesFill = r => require.ensure([], () => r(require('../pages/operateMgmt/incomeFill/holidaySales/list')), 'holidaySales')
+const OperateHolidaySalesView = r => require.ensure([], () => r(require('../pages/operateMgmt/incomeFill/holidaySales/view')), 'holidaySales')
+// 成本、车流量、商户合作填报
+const OperateMixFill = r => require.ensure([], () => r(require('../pages/operateMgmt/mixFill/index')), 'mixFill')
+const OperateCostFill = r => require.ensure([], () => r(require('../pages/operateMgmt/mixFill/cost/list')), 'cost')
+const OperateCostView = r => require.ensure([], () => r(require('../pages/operateMgmt/mixFill/cost/view')), 'cost')
+const OperateFlowFill = r => require.ensure([], () => r(require('../pages/operateMgmt/mixFill/flow/list')), 'flow')
+const OperateFlowView = r => require.ensure([], () => r(require('../pages/operateMgmt/mixFill/flow/view')), 'flow')
+const OperateBusinessFill = r => require.ensure([], () => r(require('../pages/operateMgmt/mixFill/business/list')), 'business')
+const OperateBusinessView = r => require.ensure([], () => r(require('../pages/operateMgmt/mixFill/business/view')), 'business')
+// 项目跟踪
+const OperateProjectList = r => require.ensure([], () => r(require('../pages/operateMgmt/projectTracking/list')), 'projectTracking')
+const OperateProjectAdd = r => require.ensure([], () => r(require('../pages/operateMgmt/projectTracking/add')), 'projectTracking')
+const OperateProjectUpdate = r => require.ensure([], () => r(require('../pages/operateMgmt/projectTracking/update')), 'projectTracking')
+const OperateProjectDetail = r => require.ensure([], () => r(require('../pages/operateMgmt/projectTracking/detail')), 'projectTracking')
 //人力资源
 const ResourcesJob = r => require.ensure([], () => r(require('../pages/humanResources/job/index')), 'job')
 const ResourcesEmployee = r => require.ensure([], () => r(require('../pages/humanResources/employee/index')), 'employee')
@@ -71,6 +94,20 @@ const PublicStorageAddApproval = r => require.ensure([], () => r(require('../pag
 const SecuritySettings = r => require.ensure([], () => r(require('../pages/basicInfo/securitySettings/index')), 'securitySettings')
 const BaseMsg = r => require.ensure([], () => r(require('../pages/basicInfo/baseMsg/index')), 'baseMsg')
 const MemberOrg = r => require.ensure([], () => r(require('../pages/basicInfo/memberOrg/index')), 'memberOrg')
+// 报表数据采集    --基础数据
+const DataBaseCollect = r => require.ensure([], () => r(require('../pages/dataCollection/baseData/index')), 'baseData')
+const DataBaseInfoView = r => require.ensure([], () => r(require('../pages/dataCollection/baseData/baseInfo/view')), 'baseData')
+const DataMemberInfoView = r => require.ensure([], () => r(require('../pages/dataCollection/baseData/memberInfo/view')), 'baseData')
+// 报表数据采集    --经营数据
+const DataManageCollect = r => require.ensure([], () => r(require('../pages/dataCollection/manageData/index')), 'manageData')
+const DataSelfIncome = r => require.ensure([], () => r(require('../pages/dataCollection/manageData/selfIncome/view')), 'manageData')
+const DataRentIncome = r => require.ensure([], () => r(require('../pages/dataCollection/manageData/rentIncome/view')), 'manageData')
+const DataBusinessIncome = r => require.ensure([], () => r(require('../pages/dataCollection/manageData/businessIncome/view')), 'manageData')
+const DataEnergySales = r => require.ensure([], () => r(require('../pages/dataCollection/manageData/energySales/view')), 'manageData')
+const DataCost = r => require.ensure([], () => r(require('../pages/dataCollection/manageData/cost/view')), 'manageData')
+const Dataflow = r => require.ensure([], () => r(require('../pages/dataCollection/manageData/flow/view')), 'manageData')
+const DataHolidaySale = r => require.ensure([], () => r(require('../pages/dataCollection/manageData/holidaySale/view')), 'manageData')
+const DataTogether = r => require.ensure([], () => r(require('../pages/dataCollection/manageData/together/view')), 'manageData')
 
 const routes = [
 	{
@@ -216,6 +253,111 @@ const routes = [
 			path: 'incomeFill',
 			component: OperateIncomeFill,
 			name: '收入填报',
+			meta:'03'
+		},{
+			path: 'selfIncomeFill',
+			component: OperateSelfIncomeFill,
+			name: '自营收入填报',
+			meta:'03'
+		},{
+			path: 'selfIncomeView',
+			component: OperateSelfIncomeView,
+			name: '自营收入预览',
+			meta:'03'
+		},{
+			path: 'businessIncomeFill',
+			component: OperateBusinessIncomeFill,
+			name: '商户收入填报',
+			meta:'03'
+		},{
+			path: 'businessIncomeView',
+			component: OperateBusinessIncomeView,
+			name: '商户收入预览',
+			meta:'03'
+		},{
+			path: 'rentIncomeFill',
+			component: OperateRentIncomeFill,
+			name: '租金收入填报',
+			meta:'03'
+		},{
+			path: 'rentIncomeView',
+			component: OperateRentIncomeView,
+			name: '租金收入预览',
+			meta:'03'
+		},{
+			path: 'energySalesFill',
+			component: OperateEnergySalesFill,
+			name: '能源销售填报',
+			meta:'03'
+		},{
+			path: 'energySalesView',
+			component: OperateEnergySalesView,
+			name: '能源销售预览',
+			meta:'03'
+		},{
+			path: 'holidaySalesFill',
+			component: OperateHolidaySalesFill,
+			name: '节假日营业情况填报',
+			meta:'03'
+		},{
+			path: 'holidaySalesView',
+			component: OperateHolidaySalesView,
+			name: '节假日营业情况预览',
+			meta:'03'
+		},{
+			path: 'mixFill',
+			component: OperateMixFill,
+			name: '成本、车流量、商户合作填报',
+			meta:'03'
+		},{
+			path: 'costFill',
+			component: OperateCostFill,
+			name: '成本填报',
+			meta:'03'
+		},{
+			path: 'costView',
+			component: OperateCostView,
+			name: '成本预览',
+			meta:'03'
+		},{
+			path: 'flowFill',
+			component: OperateFlowFill,
+			name: '断面流量填报',
+			meta:'03'
+		},{
+			path: 'flowView',
+			component: OperateFlowView,
+			name: '断面流量预览',
+			meta:'03'
+		},{
+			path: 'businessFill',
+			component: OperateBusinessFill,
+			name: '商户履约填报',
+			meta:'03'
+		},{
+			path: 'businessView',
+			component: OperateBusinessView,
+			name: '商户履约预览',
+			meta:'03'
+		},{
+			path: 'projectList',
+			component: OperateProjectList,
+			name: '项目跟踪列表',
+			meta:'03'
+		},{
+			path: 'projectAdd',
+			component: OperateProjectAdd,
+			name: '项目跟踪新增',
+			meta:'03'
+		},{
+			path: 'projectUpdate/:id',
+			component: OperateProjectUpdate,
+			name: '项目跟踪编辑',
+			meta:'03'
+		},{
+			path: 'projectDetail/:id',
+			component: OperateProjectDetail,
+			name: '项目跟踪详情',
 			meta:'03'
 		}
 		]
@@ -386,6 +528,71 @@ const routes = [
 			meta:'12'
 		}]
 	},
+	{		
+		path: '/dataCollection',
+		component: BasicLayout,
+		children: [{
+			path: 'baseData',
+			component: DataBaseCollect,
+			name: '基础数据',
+			meta:'13'
+		},{
+			path: 'baseInfoView',
+			component: DataBaseInfoView,
+			name: '服务区基本信息表',
+			meta:'13'
+		},{
+			path: 'memberInfoView',
+			component: DataMemberInfoView,
+			name: '服务区人员结构表',
+			meta:'13'
+		},{
+			path: 'manageData',
+			component: DataManageCollect,
+			name: '经营数据',
+			meta:'13'
+		},{
+			path: 'selfIncomeData',
+			component: DataSelfIncome,
+			name: '自营收入表',
+			meta:'13'
+		},{
+			path: 'rentIncomeData',
+			component: DataRentIncome,
+			name: '租金收入表',
+			meta:'13'
+		},{
+			path: 'businessIncomeData',
+			component: DataBusinessIncome,
+			name: '商户收入表',
+			meta:'13'
+		},{
+			path: 'energySalesData',
+			component: DataEnergySales,
+			name: '能源销售表',
+			meta:'13'
+		},{
+			path: 'costData',
+			component: DataCost,
+			name: '成本统计表',
+			meta:'13'
+		},{
+			path: 'flowData',
+			component: Dataflow,
+			name: '断面流量表',
+			meta:'13'
+		},{
+			path: 'holidaySaleData',
+			component: DataHolidaySale,
+			name: '节假日营业表',
+			meta:'13'
+		},{
+			path: 'togetherData',
+			component: DataTogether,
+			name: '商户合作履约表',
+			meta:'13'
+		}]
+	}
 ]
 
 export default new Router({

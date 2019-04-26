@@ -107,6 +107,35 @@
         </div>
 	</div>
 </template>
+<script>
+export default {
+    data() {
+        return {
+            baseInfo:''
+        }
+    },
+    mounted() {
+        this.getRestAreaInfo()
+    },
+    methods:{
+        getRestAreaInfo() {
+            let self = this;
+            self.$http.get(self.api.getRestAreaInfo, {
+                params: {
+                    accessToken: self.$store.state.user.token,
+                }
+            }, function(response) {
+                if(response.status == 200) {
+                    self.baseInfo = response.data;
+                }
+            }, function(response) {
+                //失败回调
+            })
+        }
+    }
+}
+</script>
+
 <style rel="stylesheet/scss" lang="scss">
 @import "src/style/mixin.scss";
 .baseMsg-container{

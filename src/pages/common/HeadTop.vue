@@ -129,6 +129,16 @@
 								</router-link>
 							</ul>
 						</el-tab-pane>
+						<el-tab-pane label="报表数据采集">
+							<ul class="product-list">
+								<router-link v-for="(nav,index) in navItem" :to="{path:nav.path,query: {barId:nav.parentId}}" :key="nav.path" v-if="nav.parentId == '13'">
+									<li class="mt15" @click="changeParentId(nav.parentId)">
+										<h5>{{nav.title}}</h5>
+										<p>{{nav.description}}</p>
+									</li>
+								</router-link>
+							</ul>
+						</el-tab-pane>
 					</el-tabs>
 				</div>
 			</div>
@@ -285,6 +295,24 @@
 						"path": "/operateMgmt/target",
 						"parentId": "03",
 						"parentName": "营运管理"
+					},{
+						"title": "收入填报",
+						"description": "各项收入填报",
+						"path": "/operateMgmt/incomeFill",
+						"parentId": "03",
+						"parentName": "营运管理"
+					},{
+						"title": "成本填报",
+						"description": "各项成本,车流量,商户合作填报",
+						"path": "/operateMgmt/mixFill",
+						"parentId": "03",
+						"parentName": "营运管理"
+					},{
+						"title": "项目跟踪与商业合作",
+						"description": "项目跟踪与商业合作",
+						"path": "/operateMgmt/projectList",
+						"parentId": "03",
+						"parentName": "营运管理"
 					},
 					{
 						"title": "岗位",
@@ -389,6 +417,18 @@
 						"path": "/carTraffic/carColorChart",
 						"parentId": "09",
 						"parentName": "车流量统计"
+					},{
+						"title": "基础数据",
+						"description": "服务区基本信息表、服务区人员结构表",
+						"path": "/dataCollection/baseData",
+						"parentId": "13",
+						"parentName": "数据采集"
+					},{
+						"title": "经营数据",
+						"description": "服务区经营数据",
+						"path": "/dataCollection/manageData",
+						"parentId": "13",
+						"parentName": "数据采集"
 					}
 				]
 			};

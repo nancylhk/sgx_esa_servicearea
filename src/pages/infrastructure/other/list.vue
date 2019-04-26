@@ -5,11 +5,6 @@
 				<el-form-item label="名称">
 					<el-input v-model="toiletName"></el-input>
 				</el-form-item>
-				<el-form-item label="面积">
-						<input v-model="minMeasure" class="queryIpt" />
-						<span style="color: #d8dce5;">~</span>
-						<input v-model="maxMeasure" class="queryIpt"/>
-				</el-form-item>
 				<el-form-item  class="right">
 					<el-button type="primary" @click="searchEvent">查询</el-button>
 					<el-button type="primary" @click="addEvent">新增</el-button>
@@ -21,25 +16,19 @@
 				<thead>
 					<tr>
 						<th>序号</th>
-						<th>名称</th>
-						<th>性别</th>
-						<th>所在区域</th>
-						<th>面积</th>
+						<th>设施名称</th>
+						<th>设施数目</th>
 						<th>操作</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr v-for="(info,index) in toiletList">
 						<td>{{index+1}}</td>
-						<td>{{info.toiletName}}</td>
-						<td v-show="info.gender == 0">男</td>
-						<td v-show="info.gender == 1">女</td>
-						<td>{{info.distribution}}</td>
-						<td>{{info.measure}}</td>
+						<td>{{info.infrastructureName}}</td>
+						<td>{{info.infrastructureNum}}</td>
 						<td>
-							<a @click ="viewEvent(info.toiletID)">查看</a>
-							<a @click ="updateEvent(info.toiletID)">修改</a>
-							<a @click ="deleteEvent(info.toiletID)">删除</a>
+							<a @click ="updateEvent(info.infrastructureId)">修改</a>
+							<a @click ="deleteEvent(info.infrastructureId)">删除</a>
 						</td>
 					</tr>
 				</tbody>
@@ -63,8 +52,6 @@
 				total: -1,
 				currentPage: 1,
 				pageSize: 10,
-				minMeasure: '',
-				maxMeasure:'',
 				beginRow:'',
 				endRow:'',
 				centerDialogVisible: false,
@@ -101,10 +88,10 @@
 					center: true
 				}).then(() => {
 					var self = this;
-					self.$http.get(self.api.deleteToiletInfo, {
+					self.$http.get(self.api.deleteOtherInfrastructure, {
 						params: {
 							accessToken: self.$store.state.user.token,
-							toiletID: ID,
+							InfrastructureID: ID,
 						}
 					},function(response){
 						if(response.data) {
@@ -136,34 +123,34 @@
 				let self = this;
 				self.beginRow = self.pageSize * (self.currentPage-1)+1;
 				self.endRow = self.currentPage * self.pageSize;
-				self.$http.get(self.api.getToiletList, {
+				self.$http.get(self.api.getOtherInfrastructure, {
 					params: {
 						accessToken: self.$store.state.user.token,
 						beginRow: self.beginRow,
 						endRow: self.endRow,
-						toiletName:self.toiletName,
-						minMeasure: self.minMeasure,
-						maxMeasure: self.maxMeasure
+						InfrastructureName:self.toiletName,
 					}
 				},function(response){
 					if(response.status == 200) {
-						self.toiletList = response.data;	
+						self.toiletList = response.data	
 					}
 				},function(response){ })
 			},
 			//查询条数
 			getListCount(){
 				let self = this;
-				self.$http.get(self.api.getToiletListCount, {
+				self.beginRow = self.pageSize * (self.currentPage-1)+1;
+				self.endRow = self.currentPage * self.pageSize;
+				self.$http.get(self.api.getOtherInfrastructure, {
 					params: {
 						accessToken: self.$store.state.user.token,
-						toiletName:self.toiletName,
-						minMeasure: self.minMeasure,
-						maxMeasure: self.maxMeasure
+						beginRow: '',
+						endRow: '',
+						InfrastructureName:self.toiletName,
 					}
 				},function(response){
 					if(response.status == 200) {
-						self.total = parseInt(response.data);
+						self.total = response.data.length;	
 					}
 				},function(response){ })
 			},
