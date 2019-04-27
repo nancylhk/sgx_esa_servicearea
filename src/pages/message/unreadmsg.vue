@@ -20,7 +20,7 @@
 		<div class="app-main unread-msg">
 			<table>
 				<thead>
-					<tr><input type="checkbox" /></button>
+					<tr><input type="checkbox" v-moel='allChecked'/>
 						<th>序号</th>
 						<th>标题内容</th>
 						<th>发送人</th>
@@ -28,25 +28,25 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr><input type="checkbox" />
-						<td>01</td>
-						<td><a>郭村服务区账号过期提醒</a></td>
+					<tr v-for="(info,index) in tableDataList">
+						<input type="checkbox" v-model='info.checked'/>
+						<td>{index+1}</td>
+						<td><a>{{info.title}}</a></td>
 						<td>陈雪颖</td>
-						<td>2017-10-15</td>
-					</tr>
-					<tr><input type="checkbox" />
-						<td>02</td>
-						<td><a>郭村服务区账号过期提醒</a></td>
-						<td>陈雪颖</td>
-						<td>2017-10-15</td>
+						<td>{{info.createTime}}</td>
 					</tr>
 				</tbody>
 			</table>
 			<footer>
 				<div class="msgOperate">
-					<button>删除</button><button class="ml20">标记已读</button>
+					<button>删除</button><button class="ml20" @click="signReaded">标记已读</button>
 				</div>
-				<el-pagination @current-change="handleCurrentChange" :current-page.sync="currentPage" :page-size="pageSize" layout="total, prev, pager, next" :total="totalMsgNum">
+				<el-pagination 
+				@current-change="handleCurrentChange" 
+				:current-page.sync="currentPage" 
+				:page-size="pageSize" 
+				layout="total, prev, pager, next" 
+				:total="totalMsgNum">
 				</el-pagination>
 
 			</footer>
@@ -62,24 +62,22 @@
 		data() {
 			return {
 				currentPage: 1,
-				pageSize: 15,
-				totalMsgNum: 100,
+				pageSize: 10,
+				beginRow:'',
+				endRow:'',
+				allChecked:false,
+				totalMsgNum: 0,
 				formSearch: {
 					cont: '',
 					state: ''
 				},
+				tableDataList:[]
 
 			}
 		},
-		methods: {
-			onSubmit() {
-				console.log('submit!');
-			},
-			handleCurrentChange(val) {
-				console.log(`当前页: ${val}`);
-			}
-		},
 		created() {
+			// this.getList();
+			// this.getListCount()
 			//全部消息
 			/*axios.get('http://192.168.2.73:9009/message/getMessageList',{
 				params: {
@@ -92,6 +90,92 @@
 				}
 			})*/
 		},
+		methods: {
+			onSubmit() {
+				console.log('submit!');
+			},
+			signReaded() {
+				let self = this;
+				if(this.allChecked == true) {			
+					this.$http.get(this.api.updateAllUnreadMessage, {
+						params: {
+							accessToken: this.$store.state.user.token,								
+						}
+					},function(response){
+						if(response.status == 200) {
+							self.getList()
+						}
+					},function(response){
+							//失败回调
+					})
+				}
+				let checkedArr = self.tableDataList.filter(e=>{
+					return e.checked == true
+				})
+				if(checkedArr.length>0) {
+					let messageIDs = [];
+					checkedArr.forEach(e=>{
+						messageIDs.push(e.messageID)
+					})
+					this.$http.get(this.api.updateAllUnreadMessage, {
+						params: {
+							accessToken: this.$store.state.user.token,
+							messageIDs:messageIDs,
+												
+						}
+					},function(response){
+						if(response.status == 200) {
+							self.getList()
+						}
+					},function(response){
+							//失败回调
+					})
+				}
+			},
+			getList() {
+				let self = this;
+				self.beginRow = self.pageSize * (self.currentPage-1)+1;
+				self.endRow = self.currentPage * self.pageSize;
+				this.$http.get(this.api.getUnreadMessageList, {
+					params: {
+						accessToken: this.$store.state.user.token,
+						taskID:'',
+						beginRow: this.beginRow,
+						endRow: this.endRow,					
+					}
+				},function(response){
+					if(response.status == 200) {
+						self.tableDataList = response.data;
+						self.tableDataList.forEach(e=>{
+							e.checked = false
+						})
+					}
+				},function(response){
+	                //失败回调
+	            })
+				
+			},
+			getListCount(){
+				let self = this;
+				self.$http.get(self.api.getUnreadMessageNum, {
+					params: {
+						accessToken: self.$store.state.user.token,
+						minMoney: self.minMoney,
+						maxMoney:self.maxMoney,
+						outcomeType: self.outcomeType
+					}
+				},function(response){
+					if(response.status == 200) {
+						self.totalMsgNum = parseInt(response.data);
+					}
+				},function(response){})
+			},
+			handleCurrentChange(val) {
+				this.currentPage = val;
+				this.getList();
+			},
+		},
+		
 	}
 </script>
 

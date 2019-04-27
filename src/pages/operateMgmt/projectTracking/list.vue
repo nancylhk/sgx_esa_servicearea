@@ -45,13 +45,13 @@
 						<td>{{index+1}}</td>
 						<td>{{info.projectName}}</td>
 						<td>{{info.beginTime}}</td>
-                        <td>进度</td>
+                        <td>{{info.progress}}%</td>
 						<td>{{info.investment}}元</td>
 						<td>{{info.isFinishi}}</td>
 						<td>
-							<a @click ="viewEvent(info.sellId)">查看</a>
-                            <a @click ="updateEvent(info.sellId)">修改</a>
-							<a @click ="deleteEvent(info.sellId)">删除</a>
+							<a @click ="viewEvent(info.projectID)">查看</a>
+                            <a @click ="updateEvent(info.projectID)">修改</a>
+							<a @click ="deleteEvent(info.projectID)">删除</a>
 						</td>
 					</tr>
 				</tbody>

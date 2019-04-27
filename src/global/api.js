@@ -250,10 +250,15 @@ export default {
 	"getToiletType": BASE_URL + '/system/dimension/getToiletType',  
 
 	
-	
+	// 基本资料--基础信息
 	"getRestAreaInfo": BASE_URL + '/restarea/getRestAreaInfo',//查看服务区基础信息
-
+	"getInfrastructure1": BASE_URL + "restarea/getInfrastructure1",//基本设施
+	"getRestaAreaBusiness": BASE_URL + "restarea/getRestaAreaBusiness",//经营模式
+	// 基本资料--人员结构
 	"getManagePost": BASE_URL + '/post/getManagePost',//查看管理岗位信息
+	"getProducePost":BASE_URL +'/post/getProducePost',//生产岗位
+	"getRenterUnitPost":BASE_URL +'/post/getRenterUnitPost',//承租单位岗位信息
+	
 	//基础设施-其他设施
 	"getOtherInfrastructure": BASE_URL + '/basedev/getOtherInfrastructure',
 	"updateOtherInfrastructure": BASE_URL +'/basedev/updateOtherInfrastructure',
@@ -263,14 +268,49 @@ export default {
 	// 项目跟踪
 	"getMajorProjectInfoList":BASE_URL +"/project/getMajorProjectInfoList",
 	"getProjectTypeList":BASE_URL +'/project/getProjectTypeList',
-	"":'',//
-	"":'',//
-	"":'',//
-	"":'',//
-	"":'',//
-	"":'',//
-	"":'',//
-	"":'',//
-	// 自营收入
-	"getSelfSupportSaleInfo": BASE_URL + "/income/getSelfSupportSaleInfo"
+	"addMajorProjectInfo":BASE_URL +'/project/addMajorProjectInfo',//
+	"getMajorProjectInfo":BASE_URL +'/project/getMajorProjectInfo',//
+	"updateMajorProjectInfo":BASE_URL +'/project/updateMajorProjectInfo',//
+	"":BASE_URL +'/',//
+	"":BASE_URL +'/',//
+	"":BASE_URL +'/',//
+	"":BASE_URL +'/',//
+	"":BASE_URL +'/',//
+	"":BASE_URL +'/',//
+	// 
+	"getfundsSourceType":BASE_URL +'/dimension/getfundsSourceType',//
+	"":BASE_URL +'/',//
+	"":BASE_URL +'/',//
+	
+	
+	
+	// 收入填报---自营收入
+	"getSelfSupportSaleInfo": BASE_URL + "/income/getSelfSupportSaleInfo",
+	"addSelfSupportSaleInfo":BASE_URL +'/income/addSelfSupportSaleInfo',//
+	"getSelfSupportInfoSalePreview":BASE_URL +'/income/getSelfSupportInfoSalePreview',//
+	//收入填报 ---商户收入
+	"getMerchantSaleInfo":BASE_URL +'/income/getMerchantSaleInfo',//
+	"addMerchantSaleInfo":BASE_URL +'/income/addMerchantSaleInfo',//
+	"getMerchantSaleInfoPreview":BASE_URL +'/income/getMerchantSaleInfoPreview',//
+	//收入填报 ---租金收入
+	"getRentInfo":BASE_URL +'/income/getRentInfo',//
+	"addRentInfo":BASE_URL +'/income/addRentInfo',//
+	"getRentInfoPreview":BASE_URL +'/income/getRentInfoPreview',//
+	// 成本填报 -- 主要成本
+	"getPaymentInfo":BASE_URL +'/nonIncome/getPaymentInfo',//
+	"addPaymentInfo":BASE_URL +'/nonIncome/addPaymentInfo',//
+	"getPaymentInfoPreview":BASE_URL +'/nonIncome/getPaymentInfoPreview',//
+	//成本填报 --断面流量
+	"getSectionVehicleFlowInfo":BASE_URL +'/nonIncome/getSectionVehicleFlowInfo',//
+	"addSectionVehicleFlowInfo":BASE_URL +'/nonIncome/addSectionVehicleFlowInfo',//
+	//商户履约
+	"getSectionVehicleFlowInfoPreview":BASE_URL +'/nonIncome/getSectionVehicleFlowInfoPreview',//
+	"getCooperationInfo":BASE_URL +'/nonIncome/getCooperationInfo',//
+	"addCooperationInfo":BASE_URL +'/nonIncome/addCooperationInfo',//
+	"getCooperationInfoPreview":BASE_URL +'/nonIncome/getCooperationInfoPreview',//
+	// 消息
+	"getUnreadMessageNum":BASE_URL +'/message/getUnreadMessageNum',//
+	"getUnreadMessageList":BASE_URL +'/message/getUnreadMessageList',//
+	"updateAllUnreadMessage":BASE_URL +'/message/updateAllUnreadMessage',//
+	"getUnreadMessage":BASE_URL +'/message/getUnreadMessage',//
 }

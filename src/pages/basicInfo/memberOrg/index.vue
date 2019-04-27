@@ -12,13 +12,16 @@
                 <div class="">
                     <ul class="baseMsgBox">
                         <li class="item">
-                            <span class="itemLeft">主管、主任、经理：</span><span class="itemRight">2010年10月</span>
-                            <span class="itemLeft">副主管、副主任、副经理、助理：</span><span class="itemRight">2010年10月</span>
+                            <template v-for="info in managePost">
+                                <span class="itemLeft">{{info.postName}}：</span><span class="itemRight">{{info.num}}人</span>
+                            </template>
+                            <!-- <span class="itemLeft">主管、主任、经理：</span><span class="itemRight">2010年10月</span>
+                            <span class="itemLeft">副主管、副主任、副经理、助理：</span><span class="itemRight">2010年10月</span> -->
                         </li>
-                        <li class="item">
+                        <!-- <li class="item">
                             <span class="itemLeft">书记、副书记：</span><span class="itemRight">2010年10月</span>
                             <span class="itemLeft">管理员：</span><span class="itemRight">2010年10月</span>
-                        </li>                     
+                        </li>                      -->
                     </ul>
                 </div>
             </el-card>
@@ -29,12 +32,15 @@
                 <div class="">
                     <ul class="baseMsgBox">                      
                         <li class="item">
-                            <span class="itemLeft">核算员、会计：</span><span class="itemRight">2010年10月</span>
+                            <template v-for="info in producePost">
+                                <span class="itemLeft">{{info.postName}}：</span><span class="itemRight">{{info.num}}人</span>
+                            </template>
+                            <!-- <span class="itemLeft">核算员、会计：</span><span class="itemRight">2010年10月</span>
                             <span class="itemLeft">收银员：</span><span class="itemRight">2010年10月</span>
                             <span class="itemLeft">采购仓管：</span><span class="itemRight">2010年10月</span>
-                            <span class="itemLeft">厨师长：</span><span class="itemRight">2010年10月</span>
+                            <span class="itemLeft">厨师长：</span><span class="itemRight">2010年10月</span> -->
                         </li>                     
-                        <li class="item">
+                        <!-- <li class="item">
                             <span class="itemLeft">厨师：</span><span class="itemRight">2010年10月</span>
                             <span class="itemLeft">餐饮服务员：</span><span class="itemRight">2010年10月</span>
                             <span class="itemLeft">商场营业员：</span><span class="itemRight">2010年10月</span>
@@ -46,7 +52,7 @@
                             <span class="itemLeft">ETC员：</span><span class="itemRight">2010年10月</span>
                             <span class="itemLeft">临时用工：</span><span class="itemRight">2010年10月</span>
                             <span class="itemLeft">其他生产岗位：</span><span class="itemRight">2010年10月</span>
-                        </li>
+                        </li> -->
                     </ul>
                 </div>
             </el-card>
@@ -57,12 +63,15 @@
                 <div class="">
                     <ul class="baseMsgBox">                     
                         <li class="item">
-                            <span class="itemLeft">管理员：</span><span class="itemRight">2010年10月</span>
+                            <template v-for="info in renterUnitPost">
+                                <span class="itemLeft">{{info.postName}}：</span><span class="itemRight">{{info.num}}人</span>
+                            </template>
+                            <!-- <span class="itemLeft">管理员：</span><span class="itemRight">2010年10月</span>
                             <span class="itemLeft">餐饮小吃、超市、特色商店：</span><span class="itemRight">2010年10月</span>
                             <span class="itemLeft">保安人员：</span><span class="itemRight">2010年10月</span>
-                            <span class="itemLeft">保洁人员：</span><span class="itemRight">2010年10月</span>
+                            <span class="itemLeft">保洁人员：</span><span class="itemRight">2010年10月</span> -->
                         </li>                       
-                        <li class="item">
+                        <!-- <li class="item">
                             <span class="itemLeft">客服服务员：</span><span class="itemRight">2010年10月</span>
                             <span class="itemLeft">加油站员工：</span><span class="itemRight">2010年10月</span>
                             <span class="itemLeft">充电站员工：</span><span class="itemRight">2010年10月</span>
@@ -71,7 +80,7 @@
                         </li>
                         <li class="item">
                             <span class="itemLeft">驾驶员等其他辅助用工：</span><span class="itemRight">2010年10月</span>
-                        </li>                     
+                        </li>                      -->
                     </ul>
                 </div>
             </el-card>
@@ -82,11 +91,15 @@
 export default {
     data() {
         return {
-            ManagePost:''
+            managePost:'',
+            producePost:'',
+            renterUnitPost:''
         }
     },
     mounted() {
-        this.getManagePost()
+        // this.getManagePost()
+        // this.getProducePost()
+        // this.getRenterUnitPost()
     },
     methods:{
         getManagePost() {
@@ -97,7 +110,35 @@ export default {
                 }
             }, function(response) {
                 if(response.status == 200) {
-                    self.ManagePost = response.data;
+                    self.managePost = response.data;
+                }
+            }, function(response) {
+                //失败回调
+            })
+        },
+        getProducePost() {
+            let self = this;
+            self.$http.get(self.api.getProducePost, {
+                params: {
+                    accessToken: self.$store.state.user.token,
+                }
+            }, function(response) {
+                if(response.status == 200) {
+                    self.producePost = response.data;
+                }
+            }, function(response) {
+                //失败回调
+            })
+        },
+        getRenterUnitPost() {
+            let self = this;
+            self.$http.get(self.api.getRenterUnitPost, {
+                params: {
+                    accessToken: self.$store.state.user.token,
+                }
+            }, function(response) {
+                if(response.status == 200) {
+                    self.renterUnitPost = response.data;
                 }
             }, function(response) {
                 //失败回调

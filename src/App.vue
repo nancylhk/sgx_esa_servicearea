@@ -14,4 +14,7 @@
 
 <style lang="scss">
   	@import './style/common';
+		.coop .el-form-item__error{
+        display: none;
+    }
 </style>

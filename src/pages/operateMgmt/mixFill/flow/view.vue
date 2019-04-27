@@ -3,9 +3,9 @@
         <div class="app-container">
             <h5 class="app-crumb">
                 <em class="app-crumb-line"></em>
-                <span>断面流量表</span>              
-            </h5>          
-        
+                <span @click="goBack()" class="cp">成本填报</span>
+                <span><em class="next-arrow"></em>{{nowPath}}</span>
+            </h5>
             <div class="app-main mt20" id="app-main">
                 <table class="specialTab">
                     <thead>
@@ -27,36 +27,35 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td rowspan="2">1月</td>
-                            <td>客车</td>
-                            <td>1</td>
-                            <td>2</td>
-                            <td>3</td>
-                            <td>4</td>
-                            <td>5</td>
-                            <td>6</td>
-                            <td>21</td>
-                            <td rowspan="2">5186</td>
-                            <td rowspan="2">5186</td>
-                            <td rowspan="2">5186</td>
-                            <td rowspan="2">5186</td>
-                            <td>5186</td>
-                        </tr>
-                        <tr>
-                            <td>货车</td>
-                            <td>1</td>
-                            <td>2</td>
-                            <td>3</td>
-                            <td>4</td>
-                            <td>5</td>
-                            <td>6</td>
-                            <td>45566</td>
-                            <td>66666</td>
-                        </tr>
-                        <!-- <tr v-for="(info,index) in incomeList">
-                            <td>{{index+1}}</td>						
-                        </tr> -->
+                        <template v-for="info in flowList">
+                            <tr>
+                                <td rowspan="2">{{info.month}}</td>
+                                <td>{{info.vehicle.typeName}}</td>
+                                <td>{{info.vehicle.typeFlow1}}</td>
+                                <td>{{info.vehicle.typeFlow2}}</td>
+                                <td>{{info.vehicle.typeFlow3}}</td>
+                                <td>{{info.vehicle.typeFlow4}}</td>
+                                <td>{{info.vehicle.typeFlow5}}</td>
+                                <td>{{info.vehicle.typeFlow6}}</td>
+                                <td>合计</td>
+                                <td rowspan="2">{{info.dayFlow}}</td>
+                                <td rowspan="2">{{info.vehicleTruckRate}}</td>
+                                <td rowspan="2">{{info.lessThanSeven}}</td>
+                                <td rowspan="2">{{info.enterFlow}}</td>
+                                <td>{{info.enterRate}}</td>
+                            </tr>
+                            <tr>
+                                <td>{{info.truck.typeName}}</td>
+                                <td>{{info.truck.typeFlow1}}</td>
+                                <td>{{info.truck.typeFlow2}}</td>
+                                <td>{{info.truck.typeFlow3}}</td>
+                                <td>{{info.truck.typeFlow4}}</td>
+                                <td>{{info.truck.typeFlow5}}</td>
+                                <td>{{info.truck.typeFlow6}}</td>
+                                <td>合计</td>
+                                <td>入区数据为估计</td>
+                            </tr>
+                        </template>
                     </tbody>
                 </table>			
             </div>
@@ -69,6 +68,35 @@ export default {
         return {
            flowList:[]
         }
+    },
+    computed:{
+        nowPath() {
+            return this.$route.name
+        }
+    },
+    mounted() {
+        // this.getList()
+    },
+    methods:{
+        goBack() {
+            this.$router.back(-1)
+        },		
+        getList() {
+            let self = this;				
+            this.$http.get(this.api.getSectionVehicleFlowInfoPreview, {
+                params: {
+                    accessToken: this.$store.state.user.token,
+                    taskTypeID:'',
+                }
+            },function(response){
+                if(response.status == 200) {
+                    self.flowList = response.data;
+                }
+            },function(response){
+                //失败回调
+            })
+            
+        },
     }
 }
 </script>

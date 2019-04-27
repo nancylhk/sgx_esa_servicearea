@@ -4,7 +4,7 @@
 		<!--:navTit="_navTit"-->
 		<ul class="nav-subtit">
 			<router-link v-for="tit in navSubTitData" v-if="tit.parentId == navbarID" :to="{path:tit.path,query: {barId:tit.parentId}}" :key="tit.path">
-				<li>{{tit.title}}</li>
+				<li :class="tit.path==barId?'aaa':''">{{tit.title}}</li>
 			</router-link>
 		</ul>
 	</div>
@@ -14,6 +14,7 @@
 		name: 'Navbar',
 		data() {
 			return {
+				barId:this.$route.parentPath,
 				navTit: {
 					"01": "基础设施",
 					/*"02": "商超管理",*/
@@ -353,6 +354,9 @@
 		}
 		.router-link-active li {
 			background: #fff;
+		}
+		.aaa{
+			background: #fff
 		}
 	}
 </style>

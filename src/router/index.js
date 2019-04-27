@@ -258,17 +258,20 @@ const routes = [
 			path: 'selfIncomeFill',
 			component: OperateSelfIncomeFill,
 			name: '自营收入填报',
-			meta:'03'
+			meta:'03',
+			parentPath:'/operateMgmt/incomeFill'
 		},{
 			path: 'selfIncomeView',
 			component: OperateSelfIncomeView,
 			name: '自营收入预览',
-			meta:'03'
+			meta:'03',
+			parentPath:'/operateMgmt/incomeFill'
 		},{
 			path: 'businessIncomeFill',
 			component: OperateBusinessIncomeFill,
 			name: '商户收入填报',
-			meta:'03'
+			meta:'03',
+			parentPath:'/operateMgmt/incomeFill'
 		},{
 			path: 'businessIncomeView',
 			component: OperateBusinessIncomeView,
@@ -312,12 +315,12 @@ const routes = [
 		},{
 			path: 'costFill',
 			component: OperateCostFill,
-			name: '成本填报',
+			name: '主要成本填报',
 			meta:'03'
 		},{
 			path: 'costView',
 			component: OperateCostView,
-			name: '成本预览',
+			name: '主要成本预览',
 			meta:'03'
 		},{
 			path: 'flowFill',
