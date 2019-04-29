@@ -10,8 +10,8 @@
 				<el-form-item label="商户名称" prop='shopName'>
 					<input v-model.number="addInfo.shopName" class="queryIpt" />
 				</el-form-item>
-                <el-form-item label="合作形式" prop='cooperationTypeID'>
-					<input v-model.number="addInfo.cooperationTypeID" class="queryIpt" />
+                <el-form-item label="合作形式" prop='cooperationType'>
+					<input v-model.number="addInfo.cooperationType" class="queryIpt" />
 				</el-form-item>
                 <el-form-item label="年增长率或年增长额" prop='annualGrowth'>
 					<input v-model.number="addInfo.annualGrowth" class="queryIpt" />
@@ -75,7 +75,7 @@
 					<tr v-for="(info,index) in tableDataList">
 						<td>{{index+1}}</td>
 						<td>{{info.shopName}}</td>
-						<td>{{info.cooperationTypeID}}</td>
+						<td>{{info.cooperationType}}</td>
 						<td>{{info.annualGrowth}}</td>
 						<td>{{info.averageRent}}</td>
                         <td>{{info.totalRent}}</td>
@@ -87,7 +87,7 @@
 						<td>{{info.secondHalfYearPoint}}</td>
                         <td>{{info.filledTime}}</td>
 						<td>
-							<a @click ="disableEvent(info.cooperationID)">删除</a>
+							<a @click ="disableEvent(info.cooperationId)">删除</a>
 						</td>
 					</tr>
 				</tbody>
@@ -106,7 +106,7 @@
 			return {
 				addInfo:{
 					shopName: "",
-                    cooperationTypeID:"",
+                    cooperationType:"",
                     annualGrowth:"",
                     averageRent:"",
                     totalRent:"",
@@ -117,11 +117,12 @@
                     contractYear:"",
                     contractPeriod :"",
                     firstHalfYearPoint:"",
-                    secondHalfYearPoint:""
+					secondHalfYearPoint:"",
+					taskID:this.$route.query.taskId
 				},
 				rules:{
                     shopName: [{ required: true, message: '', trigger: 'blur' }],
-                    cooperationTypeID:[{ required: true, message: '', trigger: 'blur' }],
+                    cooperationType:[{ required: true, message: '', trigger: 'blur' }],
                     contractYear:[{ required: true, message: '', trigger: 'blur' }],
                     contractPeriod :[{ required: true, message: '', trigger: 'blur' }],
                     firstHalfYearPoint:[{ required: true, message: '', trigger: 'blur' }],
@@ -142,7 +143,7 @@
 			
 		},
 		mounted() {
-			// this.getList();
+			this.getList();
 			var height = document.documentElement.clientHeight;
 			document.getElementById("app-main").style.height = (height > 700) ? (height-200 + 'px'):(height+'px') ;
 		},
@@ -154,15 +155,22 @@
                 let self = this;
                 this.$refs.addInfo.validate((valid) => {
                     if (valid) {
-                        let params = new FormData()
-                        params.append('accessToken', self.$store.state.user.token);
-                        params.append('info', JSON.stringify(self.addInfo));
-                        self.$http.post(self.api.addCooperationInfo, params, {
-                            headers: {
-                                //'Content-type': 'application/x-www-form-urlencoded'
-                                "Content-Type": "multipart/form-data"
-                            },
-                        }, function(response) {
+						// let params = new FormData()
+						// params.append('accessToken', self.$store.state.user.token);
+						// params.append('info', JSON.stringify(self.addInfo));
+						// self.$http.post(self.api.addPaymentInfo, params, {
+						// 	headers: {
+						// 		//'Content-type': 'application/x-www-form-urlencoded'
+						// 		"Content-Type": "multipart/form-data"
+						// 	},
+						// }, function(response) {
+                        self.$http.get(self.api.addCooperationInfo, {
+							params:{
+								accessToken:self.$store.state.user.token,
+								info:JSON.stringify(self.addInfo),
+								
+							}
+						}, function(response) {
                             if(response.data) {
                                 self.$message({
                                     type: 'success',
@@ -193,10 +201,10 @@
 					center: true
 				}).then(() => {
 					var self = this;
-					self.$http.get(self.api.disableOutcomeInfo, {
+					self.$http.get(self.api.deleteCooperationByCooperationId, {
 						params: {
 							accessToken: self.$store.state.user.token,
-							outcomeId: ID,
+							cooperationId: ID,
 						}
 					},function(response){
 						if(response.data) {
@@ -206,7 +214,6 @@
 								duration: 2000
 							})
 							self.getList() ;
-							self.getListCount();
 						}else{
 							self.$message({
 								type: 'warning',
@@ -233,11 +240,11 @@
 				this.$http.get(this.api.getCooperationInfo, {
 					params: {
 						accessToken: this.$store.state.user.token,
-						taskID:'',					
+						taskID:this.$route.query.taskId,				
 					}
 				},function(response){
 					if(response.status == 200) {
-						self.tableDataList = response.data;
+						self.tableDataList = response.data.shopCooperations;
 					}
 				},function(response){
 	                //失败回调

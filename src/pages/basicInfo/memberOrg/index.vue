@@ -97,9 +97,9 @@ export default {
         }
     },
     mounted() {
-        // this.getManagePost()
-        // this.getProducePost()
-        // this.getRenterUnitPost()
+        this.getManagePost()
+        this.getProducePost()
+        this.getRenterUnitPost()
     },
     methods:{
         getManagePost() {
@@ -110,7 +110,7 @@ export default {
                 }
             }, function(response) {
                 if(response.status == 200) {
-                    self.managePost = response.data;
+                    self.managePost = response.data.postLists;
                 }
             }, function(response) {
                 //失败回调
@@ -124,7 +124,7 @@ export default {
                 }
             }, function(response) {
                 if(response.status == 200) {
-                    self.producePost = response.data;
+                    self.producePost = response.data.postLists;
                 }
             }, function(response) {
                 //失败回调
@@ -138,7 +138,7 @@ export default {
                 }
             }, function(response) {
                 if(response.status == 200) {
-                    self.renterUnitPost = response.data;
+                    self.renterUnitPost = response.data.postLists;
                 }
             }, function(response) {
                 //失败回调

@@ -15,7 +15,7 @@
                     </div>
                     <div class="handleBtns">                       
                         <div class="fillBtn">上报</div>                       
-                        <router-link :to="{path:'/dataCollection/baseInfoView',query: {barId:'03'}}">
+                        <router-link :to="{path:'/dataCollection/baseInfoView',query: {barId:'13'}}">
                             <div class="viewBtn">预览</div>
                         </router-link>
                     </div>
@@ -35,7 +35,7 @@
                     </div>
                     <div class="handleBtns">
                         <div class="fillBtn">重新上报</div>                       
-                        <router-link :to="{path:'/dataCollection/memberInfoView',query: {barId:'03'}}">
+                        <router-link :to="{path:'/dataCollection/memberInfoView',query: {barId:'13'}}">
                             <div class="viewBtn">预览</div>
                         </router-link>
                     </div>

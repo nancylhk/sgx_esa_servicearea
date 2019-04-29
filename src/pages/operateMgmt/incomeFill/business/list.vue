@@ -16,20 +16,20 @@
 					</el-date-picker>
 				</el-form-item>
 				<el-form-item label="商户类型" prop="shopType">
-					<el-select v-model="addInfo.shopType" clearable>
+					<el-select v-model="addInfo.shopType" >
 						<el-option v-for="(item,index) in businessTypesOption" 
-						:key="item.typeCode" 
-						:label="item.typeName" 
-						:value="item.typeCode">
+						:key="item.shopTypeCode" 
+						:label="item.shopTypeName" 
+						:value="item.shopTypeCode">
 						</el-option>
 					</el-select>
 				</el-form-item>
 				<el-form-item label="商户" prop='shopName'>
-					<el-select v-model="addInfo.shopName" clearable>
+					<el-select v-model="addInfo.shopName">
 						<el-option v-for="(item,index) in businessOption" 
-						:key="item.typeCode" 
-						:label="item.typeName" 
-						:value="item.typeCode">
+						:key="item.shopID" 
+						:label="item.shopName" 
+						:value="item.shopID">
 						</el-option>
 					</el-select>
 				</el-form-item>
@@ -108,13 +108,51 @@
 			
 		},
 		mounted() {
-			// this.getList();
+			this.getList();
+			this.getShopType();
+			this.getShops();
 			var height = document.documentElement.clientHeight;
 			document.getElementById("app-main").style.height = (height > 700) ? (height-200 + 'px'):(height+'px') ;
 		},
 		methods: {
 			goBack() {
 				this.$router.back(-1)
+			},
+			getShopType() {
+				let self = this;
+				this.$http.get(this.api.getShopType, {
+					params: {
+						accessToken: this.$store.state.user.token,			
+						info:{
+							taskId:this.$route.query.taskTypeID,
+						}					
+					}
+				},function(response){
+					if(response.status == 200) {
+						self.businessTypesOption = response.data;
+					}
+				},function(response){
+	                //失败回调
+	            })
+				
+			},
+			getShops() {
+				let self = this;
+				this.$http.get(this.api.getShops, {
+					params: {
+						accessToken: this.$store.state.user.token,			
+						info:{
+							taskId:this.$route.query.taskTypeID,
+						}					
+					}
+				},function(response){
+					if(response.status == 200) {
+						self.businessOption = response.data;
+					}
+				},function(response){
+	                //失败回调
+	            })
+				
 			},
 			addEvent() {			
 				let self = this;
@@ -172,7 +210,6 @@
 								duration: 2000
 							})
 							self.getList() ;
-							self.getListCount();
 						}else{
 							self.$message({
 								type: 'warning',
@@ -193,15 +230,11 @@
 				});
 			},
 			getList() {
-				let self = this;
-				self.beginRow = self.pageSize * (self.currentPage-1)+1;
-				self.endRow = self.currentPage * self.pageSize;
+				let self = this				
 				this.$http.get(this.api.getMerchantSaleInfo, {
 					params: {
 						accessToken: this.$store.state.user.token,
-						taskID:'',
-						beginRow: this.beginRow,
-						endRow: this.endRow,					
+						taskID:this.$route.query.taskId,								
 					}
 				},function(response){
 					if(response.status == 200) {

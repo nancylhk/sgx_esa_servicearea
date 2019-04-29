@@ -52,7 +52,9 @@
 				</el-pagination> -->
 			</footer>
 		</div>
-		
+		<div class="upLoadBox" v-if="barId==13">
+			<el-button class="upload" type="primary" @click="report()">上&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;报</el-button>
+		</div>
 	</div>
 </template>
 
@@ -66,7 +68,7 @@
 				// pageSize: 10,
 				// beginRow:'',
 				// endRow:'',
-				
+				barId:this.$route.query.barId,
 				tableDataList:'',
 				
 
@@ -105,7 +107,26 @@
 	            })
 				
 			},
-			
+			report() {    
+				let self = this; 
+				let taskID = this.$route.query.typeId;    
+				this.$http.get(this.api.getTaskProgress, {
+					params: {
+						accessToken: this.$store.state.user.token, 
+						taskID:taskID                					
+					}
+				},function(response){
+					if(response.status == 200) {
+						if(response.data){
+							self.$message.success('上报成功')
+						}else{
+							self.$message.error('上报失败')
+						}
+					}
+				},function(response){
+					//失败回调
+				})
+			},
 		},
 
 	}

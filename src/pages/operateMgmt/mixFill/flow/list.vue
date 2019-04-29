@@ -17,11 +17,8 @@
 				</el-form-item>
 				<el-form-item label="车型" prop='paymentTypeID'>
 					<el-select v-model="addInfo.paymentTypeID" clearable>
-						<el-option v-for="(item,index) in businessTypesOption" 
-						:key="item.typeCode" 
-						:label="item.typeName" 
-						:value="item.typeCode">
-						</el-option>
+						<el-option label="客车" value="客车"></el-option>
+						<el-option label="货车" value="货车"></el-option>
 					</el-select>
 				</el-form-item>			
 				<el-form-item label="一型车流量">
@@ -77,7 +74,7 @@
 						<td>{{info.typeFlow6}}</td>
                         <td>{{info.filledTime}}</td>
 						<td>
-							<a @click ="disableEvent(info.incomeID)">删除</a>
+							<a @click ="disableEvent(info.sectionFlowId)">删除</a>
 						</td>
 					</tr>
 				</tbody>
@@ -123,7 +120,7 @@
 			
 		},
 		mounted() {
-			// this.getList();
+			this.getList();
 			var height = document.documentElement.clientHeight;
 			document.getElementById("app-main").style.height = (height > 700) ? (height-200 + 'px'):(height+'px') ;
 		},
@@ -173,10 +170,10 @@
 					center: true
 				}).then(() => {
 					var self = this;
-					self.$http.get(self.api.disableOutcomeInfo, {
+					self.$http.get(self.api.deleteSectionFlowBySectionFlowId, {
 						params: {
 							accessToken: self.$store.state.user.token,
-							outcomeId: ID,
+							sectionFlowId: ID,
 						}
 					},function(response){
 						if(response.data) {
@@ -207,17 +204,15 @@
 				});
 			},
 			getList() {
-				let self = this;
-				self.beginRow = self.pageSize * (self.currentPage-1)+1;
-				self.endRow = self.currentPage * self.pageSize;
+				let self = this;				
 				this.$http.get(this.api.getSectionVehicleFlowInfo, {
 					params: {
 						accessToken: this.$store.state.user.token,
-						taskID:'',					
+						taskID:this.$route.query.taskId,					
 					}
 				},function(response){
 					if(response.status == 200) {
-						self.tableDataList = response.data;
+						self.tableDataList = response.data.sectionFlows;
 					}
 				},function(response){
 	                //失败回调

@@ -52,12 +52,12 @@
 					<tr v-for="(info,index) in tableDataList">
 						<td>{{index+1}}</td>
 						<td>{{info.tradeDate}}</td>
-						<td>{{info.paymentTypeID}}</td>
-						<td>{{info.paymentAmout}}</td>
-						<td>{{info.fillTime}}</td>
-						<td>{{info.commnet}}</td>
+						<td>{{info.paymentTypeId}}</td>
+						<td>{{info.paymentAmount}}</td>
+						<td>{{info.filledTime}}</td>
+						<td>{{info.comment}}</td>
 						<td>
-							<a @click ="disableEvent(info.incomeID)">删除</a>
+							<a @click ="disableEvent(info.paymentId)">删除</a>
 						</td>
 					</tr>
 				</tbody>
@@ -88,7 +88,6 @@
 				},
 				tableDataList:'',
 				businessTypesOption:[],
-				businessOption:[]
 
 			}
 		},
@@ -101,13 +100,28 @@
 			
 		},
 		mounted() {
-			// this.getList();
+			this.getList();
 			var height = document.documentElement.clientHeight;
 			document.getElementById("app-main").style.height = (height > 700) ? (height-200 + 'px'):(height+'px') ;
 		},
 		methods: {
 			goBack() {
 				this.$router.back(-1)
+			},
+			getPaymentType() {
+				let self = this;
+				this.$http.get(this.api.getPaymentType, {
+					params: {
+						accessToken: this.$store.state.user.token,
+						taskID:this.$route.query.taskId,					
+					}
+				},function(response){
+					if(response.status == 200) {
+						self.businessTypesOption = response.data;
+					}
+				},function(response){
+	                //失败回调
+	            })
 			},
 			addEvent() {			
 				let self = this;
@@ -153,10 +167,10 @@
 					center: true
 				}).then(() => {
 					var self = this;
-					self.$http.get(self.api.disableOutcomeInfo, {
+					self.$http.get(self.api.deletePaymentInfoByPaymentId, {
 						params: {
 							accessToken: self.$store.state.user.token,
-							outcomeId: ID,
+							paymentId: ID,
 						}
 					},function(response){
 						if(response.data) {
@@ -188,16 +202,14 @@
 			},
 			getList() {
 				let self = this;
-				self.beginRow = self.pageSize * (self.currentPage-1)+1;
-				self.endRow = self.currentPage * self.pageSize;
 				this.$http.get(this.api.getPaymentInfo, {
 					params: {
 						accessToken: this.$store.state.user.token,
-						taskID:'',					
+						taskID:this.$route.query.taskId,					
 					}
 				},function(response){
 					if(response.status == 200) {
-						self.tableDataList = response.data;
+						self.tableDataList = response.data.detailPayments;
 					}
 				},function(response){
 	                //失败回调

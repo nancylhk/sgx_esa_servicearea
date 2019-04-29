@@ -1,7 +1,28 @@
 <template>
     <div class="app-container dataBox">
         <el-row :gutter="25">
-            <el-col :span="8">
+            <el-col :span="8" v-for="(item,index) in dataList" :key="index">
+                <el-card  :body-style="{ padding: '0px' }">
+                    <div class="item">
+                        <h1 class="title">{{item.taskTypeName}}</h1>
+                        <div class="timeBox">
+                            <p><span class="leftpan">是否上报</span><span>{{item.isFilledIn=='1'?'已上报':'未上报'}}</span></p>
+                            <p><span class="leftpan">最近填报日期</span><span>{{item.fillTime}}</span></p>
+                            <p><span class="leftpan">截止时间</span><span>{{item.endTime}}</span></p>
+                        </div>
+                        <div class="iconBox">
+                            <img src="../../../assets/images/table.png" class="tableIcon"/>
+                        </div>
+                    </div>
+                    <div class="handleBtns">                       
+                        <div class="fillBtn" @click="report(item.taskID)">{{item.isFilledIn=='1'?'重新上报':'上报'}}</div>                       
+                        <router-link :to="{path:item.preview,query: {barId:'13',taskTypeID:item.taskTypeID}}">
+                            <div class="viewBtn">预览</div>
+                        </router-link>
+                    </div>
+                </el-card>
+            </el-col>
+            <!-- <el-col :span="8">
                 <el-card  :body-style="{ padding: '0px' }">
                     <div class="item">
                         <h1 class="title">服务区自营收入表</h1>
@@ -168,10 +189,80 @@
                         </router-link>
                     </div>
                 </el-card>
-            </el-col>                 
-        </el-row>
+            </el-col>  -->               
+        </el-row> 
     </div>
 </template>
+<script>
+export default {
+    data() {
+        return {
+            dataList:[],
+        }
+    },
+    mounted() {
+        this.getList();
+        this.getList2();
+    },
+    methods:{
+        getList() {
+            let self = this;  
+            let info = {};
+            info.category = 1; 
+            this.$http.get(this.api.getIncomeTask, {
+                params: {
+                    accessToken: this.$store.state.user.token, 
+                    info:info               					
+                }
+            },function(response){
+                if(response.status == 200) {
+                    if(response.data.length>0) {
+                        self.dataList = response.data;
+                    }
+                   
+                }
+            },function(response){
+                //失败回调
+            })
+        },
+        getList2() {
+            let self = this;     
+            this.$http.get(this.api.getNonIncomeTask, {
+                params: {
+                    accessToken: this.$store.state.user.token, 
+                    category:2                					
+                }
+            },function(response){
+                if(response.status == 200) {
+                    self.dataList = self.dataList.concat(response.data.nonIncomeTasks);
+                }
+            },function(response){
+                //失败回调
+            })
+        },
+        report(taskID) {    
+            let self = this;     
+            this.$http.get(this.api.getTaskProgress, {
+                params: {
+                    accessToken: this.$store.state.user.token, 
+                    taskID:taskID                					
+                }
+            },function(response){
+                if(response.status == 200) {
+                    if(response.data){
+                        self.$message.success('上报成功')
+                    }else{
+                        self.$message.error('上报失败')
+                    }
+                }
+            },function(response){
+                //失败回调
+            })
+        }
+    }
+}
+</script>
+
 <style lang="scss">
 .dataBox{
     padding: 20px 40px 20px 20px;

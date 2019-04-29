@@ -12,6 +12,7 @@ const Homepage = r => require.ensure([], () => r(require('../pages/homepage/home
 const Allmsg = r => require.ensure([], () => r(require('../pages/message/allmsg')), 'allmsg')
 const Unreadmsg = r => require.ensure([], () => r(require('../pages/message/unreadmsg')), 'unreadmsg')
 const Readmsg = r => require.ensure([], () => r(require('../pages/message/readmsg')), 'readmsg')
+const msgDetail = r => require.ensure([], () => r(require('../pages/message/detail')), 'msgDetail')
 
 //我的待办
 const HisApproval = r => require.ensure([], () => r(require('../pages/todo/hisApproval/index')), 'todo')
@@ -151,6 +152,12 @@ const routes = [
 				path: 'readmsg',
 				component: Readmsg,
 				name: '已读消息',
+				meta:'06'
+			},
+			{
+				path: 'detail',
+				component: msgDetail,
+				name: '消息详情',
 				meta:'06'
 			},
 		]

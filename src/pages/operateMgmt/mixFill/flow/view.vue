@@ -30,14 +30,14 @@
                         <template v-for="info in flowList">
                             <tr>
                                 <td rowspan="2">{{info.month}}</td>
-                                <td>{{info.vehicle.typeName}}</td>
+                                <td>{{info.vehicle.vehicleType=='1'?'客车':'货车'}}</td>
                                 <td>{{info.vehicle.typeFlow1}}</td>
                                 <td>{{info.vehicle.typeFlow2}}</td>
                                 <td>{{info.vehicle.typeFlow3}}</td>
                                 <td>{{info.vehicle.typeFlow4}}</td>
                                 <td>{{info.vehicle.typeFlow5}}</td>
                                 <td>{{info.vehicle.typeFlow6}}</td>
-                                <td>合计</td>
+                                <td>{{info.vehicle.total}}</td>
                                 <td rowspan="2">{{info.dayFlow}}</td>
                                 <td rowspan="2">{{info.vehicleTruckRate}}</td>
                                 <td rowspan="2">{{info.lessThanSeven}}</td>
@@ -45,14 +45,14 @@
                                 <td>{{info.enterRate}}</td>
                             </tr>
                             <tr>
-                                <td>{{info.truck.typeName}}</td>
+                                <td>{{info.truck.vehicleType=='1'?'客车':'货车'}}</td>
                                 <td>{{info.truck.typeFlow1}}</td>
                                 <td>{{info.truck.typeFlow2}}</td>
                                 <td>{{info.truck.typeFlow3}}</td>
                                 <td>{{info.truck.typeFlow4}}</td>
                                 <td>{{info.truck.typeFlow5}}</td>
                                 <td>{{info.truck.typeFlow6}}</td>
-                                <td>合计</td>
+                                <td>{{info.truck.total}}</td>
                                 <td>入区数据为估计</td>
                             </tr>
                         </template>
@@ -60,13 +60,17 @@
                 </table>			
             </div>
         </div>
+        <div class="upLoadBox" v-if="barId==13">
+			<el-button class="upload" type="primary" @click="report">上&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;报</el-button>
+		</div>
     </div>
 </template>
 <script>
 export default {
     data() {
         return {
-           flowList:[]
+           flowList:[],
+           barId:this.$route.query.barId
         }
     },
     computed:{
@@ -75,22 +79,42 @@ export default {
         }
     },
     mounted() {
-        // this.getList()
+        this.getList()
     },
     methods:{
         goBack() {
             this.$router.back(-1)
+        },
+        report() {    
+            let self = this; 
+            let taskID = this.$route.query.typeId;    
+            this.$http.get(this.api.getTaskProgress, {
+                params: {
+                    accessToken: this.$store.state.user.token, 
+                    taskID:taskID                					
+                }
+            },function(response){
+                if(response.status == 200) {
+                    if(response.data){
+                        self.$message.success('上报成功')
+                    }else{
+                        self.$message.error('上报失败')
+                    }
+                }
+            },function(response){
+                //失败回调
+            })
         },		
         getList() {
             let self = this;				
             this.$http.get(this.api.getSectionVehicleFlowInfoPreview, {
                 params: {
                     accessToken: this.$store.state.user.token,
-                    taskTypeID:'',
+                    taskTypeID:this.$route.query.taskTypeID
                 }
             },function(response){
                 if(response.status == 200) {
-                    self.flowList = response.data;
+                    self.flowList = response.data.sectionFlowViews;
                 }
             },function(response){
                 //失败回调

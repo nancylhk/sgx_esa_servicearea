@@ -18,18 +18,18 @@
 				<el-form-item label="商户类型" prop='shopType'>
 					<el-select v-model="addInfo.shopType" clearable>
 						<el-option v-for="(item,index) in businessTypesOption" 
-						:key="item.typeCode" 
-						:label="item.typeName" 
-						:value="item.typeCode">
+						:key="item.shopTypeCode" 
+						:label="item.shopTypeName" 
+						:value="item.shopTypeCode">
 						</el-option>
 					</el-select>
 				</el-form-item>
 				<el-form-item label="商户" prop='shopName'>
 					<el-select v-model="addInfo.shopName" clearable>
 						<el-option v-for="(item,index) in businessOption" 
-						:key="item.typeCode" 
-						:label="item.typeName" 
-						:value="item.typeCode">
+						:key="item.shopID" 
+						:label="item.shopName" 
+						:value="item.shopID">
 						</el-option>
 					</el-select>
 				</el-form-item>
@@ -110,12 +110,50 @@
 		mounted() {
 			// this.getList();
 			// this.getListCount();
+			this.getShopType();
+			this.getShops()
 			var height = document.documentElement.clientHeight;
 			document.getElementById("app-main").style.height = (height > 700) ? (height-200 + 'px'):(height+'px') ;
 		},
 		methods: {
 			goBack() {
 				this.$router.back(-1)
+			},
+			getShopType() {
+				let self = this;
+				this.$http.get(this.api.getShopType, {
+					params: {
+						accessToken: this.$store.state.user.token,			
+						info:{
+							taskId:this.$route.query.taskTypeID,
+						}					
+					}
+				},function(response){
+					if(response.status == 200) {
+						self.businessTypesOption = response.data;
+					}
+				},function(response){
+	                //失败回调
+	            })
+				
+			},
+			getShops() {
+				let self = this;
+				this.$http.get(this.api.getShops, {
+					params: {
+						accessToken: this.$store.state.user.token,			
+						info:{
+							taskId:this.$route.query.taskTypeID,
+						}					
+					}
+				},function(response){
+					if(response.status == 200) {
+						self.businessOption = response.data;
+					}
+				},function(response){
+	                //失败回调
+	            })
+				
 			},
 			addEvent() {			
 				let self = this;
@@ -200,7 +238,7 @@
 				this.$http.get(this.api.getRentInfo, {
 					params: {
 						accessToken: this.$store.state.user.token,
-						taskID:'',
+						taskID:this.$route.query.taskId,
 											
 					}
 				},function(response){

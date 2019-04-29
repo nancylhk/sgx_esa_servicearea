@@ -1,26 +1,11 @@
 <template>
 	<div class="app-container">
 		<h5 class="app-crumb"><em class="app-crumb-line"></em>全部消息</h5>
-		<div class="app-search ml10 mt5">
-			<el-form :inline="true" :model="formSearch" class="demo-form-inline">
-				<el-form-item label="内容">
-					<el-input v-model="formSearch.cont" placeholder="内容"></el-input>
-				</el-form-item>
-				<el-form-item label="状态">
-					<el-select v-model="formSearch.state" clearable>
-						<el-option label="已读" value="read"></el-option>
-						<el-option label="未读" value="unread"></el-option>
-					</el-select>
-				</el-form-item>
-				<el-form-item  class="right">
-					<el-button type="primary" @click="onSubmit">查询</el-button>
-				</el-form-item>
-			</el-form>
-		</div>
-		<div class="app-main all-msg">
+		<div class="app-main all-msg mt20">
 			<table>
 				<thead>
-					<tr><input type="checkbox" /></button>
+					<tr>
+						<input type="checkbox" v-model='allChecked' @change="allCheck"/>
 						<th>序号</th>
 						<th>标题内容</th>
 						<th>发送人</th>
@@ -28,22 +13,29 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr v-for="(message,index) in allMsgList" :class="{ 'c-read':message.isRead == 3, 'c-unread':message.isRead == 2}">
-						<input type="checkbox" />
+					<tr v-for="(message,index) in tableDataList" :class="{ 'c-read':message.isRead == 1, 'c-unread':message.isRead == 0}">
+						<input type="checkbox" v-model='message.checked' @change="oneChange"/>
 						<td>{{index+1}}</td>
 						<td>
-							<a>{{message.content}}</a>
+							<span @click="signRead(message.messageID,message.isRead)">
+								{{message.title}}
+							</span>
 						</td>
-						<td>{{message.sendername}}</td>
+						<td>{{message.sendName}}</td>
 						<td>{{message.createTime}}</td>
 					</tr>
 				</tbody>
 			</table>
 			<footer>
 				<div class="msgOperate">
-					<button>删除</button><button class="ml20">标记已读</button>
+					<button @click="deleteMsg">删除</button>
 				</div>
-				<el-pagination @current-change="handleCurrentChange" :current-page.sync="currentPage" :page-size="pageSize" layout="total, prev, pager, next" :total="total">
+				<el-pagination 
+				@current-change="handleCurrentChange" 
+				:current-page.sync="currentPage" 
+				:page-size="pageSize" 
+				layout="total, prev, pager, next" 
+				:total="totalMsgNum">
 				</el-pagination>
 
 			</footer>
@@ -57,48 +49,142 @@
 	export default {
 		data() {
 			return {
-				formSearch: {
-					cont: '',
-					state: ''
-				},
-				total:Number,
+				tableDataList:[],
+				totalMsgNum:0,
 				currentPage: 1,
 				pageSize: 10,
-				allMsgList: []
+				beginRow:'',
+				endRow:'',
+				allChecked:false,
 			}
 		},
 		mounted() {
 			var vm = this;
 			vm.getList();
-
+			vm.getListCount()
 		},
 		methods: {
-			onSubmit() {
-				console.log('submit!');
+			signRead(messageID,isRead) {
+				let self = this;
+				if(isRead == 0) {
+					this.$http.get(this.api.updateUnreadMessage, {
+						params: {
+							accessToken: this.$store.state.user.token,
+							messageIDs:messageID,									
+						}
+					},function(response){
+						if(response.status == 200) {
+							self.$router.push({
+								path:'/message/detail',
+								query:{messageID:messageID}
+							})
+						}
+					},function(response){
+							//失败回调
+					})	
+				}else{
+					self.$router.push({
+						path:'/message/detail',
+						query:{messageID:messageID}
+					})
+				}
+				 		 
+			},
+			deleteMsg() {
+				let self = this;
+				let checkedArr = self.tableDataList.filter(e=>{
+					return e.checked == true
+				})
+				
+				if(checkedArr.length>0) {
+					let messageIDs  = '';
+					this.tableDataList.forEach(e=>{
+							if(e.checked) {
+								messageIDs += e.messageID  + ',';
+							}
+					})
+					this.$http.get(this.api.deleteMessage, {
+						params: {
+							accessToken: this.$store.state.user.token,
+							messageIDs:messageIDs,
+												
+						}
+					},function(response){
+						if(response.status == 200) {
+							location.reload()
+						}
+					},function(response){
+							//失败回调
+					})
+				}else{
+					self.$message.warning('请选择想要删除的信息');
+				}
+			},
+			oneChange() {
+				let checkedArr = []
+				this.tableDataList.forEach(e=>{
+						if(e.checked){
+							checkedArr.push(e.messageID)
+						}
+				})
+				if(checkedArr.length == this.tableDataList.length) {
+					this.allChecked = true
+				}else{
+					this.allChecked = false
+				}
+			},
+			allCheck() {
+				if(this.allChecked){
+					this.tableDataList.forEach(e=>{
+						 e.checked = true
+					})
+				}else{
+					this.tableDataList.forEach(e=>{
+						 e.checked = false
+					})
+				}
 			},
 			getList() {
-				//全部消息
 				let self = this;
-				this.$http.get(this.api.getMessageList, {
+				self.beginRow = self.pageSize * (self.currentPage-1)+1;
+				self.endRow = self.currentPage * self.pageSize;
+				this.$http.get(this.api.getUnreadMessageList, {
 					params: {
 						accessToken: this.$store.state.user.token,
-						isread: "all",
-						currentPage: this.currentPage,
-						pageSize: this.pageSize
+						beginRow: this.beginRow,
+						endRow: this.endRow,			
 					}
-				}, function(response) {
+				},function(response){
 					if(response.status == 200) {
-						self.allMsgList = response.data.dataArr;
-						self.total = parseInt(response.data.value);
+						if(response.data.length>0){
+							self.tableDataList = response.data;
+							self.tableDataList.forEach(e=>{
+								e.checked = false
+							})
+						}
+						
 					}
-				}, function(response) {
-					//失败回调
-				})
+				},function(response){
+	                //失败回调
+	            })
+				
+			},
+			getListCount(){
+				let self = this;
+				self.$http.get(self.api.getUnreadMessageNum, {
+					params: {
+						accessToken: self.$store.state.user.token,
+					}
+				},function(response){
+					if(response.status == 200) {
+						self.totalMsgNum = parseInt(response.data);
+					}
+				},function(response){})
 			},
 			handleCurrentChange(val) {
 				this.currentPage = val;
 				this.getList();
-			}
+			},
 		},
 		created() {
 

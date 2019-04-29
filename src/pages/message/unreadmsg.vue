@@ -1,26 +1,21 @@
 <template>
 	<div class="app-container">
 		<h5 class="app-crumb"><em class="app-crumb-line"></em>未读消息</h5>
-		<div class="app-search ml10 mt5">
+		<!-- <div class="app-search ml10 mt5">
 			<el-form :inline="true" :model="formSearch" class="demo-form-inline">
 				<el-form-item label="内容">
 					<el-input v-model="formSearch.cont" placeholder="内容"></el-input>
 				</el-form-item>
-				<!--<el-form-item label="状态">
-			    <el-select v-model="formSearch.state" placeholder="选择状态">
-			      <el-option label="已读" value="read"></el-option>
-			      <el-option label="未读" value="unread"></el-option>
-			    </el-select>
-			  </el-form-item>-->
 				<el-form-item  class="right">
 					<el-button type="primary" @click="onSubmit">查询</el-button>
 				</el-form-item>
 			</el-form>
-		</div>
-		<div class="app-main unread-msg">
+		</div> -->
+		<div class="app-main unread-msg mt20">
 			<table>
 				<thead>
-					<tr><input type="checkbox" v-moel='allChecked'/>
+					<tr>
+						<input type="checkbox" v-model='allChecked' @change="allCheck"/>
 						<th>序号</th>
 						<th>标题内容</th>
 						<th>发送人</th>
@@ -29,17 +24,22 @@
 				</thead>
 				<tbody>
 					<tr v-for="(info,index) in tableDataList">
-						<input type="checkbox" v-model='info.checked'/>
-						<td>{index+1}</td>
-						<td><a>{{info.title}}</a></td>
-						<td>陈雪颖</td>
+						<input type="checkbox" v-model='info.checked' @change="oneChange"/>
+						<td>{{index+1}}</td>
+						<td>
+							<span @click="signRead(info.messageID)">
+								{{info.title}}
+							</span>
+						</td>
+						<td>{{info.sendName}}</td>
 						<td>{{info.createTime}}</td>
 					</tr>
 				</tbody>
 			</table>
 			<footer>
 				<div class="msgOperate">
-					<button>删除</button><button class="ml20" @click="signReaded">标记已读</button>
+					<button @click="deleteMsg">删除</button>
+					<button class="ml20" @click="signReaded">标记已读</button>
 				</div>
 				<el-pagination 
 				@current-change="handleCurrentChange" 
@@ -50,7 +50,6 @@
 				</el-pagination>
 
 			</footer>
-
 		</div>
 	</div>
 </template>
@@ -76,23 +75,81 @@
 			}
 		},
 		created() {
-			// this.getList();
-			// this.getListCount()
-			//全部消息
-			/*axios.get('http://192.168.2.73:9009/message/getMessageList',{
-				params: {
-					accessToken: this.$store.state.app.token,
-					isread:"all"
-				}
-			}).then((response) => {
-				if(response.status == 200) {
-					this.todoNum = response.data;
-				}
-			})*/
+			this.getListCount();
+			this.getList()
 		},
 		methods: {
-			onSubmit() {
-				console.log('submit!');
+			signRead(messageID) {
+				let self = this;
+				 this.$http.get(this.api.updateUnreadMessage, {
+						params: {
+							accessToken: this.$store.state.user.token,
+							messageIDs:messageID,									
+						}
+					},function(response){
+						if(response.status == 200) {
+							self.$router.push({
+								path:'/message/detail',
+								query:{messageID:messageID}
+							})
+						}
+					},function(response){
+							//失败回调
+					})			 
+			},
+			deleteMsg() {
+				let self = this;
+				let checkedArr = self.tableDataList.filter(e=>{
+					return e.checked == true
+				})
+				
+				if(checkedArr.length>0) {
+					let messageIDs  = '';
+					this.tableDataList.forEach(e=>{
+							if(e.checked) {
+								messageIDs += e.messageID  + ',';
+							}
+					})
+					this.$http.get(this.api.deleteMessage, {
+						params: {
+							accessToken: this.$store.state.user.token,
+							messageIDs:messageIDs,
+												
+						}
+					},function(response){
+						if(response.status == 200) {
+							location.reload()
+						}
+					},function(response){
+							//失败回调
+					})
+				}else{
+					self.$message.warning('请选择想要删除的信息');
+				}
+			},
+			allCheck() {
+				if(this.allChecked){
+					this.tableDataList.forEach(e=>{
+						 e.checked = true
+					})
+				}else{
+					this.tableDataList.forEach(e=>{
+						 e.checked = false
+					})
+				}
+			},
+			oneChange() {
+				let checkedArr = []
+				this.tableDataList.forEach(e=>{
+						if(e.checked){
+							checkedArr.push(e.messageID)
+						}
+				})
+				if(checkedArr.length == this.tableDataList.length) {
+					this.allChecked = true
+				}else{
+					this.allChecked = false
+				}
 			},
 			signReaded() {
 				let self = this;
@@ -103,33 +160,36 @@
 						}
 					},function(response){
 						if(response.status == 200) {
-							self.getList()
+							location.reload()
 						}
 					},function(response){
 							//失败回调
 					})
-				}
-				let checkedArr = self.tableDataList.filter(e=>{
-					return e.checked == true
-				})
-				if(checkedArr.length>0) {
-					let messageIDs = [];
-					checkedArr.forEach(e=>{
-						messageIDs.push(e.messageID)
+				}else{
+					let checkedArr = self.tableDataList.filter(e=>{
+						return e.checked == true
 					})
-					this.$http.get(this.api.updateAllUnreadMessage, {
-						params: {
-							accessToken: this.$store.state.user.token,
-							messageIDs:messageIDs,
-												
-						}
-					},function(response){
-						if(response.status == 200) {
-							self.getList()
-						}
-					},function(response){
-							//失败回调
-					})
+					if(checkedArr.length>0) {
+						let messageIDs = '';
+						checkedArr.forEach(e=>{
+							messageIDs += e.messageID  + ',';
+						})
+						this.$http.get(this.api.updateUnreadMessage, {
+							params: {
+								accessToken: this.$store.state.user.token,
+								messageIDs:messageIDs,
+													
+							}
+						},function(response){
+							if(response.status == 200) {
+								location.reload()
+							}
+						},function(response){
+								//失败回调
+						})
+					}else{
+						self.$message.warning('请选择想要删除的信息');
+					}
 				}
 			},
 			getList() {
@@ -139,16 +199,19 @@
 				this.$http.get(this.api.getUnreadMessageList, {
 					params: {
 						accessToken: this.$store.state.user.token,
-						taskID:'',
 						beginRow: this.beginRow,
-						endRow: this.endRow,					
+						endRow: this.endRow,		
+						isRead:0			
 					}
 				},function(response){
 					if(response.status == 200) {
-						self.tableDataList = response.data;
-						self.tableDataList.forEach(e=>{
-							e.checked = false
-						})
+						if(response.data.length>0){
+							self.tableDataList = response.data;
+							self.tableDataList.forEach(e=>{
+								e.checked = false
+							})
+						}
+						
 					}
 				},function(response){
 	                //失败回调
@@ -160,9 +223,7 @@
 				self.$http.get(self.api.getUnreadMessageNum, {
 					params: {
 						accessToken: self.$store.state.user.token,
-						minMoney: self.minMoney,
-						maxMoney:self.maxMoney,
-						outcomeType: self.outcomeType
+						isRead:0
 					}
 				},function(response){
 					if(response.status == 200) {

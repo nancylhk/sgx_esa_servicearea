@@ -1,7 +1,29 @@
 <template>
     <div class="app-container fillBox">
         <el-row :gutter="25">
-            <el-col :span="8">
+            <el-col :span="8" v-for="item in dataList" :key="item.taskId">
+                <el-card  :body-style="{ padding: '0px' }">
+                    <div class="item">
+                        <h1 class="title">{{item.taskTypeName}}</h1>
+                        <div class="timeBox">
+                            <p><span class="leftpan">最近填报时间</span><span>{{item.fillTime}}</span></p>
+                            <p><span class="leftpan">截止时间</span><span>{{item.endTime}}</span></p>
+                        </div>
+                        <div class="iconBox">
+                            <img src="../../../assets/images/table.png" class="tableIcon"/>
+                        </div>
+                    </div>
+                    <div class="handleBtns">
+                        <router-link :to="{path:item.fillLink,query: {barId:'03',taskTypeID:item.taskTypeID}}">
+                            <div class="fillBtn">填报</div>
+                        </router-link>
+                        <router-link :to="{path:item.preview,query: {barId:'03',taskTypeID:item.taskTypeID,typeId:item.typeId}}">
+                            <div class="viewBtn">预览</div>
+                        </router-link>
+                    </div>
+                </el-card>
+            </el-col>
+            <!-- <el-col :span="8">
                 <el-card  :body-style="{ padding: '0px' }">
                     <div class="item">
                         <h1 class="title">自营收入表</h1>
@@ -110,10 +132,52 @@
                         </router-link>
                     </div>
                 </el-card>
-            </el-col>
+            </el-col> -->
         </el-row>
     </div>
 </template>
+<script>
+// var routerList = [
+//     {fill:'/operateMgmt/selfIncomeFill',view:'/operateMgmt/selfIncomeView'},
+//     {fill:'/operateMgmt/businessIncomeFill',view:'/operateMgmt/businessIncomeView'},
+//     {fill:'/operateMgmt/rentIncomeFill',view:'/operateMgmt/rentIncomeView'},
+//     {fill:'/operateMgmt/energySalesFill',view:'/operateMgmt/energySalesView'},
+//     {fill:'/operateMgmt/holidaySalesFill',view:'/operateMgmt/holidaySalesView'},
+// ]
+export default {
+    data() {
+        return {
+            dataList:[]
+        }
+    },
+    mounted() {
+        this.getList()
+    },
+    methods:{
+        getList() {
+            let self = this;  
+            let info = {};
+            info.category = 1; 
+            this.$http.get(this.api.getIncomeTask, {
+                params: {
+                    accessToken: this.$store.state.user.token, 
+                    info:info               					
+                }
+            },function(response){
+                if(response.status == 200) {
+                    if(response.data.length>0) {
+                        self.dataList = response.data;
+                    }
+                   
+                }
+            },function(response){
+                //失败回调
+            })
+        }
+    }
+}
+</script>
+
 <style lang="scss">
 .fillBox{
     padding: 20px 40px 20px 20px;

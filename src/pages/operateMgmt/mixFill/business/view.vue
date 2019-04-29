@@ -22,7 +22,8 @@
 						<th>合作年限</th>
                         <th>合同合作期</th>
 						<th>上半年履约评价得分</th>
-						<th>下半年履约评价得分</th>					
+						<th>下半年履约评价得分</th>	
+						<th>填报时间</th>				
 					</tr>
 				</thead>
 				<tbody class="scrollTabContent">
@@ -48,7 +49,9 @@
 
 			<p v-show="tableDataList.length == 0" class="noDataTip">没有找到相关数据！</p>
 		</div>
-		
+		<div class="upLoadBox" v-if="barId==13">
+			<el-button class="upload" type="primary" @click="report">上&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;报</el-button>
+		</div>
 	</div>
 </template>
 
@@ -58,7 +61,7 @@
 		data() {
 			return {
 				tableDataList:'',
-				
+				barId:this.$route.query.barId
 
 			}
 		},
@@ -71,24 +74,45 @@
 			
 		},
 		mounted() {
-			// this.getList();
+			this.getList();
 			var height = document.documentElement.clientHeight;
 			document.getElementById("app-main").style.height = (height > 700) ? (height-200 + 'px'):(height+'px') ;
 		},
 		methods: {
 			goBack() {
 				this.$router.back(-1)
-			},		
+			},	
+			report() {    
+				let self = this; 
+				let taskID = this.$route.query.typeId;    
+				this.$http.get(this.api.getTaskProgress, {
+					params: {
+						accessToken: this.$store.state.user.token, 
+						taskID:taskID                					
+					}
+				},function(response){
+					if(response.status == 200) {
+						if(response.data){
+							self.$message.success('上报成功')
+						}else{
+							self.$message.error('上报失败')
+						}
+					}
+				},function(response){
+					//失败回调
+				})
+			},	
 			getList() {
 				let self = this;				
 				this.$http.get(this.api.getCooperationInfoPreview, {
 					params: {
 						accessToken: this.$store.state.user.token,
-                        taskTypeID:'',
+                        taskTypeID:this.$route.query.taskTypeID
                     }
 				},function(response){
+					console.log(response)
 					if(response.status == 200) {
-						self.tableDataList = response.data;
+						self.tableDataList = response.data.shopCooperations;
 					}
 				},function(response){
 	                //失败回调

@@ -123,8 +123,9 @@ export default {
         }
     },
     mounted() {
-        // this.getRestAreaInfo();
-        // this.getInfrastructure1();
+        this.getRestAreaInfo();
+        this.getInfrastructure1();
+        this.getRestaAreaBusiness()
     },
     methods:{
         getRestAreaInfo() {

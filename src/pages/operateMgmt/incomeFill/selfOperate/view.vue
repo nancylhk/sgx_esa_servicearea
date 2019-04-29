@@ -27,17 +27,17 @@
 					</tr>
 				</thead>
 				<tbody class="scrollTabContent">
-					<tr v-for="(info,index) in tableDataList.saleInfo">
+					<tr v-for="(info,index) in tableDataList.resultShop">
 						<td>{{index+1}}</td>
 						<td>{{info.shopName}}</td>
 						<td>{{info.shopType}}</td>
                         <template v-for="sale in info.sale">
-                            <td>{{sale}}</td>
+                            <td>{{sale==''?'0':sale}}</td>
                         </template>
 					</tr>
                     <tr>
                         <td colspan="3">合计</td>
-                        <td v-for="total in tableDataList.monthlyTotal">{{total}}</td>
+                       <td v-for="total in tableDataList.resultMonth">{{total==''?'0':total}}</td>
                     </tr>
                     <tr>
                         <td colspan="3">综合</td>
@@ -46,13 +46,11 @@
 				</tbody>
 			</table>
 
-			<p v-show="total == 0" class="noDataTip">没有找到相关数据！</p>
-			<footer v-show="total > 0">
-				<!-- <el-pagination @current-change="handleCurrentChange" :current-page.sync="currentPage" :page-size="pageSize" layout="total, prev, pager, next" :total="total">
-				</el-pagination> -->
-			</footer>
+			<p v-show="tableDataList.length == 0" class="noDataTip">没有找到相关数据！</p>
 		</div>
-		
+		<div class="upLoadBox" v-if="barId==13">
+			<el-button class="upload" type="primary" @click="report">上&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;报</el-button>
+		</div>
 	</div>
 </template>
 
@@ -61,14 +59,8 @@
 	export default {
 		data() {
 			return {
-				// total:0,
-				// currentPage: 1,
-				// pageSize: 10,
-				// beginRow:'',
-				// endRow:'',
-				
 				tableDataList:'',
-				
+				barId:this.$route.query.barId
 
 			}
 		},
@@ -81,8 +73,7 @@
 			
 		},
 		mounted() {
-			// this.getList();
-			// this.getListCount();
+			this.getList();
 			var height = document.documentElement.clientHeight;
 			document.getElementById("app-main").style.height = (height > 700) ? (height-200 + 'px'):(height+'px') ;
 		},
@@ -90,18 +81,37 @@
 			goBack() {
 				this.$router.back(-1)
 			},		
-			getList() {
-				let self = this;
-				// self.beginRow = self.pageSize * (self.currentPage-1)+1;
-				// self.endRow = self.currentPage * self.pageSize;
-				this.$http.get(this.api.getSelfSupportInfoSalePreview, {
+			report() {    
+				let self = this; 
+				let taskID = this.$route.query.typeId;    
+				this.$http.get(this.api.getTaskProgress, {
 					params: {
-						accessToken: this.$store.state.user.token,
-						taskTypeID:'',
-						// beginRow: this.beginRow,
-						// endRow: this.endRow,					
+						accessToken: this.$store.state.user.token, 
+						taskID:taskID                					
 					}
 				},function(response){
+					if(response.status == 200) {
+						if(response.data){
+							self.$message.success('上报成功')
+						}else{
+							self.$message.error('上报失败')
+						}
+					}
+				},function(response){
+					//失败回调
+				})
+			},
+			getList() {
+				let self = this;
+				this.$http.get(this.api.getSelfSupportInfoSalePreview, {
+					params: {
+						accessToken: this.$store.state.user.token,		
+						info:{
+							incomeType:1,
+						}	//income表的typeId			
+					}
+				},function(response){
+					console.log(response)
 					if(response.status == 200) {
 						self.tableDataList = response.data;
 					}
@@ -110,25 +120,6 @@
 	            })
 				
 			},
-			// getListCount(){
-			// 	let self = this;
-			// 	self.$http.get(self.api.getDefaultOutComeNum, {
-			// 		params: {
-			// 			accessToken: self.$store.state.user.token,
-			// 			minMoney: self.minMoney,
-			// 			maxMoney:self.maxMoney,
-			// 			outcomeType: self.outcomeType
-			// 		}
-			// 	},function(response){
-			// 		if(response.status == 200) {
-			// 			self.total = parseInt(response.data);
-			// 		}
-			// 	},function(response){})
-			// },
-			// handleCurrentChange(val) {
-			// 	this.currentPage = val;
-			// 	this.getList();
-			// },
 		},
 
 	}

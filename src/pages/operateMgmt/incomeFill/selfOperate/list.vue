@@ -16,20 +16,20 @@
 					</el-date-picker>
 				</el-form-item>
 				<el-form-item label="商户类型" prop="shopType">
-					<el-select v-model="addInfo.shopType" clearable>
+					<el-select v-model="addInfo.shopType">
 						<el-option v-for="(item,index) in businessTypesOption" 
-						:key="item.typeCode" 
-						:label="item.typeName" 
-						:value="item.typeCode">
+						:key="item.shopTypeCode" 
+						:label="item.shopTypeName" 
+						:value="item.shopTypeCode">
 						</el-option>
 					</el-select>
 				</el-form-item>
 				<el-form-item label="商户" prop='shopName'>
-					<el-select v-model="addInfo.shopName" clearable>
+					<el-select v-model="addInfo.shopName" >
 						<el-option v-for="(item,index) in businessOption" 
-						:key="item.typeCode" 
-						:label="item.typeName" 
-						:value="item.typeCode">
+						:key="item.shopID" 
+						:label="item.shopName" 
+						:value="item.shopID">
 						</el-option>
 					</el-select>
 				</el-form-item>
@@ -69,11 +69,7 @@
 				</tbody>
 			</table>
 
-			<p v-show="total == 0" class="noDataTip">没有找到相关数据！</p>
-			<footer v-show="total > 0">
-				<el-pagination @current-change="handleCurrentChange" :current-page.sync="currentPage" :page-size="pageSize" layout="total, prev, pager, next" :total="total">
-				</el-pagination>
-			</footer>
+			<p v-show="tableDataList.length == 0" class="noDataTip">没有找到相关数据！</p>
 		</div>
 		
 	</div>
@@ -84,11 +80,6 @@
 	export default {
 		data() {
 			return {
-				total:0,
-				currentPage: 1,
-				pageSize: 10,
-				beginRow:'',
-				endRow:'',
 				addInfo:{
 					tradeDate:'',
 					shopType: '',
@@ -116,14 +107,51 @@
 			
 		},
 		mounted() {
-			// this.getList();
-			// this.getListCount();
+			this.getList();
+			this.getShopType()
+			this.getShops()
 			var height = document.documentElement.clientHeight;
 			document.getElementById("app-main").style.height = (height > 700) ? (height-200 + 'px'):(height+'px') ;
 		},
 		methods: {
 			goBack() {
 				this.$router.back(-1)
+			},
+			getShopType() {
+				let self = this;
+				this.$http.get(this.api.getShopType, {
+					params: {
+						accessToken: this.$store.state.user.token,			
+						info:{
+							taskId:this.$route.query.taskTypeID,
+						}					
+					}
+				},function(response){
+					if(response.status == 200) {
+						self.businessTypesOption = response.data;
+					}
+				},function(response){
+	                //失败回调
+	            })
+				
+			},
+			getShops() {
+				let self = this;
+				this.$http.get(this.api.getShops, {
+					params: {
+						accessToken: this.$store.state.user.token,			
+						info:{
+							taskId:this.$route.query.taskTypeID,
+						}					
+					}
+				},function(response){
+					if(response.status == 200) {
+						self.businessOption = response.data;
+					}
+				},function(response){
+	                //失败回调
+	            })
+				
 			},
 			addEvent() {			
 				let self = this;
@@ -169,10 +197,13 @@
 					center: true
 				}).then(() => {
 					var self = this;
-					self.$http.get(self.api.disableOutcomeInfo, {
+					self.$http.get(self.api.delSelfSupportSaleInfo, {
 						params: {
 							accessToken: self.$store.state.user.token,
-							outcomeId: ID,
+							info:{
+								incomeId: ID
+							}
+							
 						}
 					},function(response){
 						if(response.data) {
@@ -181,8 +212,8 @@
 								message: '删除成功',
 								duration: 2000
 							})
-							self.getList() ;
-							self.getListCount();
+							// self.getList() ;
+							// self.getListCount();
 						}else{
 							self.$message({
 								type: 'warning',
@@ -204,14 +235,12 @@
 			},
 			getList() {
 				let self = this;
-				self.beginRow = self.pageSize * (self.currentPage-1)+1;
-				self.endRow = self.currentPage * self.pageSize;
 				this.$http.get(this.api.getSelfSupportSaleInfo, {
 					params: {
-						accessToken: this.$store.state.user.token,
-						taskID:'',
-						beginRow: this.beginRow,
-						endRow: this.endRow,					
+						accessToken: this.$store.state.user.token,			
+						info:{
+							taskId:this.$route.query.taskTypeID,
+						}					
 					}
 				},function(response){
 					if(response.status == 200) {
@@ -221,26 +250,7 @@
 	                //失败回调
 	            })
 				
-			},
-			getListCount(){
-				let self = this;
-				self.$http.get(self.api.getDefaultOutComeNum, {
-					params: {
-						accessToken: self.$store.state.user.token,
-						minMoney: self.minMoney,
-						maxMoney:self.maxMoney,
-						outcomeType: self.outcomeType
-					}
-				},function(response){
-					if(response.status == 200) {
-						self.total = parseInt(response.data);
-					}
-				},function(response){})
-			},
-			handleCurrentChange(val) {
-				this.currentPage = val;
-				this.getList();
-			},
+			}
 		},
 
 	}
