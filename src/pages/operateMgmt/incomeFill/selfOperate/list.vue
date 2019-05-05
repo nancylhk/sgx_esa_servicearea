@@ -11,6 +11,7 @@
 					<el-date-picker
 					v-model="addInfo.tradeDate"
 					type="month"
+					:picker-options="pickerOptions"
 					value-format="yyyy-MM"
 					placeholder="选择月份">
 					</el-date-picker>
@@ -86,6 +87,11 @@
 					shopName:'',
 					amount:'',
 				},
+				pickerOptions: {
+					disabledDate(time) {
+						return time.getTime() > Date.now();
+					}
+				},
 				rules:{
 					tradeDate:[{ required:true,message:'',trigger: 'blur' }],
 					shopType: [{ required:true,message:'',trigger: 'blur' }],
@@ -121,14 +127,11 @@
 				let self = this;
 				this.$http.get(this.api.getShopType, {
 					params: {
-						accessToken: this.$store.state.user.token,			
-						info:{
-							taskId:this.$route.query.taskTypeID,
-						}					
+						accessToken: this.$store.state.user.token,						
 					}
 				},function(response){
 					if(response.status == 200) {
-						self.businessTypesOption = response.data;
+						self.businessTypesOption = response.data.shopTypes;
 					}
 				},function(response){
 	                //失败回调
@@ -139,10 +142,7 @@
 				let self = this;
 				this.$http.get(this.api.getShops, {
 					params: {
-						accessToken: this.$store.state.user.token,			
-						info:{
-							taskId:this.$route.query.taskTypeID,
-						}					
+						accessToken: this.$store.state.user.token,					
 					}
 				},function(response){
 					if(response.status == 200) {
@@ -212,8 +212,7 @@
 								message: '删除成功',
 								duration: 2000
 							})
-							// self.getList() ;
-							// self.getListCount();
+							self.getList() ;
 						}else{
 							self.$message({
 								type: 'warning',

@@ -27,22 +27,26 @@
 					</tr>
 				</thead>
 				<tbody class="scrollTabContent">
-					<tr v-for="(info,index) in tableDataList.saleInfo">
+					<tr v-for="(info,index) in tableDataList.EnergySaleInfoPreview">
 						<td>{{index+1}}</td>
-						<td>{{info.oilType}}</td>
-						<td>{{info.shopName}}</td>
+						<td>{{info.OIL_TYPE}}</td>
+						<td>{{info.shopType}}</td>
                         <template v-for="sale in info.sale">
                             <td>{{sale}}</td>
                         </template>
 					</tr>
-                    <!-- <tr>
+                    <tr v-if="tableDataList.EnergySaleInfoPreview.length>0">
                         <td colspan="3">合计</td>
-                        <td v-for="total in tableDataList.monthlyTotal">{{total}}</td>
+                        <td v-for="total in tableDataList.EnergySaleInfoByMonth">{{total}}</td>
                     </tr>
-                    <tr>
-                        <td colspan="3">综合</td>
-                        <td colspan="12">{{tableDataList.total}}</td>
-                    </tr> -->
+                    <tr v-if="tableDataList.EnergySaleInfoPreview.length>0">
+                        <td colspan="3">汽、柴合计</td>
+                        <td colspan="2">{{tableDataList.oilTotal}}</td>
+						<td colspan="3">充电量合计</td>
+                        <td colspan="2">{{tableDataList.elcTotal}}</td>
+						<td colspan="3">加气量合计</td>
+                        <td colspan="2">{{tableDataList.gasTotal}}</td>
+                    </tr>
 				</tbody>
 			</table>
 
@@ -107,12 +111,13 @@
 					params: {
 						accessToken: this.$store.state.user.token,		
 						info:{
-							incomeType:1,
+							taskTypeId:this.$route.query.taskTypeID,
 						}	//income表的typeId			
 					}
 				},function(response){
 					if(response.status == 200) {
 						self.tableDataList = response.data;
+						console.log(response.data)
 					}
 				},function(response){
 	                //失败回调

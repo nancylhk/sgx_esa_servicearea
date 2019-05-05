@@ -27,7 +27,7 @@
 					</tr>
 				</thead>
 				<tbody class="scrollTabContent">
-					<tr v-for="(info,index) in tableDataList.saleInfo">
+					<tr v-for="(info,index) in tableDataList.resultShop">
 						<td>{{index+1}}</td>
 						<td>{{info.shopName}}</td>
 						<td>{{info.shopType}}</td>
@@ -35,18 +35,18 @@
                             <td>{{sale}}</td>
                         </template>
 					</tr>
-                    <tr>
+                    <tr v-show="tableDataList.resultShop.length > 0">
                         <td colspan="3">合计</td>
-                        <td v-for="total in tableDataList.monthlyTotal">{{total}}</td>
+                        <td v-for="total in tableDataList.resultMonth">{{total}}</td>
                     </tr>
-                    <tr>
+                    <tr v-show="tableDataList.resultShop.length > 0">
                         <td colspan="3">综合</td>
                         <td colspan="12">{{tableDataList.total}}</td>
                     </tr>
 				</tbody>
 			</table>
 
-			<p v-show="total == 0" class="noDataTip">没有找到相关数据！</p>
+			<p v-show="tableDataList.resultShop.length == 0" class="noDataTip">没有找到相关数据！</p>
 		</div>
 		<div class="upLoadBox" v-if="barId==13">
 			<el-button class="upload" type="primary" @click="report()">上&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;报</el-button>
@@ -74,7 +74,7 @@
 			
 		},
 		mounted() {
-			// this.getList();
+			this.getList();
 			var height = document.documentElement.clientHeight;
 			document.getElementById("app-main").style.height = (height > 700) ? (height-200 + 'px'):(height+'px') ;
 		},
@@ -104,10 +104,12 @@
 			},	
 			getList() {
 				let self = this;				
-				this.$http.get(this.api.getRentInfoPreview, {
+				this.$http.get(this.api.getSelfSupportInfoSalePreview, {
 					params: {
 						accessToken: this.$store.state.user.token,
-						taskTypeID:'',											
+						info:{
+							incomeType:3,
+						}											
 					}
 				},function(response){
 					if(response.status == 200) {

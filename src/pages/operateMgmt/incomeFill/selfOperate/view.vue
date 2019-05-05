@@ -35,11 +35,11 @@
                             <td>{{sale==''?'0':sale}}</td>
                         </template>
 					</tr>
-                    <tr>
+                    <tr v-show="tableDataList.length > 0">
                         <td colspan="3">合计</td>
                        <td v-for="total in tableDataList.resultMonth">{{total==''?'0':total}}</td>
                     </tr>
-                    <tr>
+                    <tr v-show="tableDataList.length > 0">
                         <td colspan="3">综合</td>
                         <td colspan="12">{{tableDataList.total}}</td>
                     </tr>

@@ -11,6 +11,7 @@
 					<el-date-picker
 					v-model="addInfo.tradeDate"
 					type="month"
+					:picker-options="pickerOptions"
 					value-format="yyyy-MM"
 					placeholder="选择月份">
 					</el-date-picker>
@@ -24,11 +25,11 @@
 						</el-option>
 					</el-select>
 				</el-form-item>			
-				<el-form-item label="支出金额" prop='paymentAmout'>
-					<input v-model="addInfo.paymentAmout" class="queryIpt" />
+				<el-form-item label="支出金额" prop='paymentAmount'>
+					<input v-model="addInfo.paymentAmount" class="queryIpt" />
 				</el-form-item>
-                <el-form-item label="支出明细" prop='commnet'>
-					<el-input type="textarea" v-model="addInfo.commnet"></el-input>
+                <el-form-item label="支出明细" prop='comment'>
+					<el-input type="textarea" v-model="addInfo.comment"></el-input>
 				</el-form-item>
 				<el-form-item  class="right">
 					<el-button type="primary" @click="addEvent">添加</el-button>
@@ -77,14 +78,20 @@
 				addInfo:{
 					tradeDate:'',
 					paymentTypeID: '',
-					paymentAmout:'',
-					commnet:'',
+					paymentAmount:'',
+					comment:'',
+					taskId:this.$route.query.taskId
+				},
+				pickerOptions: {
+					disabledDate(time) {
+						return time.getTime() > Date.now();
+					}
 				},
 				rules:{
 					tradeDate:[{ required:true,message:'',trigger: 'blur' }],
 					paymentTypeID: [{ required:true,message:'',trigger: 'blur' }],
-					paymentAmout:[{ required:true,message:'',trigger: 'blur' }],
-					commnet:[{ required:true,message:'',trigger: 'blur' }],
+					paymentAmount:[{ required:true,message:'',trigger: 'blur' }],
+					comment:[{ required:true,message:'',trigger: 'blur' }],
 				},
 				tableDataList:'',
 				businessTypesOption:[],
@@ -101,6 +108,7 @@
 		},
 		mounted() {
 			this.getList();
+			this.getPaymentType()
 			var height = document.documentElement.clientHeight;
 			document.getElementById("app-main").style.height = (height > 700) ? (height-200 + 'px'):(height+'px') ;
 		},
@@ -117,7 +125,7 @@
 					}
 				},function(response){
 					if(response.status == 200) {
-						self.businessTypesOption = response.data;
+						self.businessTypesOption = response.data.paymentTypes;
 					}
 				},function(response){
 	                //失败回调
@@ -126,15 +134,14 @@
 			addEvent() {			
 				let self = this;
 				this.$refs.addInfo.validate((valid) => {
-					if (valid) {				
-						let params = new FormData()
-						params.append('accessToken', self.$store.state.user.token);
-						params.append('info', JSON.stringify(self.addInfo));
-						self.$http.post(self.api.addPaymentInfo, params, {
-							headers: {
-								//'Content-type': 'application/x-www-form-urlencoded'
-								"Content-Type": "multipart/form-data"
-							},
+					if (valid) {
+						self.addInfo.paymentAmount = parseInt(self.addInfo.paymentAmount);				
+						self.$http.get(self.api.addPaymentInfo, {
+							params:{
+								accessToken:self.$store.state.user.token,
+								info:self.addInfo,
+								
+							}
 						}, function(response) {
 							if(response.data) {
 								self.$message({
@@ -143,6 +150,7 @@
 									duration: 2000
 								});
 								self.getList()
+								self.$refs.addInfo.resetFields();
 							} else {
 								self.$message({
 									type: 'error',
@@ -161,37 +169,35 @@
 				
 			},
 			disableEvent(ID) {
+				let self = this;
 				this.$confirm('确认删除？', '提示', {
 					confirmButtonText: '确定',
 					cancelButtonText: '取消',
 					center: true
 				}).then(() => {
-					var self = this;
 					self.$http.get(self.api.deletePaymentInfoByPaymentId, {
-						params: {
-							accessToken: self.$store.state.user.token,
-							paymentId: ID,
+						params:{
+							accessToken:self.$store.state.user.token,
+							paymentId:ID
 						}
-					},function(response){
+					}, function(response) {
 						if(response.data) {
 							self.$message({
 								type: 'success',
 								message: '删除成功',
 								duration: 2000
-							})
-							self.getList() ;
-							self.getListCount();
-						}else{
+							});
+							self.getList()
+						} else {
 							self.$message({
-								type: 'warning',
+								type: 'error',
 								message: '删除失败',
 								duration: 2000
-							})
+							});
 						}
-					},function(response){
-		                //失败回调
-		            })
-
+					}, function(response) {
+						//失败回调
+					})
 				}).catch(() => {
 					this.$message({
 						type: 'info',
@@ -209,7 +215,7 @@
 					}
 				},function(response){
 					if(response.status == 200) {
-						self.tableDataList = response.data.detailPayments;
+						self.tableDataList = response.data
 					}
 				},function(response){
 	                //失败回调

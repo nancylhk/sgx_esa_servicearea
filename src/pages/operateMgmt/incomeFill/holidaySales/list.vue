@@ -7,12 +7,13 @@
 		</h5>		
 		<div class="app-search ml10 mt5">
 			<el-form :inline="true" :model="addInfo" ref="addInfo"  class="demo-form-inline coop" :rules="rules">
-				<el-form-item label="选择月份" prop='tradeDate'>
+				<el-form-item label="交易日期" prop='tradeDate'>
 					<el-date-picker
 					v-model="addInfo.tradeDate"
-					type="month"
-					value-format="yyyy-MM"
-					placeholder="选择月份">
+					type="date"
+					:picker-options="pickerOptions"
+					value-format="yyyy-MM-dd"
+					placeholder="交易日期">
 					</el-date-picker>
 				</el-form-item>
 				<el-form-item label="放假第几天" prop="shopType">
@@ -64,7 +65,7 @@
 						<th>车流量</th>
                         <th>汽柴销售量</th>
                         <th>汽柴销售额</th>
-                        <th>>餐饮小吃销售量</th>
+                        <th>餐饮小吃销售量</th>
                         <th>超市、特色商店销售额</th>
 						<th>填报日期</th>
 						<th>操作</th>
@@ -76,7 +77,7 @@
 						<td>{{info.tradeDate}}</td>
 						<td>{{info.festivalName}}</td>
 						<td>{{info.whatDays}}</td>
-						<td></td>
+						<td>{{info.vehicleFlow}}</td>
 						<td>{{info.energyVolume}}</td>
                         <td>{{info.energySales}}</td>
 						<td>{{info.restaurantSales}}</td>
@@ -96,18 +97,22 @@
 </template>
 
 <script>
-	import { mapGetters } from 'vuex';
 	export default {
 		data() {
 			return {
 				addInfo:{
-					tradeDate :  "交易月份",
-                    festivalID : "节日ID",
-                    energyVolume : "能源销售量",
-                    energySales : "能源销售金额",
-                    restaurantSales : "餐饮销售额",
-                    marketSales : "商超销售额",
-                    whatDays: "放假第几天"
+					tradeDate :  "",
+                    festivalID : "",
+                    energyVolume : "",
+                    energySales : "",
+                    restaurantSales : "",
+                    marketSales : "",
+                    whatDays: ""
+				},
+				pickerOptions: {
+					disabledDate(time) {
+						return time.getTime() > Date.now();
+					}
 				},
 				rules:{
 					tradeDate:[{ required:true,message:'',trigger: 'blur' }],
@@ -131,7 +136,8 @@
 			
 		},
 		mounted() {
-			// this.getList();
+			this.getList();
+			this.getPFestval()
 			var height = document.documentElement.clientHeight;
 			document.getElementById("app-main").style.height = (height > 700) ? (height-200 + 'px'):(height+'px') ;
 		},
@@ -197,13 +203,12 @@
 					center: true
 				}).then(() => {
 					var self = this;
-					self.$http.get(self.api.delSelfSupportSaleInfo, {
+					self.$http.get(self.api.delFestivalSaleInfo, {
 						params: {
 							accessToken: self.$store.state.user.token,
 							info:{
-								incomeId: ID
-							}
-							
+								saleId: ID
+							}						
 						}
 					},function(response){
 						if(response.data) {
@@ -212,11 +217,10 @@
 								message: '删除成功',
 								duration: 2000
 							})
-							// self.getList() ;
-							// self.getListCount();
+							self.getList() ;
 						}else{
 							self.$message({
-								type: 'warning',
+								type: 'error',
 								message: '删除失败',
 								duration: 2000
 							})

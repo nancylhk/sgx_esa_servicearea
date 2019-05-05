@@ -11,6 +11,7 @@
 					<el-date-picker
 					v-model="addInfo.tradeDate"
 					type="month"
+					:picker-options="pickerOptions"
 					value-format="yyyy-MM"
 					placeholder="选择月份">
 					</el-date-picker>
@@ -87,6 +88,11 @@
 					shopName:'',
 					amount:'',
 				},
+				pickerOptions: {
+					disabledDate(time) {
+						return time.getTime() > Date.now();
+					}
+				},
 				rules:{
 					tradeDate:[{ required:true,message:'',trigger: 'blur' }],
 					shopType: [{ required:true,message:'',trigger: 'blur' }],
@@ -122,10 +128,7 @@
 				let self = this;
 				this.$http.get(this.api.getShopType, {
 					params: {
-						accessToken: this.$store.state.user.token,			
-						info:{
-							taskId:this.$route.query.taskTypeID,
-						}					
+						accessToken: this.$store.state.user.token,						
 					}
 				},function(response){
 					if(response.status == 200) {
@@ -140,10 +143,7 @@
 				let self = this;
 				this.$http.get(this.api.getShops, {
 					params: {
-						accessToken: this.$store.state.user.token,			
-						info:{
-							taskId:this.$route.query.taskTypeID,
-						}					
+						accessToken: this.$store.state.user.token,				
 					}
 				},function(response){
 					if(response.status == 200) {
@@ -197,10 +197,12 @@
 					center: true
 				}).then(() => {
 					var self = this;
-					self.$http.get(self.api.disableOutcomeInfo, {
+					self.$http.get(self.api.delSelfSupportSaleInfo, {
 						params: {
 							accessToken: self.$store.state.user.token,
-							outcomeId: ID,
+							info:{
+								incomeId: ID
+							}
 						}
 					},function(response){
 						if(response.data) {
@@ -231,10 +233,12 @@
 			},
 			getList() {
 				let self = this				
-				this.$http.get(this.api.getMerchantSaleInfo, {
+				this.$http.get(this.api.getSelfSupportSaleInfo, {
 					params: {
 						accessToken: this.$store.state.user.token,
-						taskID:this.$route.query.taskId,								
+						info:{
+							taskId:this.$route.query.taskTypeID,
+						}							
 					}
 				},function(response){
 					if(response.status == 200) {

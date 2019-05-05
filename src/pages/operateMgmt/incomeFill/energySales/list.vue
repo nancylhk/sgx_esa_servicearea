@@ -7,12 +7,13 @@
 		</h5>		
 		<div class="app-search ml10 mt5">
 			<el-form :inline="true" :model="addInfo" ref="addInfo"  class="demo-form-inline coop" :rules="rules">
-				<el-form-item label="选择月份" prop='tradeDate'>
+				<el-form-item label="交易日期" prop='tradeDate'>
 					<el-date-picker
 					v-model="addInfo.tradeDate"
-					type="month"
-					value-format="yyyy-MM"
-					placeholder="选择月份">
+					type="date"
+					:picker-options="pickerOptions"
+					value-format="yyyy-MM-dd"
+					placeholder="交易日期">
 					</el-date-picker>
 				</el-form-item>
 				<el-form-item label="品名" prop='oilType'>
@@ -40,7 +41,7 @@
 				<thead>
 					<tr>
 						<th>序号</th>
-						<th>交易月份</th>
+						<th>交易日期</th>
 						<th>品名</th>
 						<th>商铺类型</th>
 						<th>销售量</th>
@@ -54,7 +55,7 @@
 						<td>{{info.tradeDate}}</td>
 						<td>{{info.oilType}}</td>
 						<td>{{info.shopType}}</td>
-						<td>{{info.volum}}</td>
+						<td>{{info.amount}}</td>
 						<td>{{info.filledTime}}</td>
 						<td>
 							<a @click ="disableEvent(info.saleID)">删除</a>
@@ -79,6 +80,12 @@
 					shopType: '',
 					oilType:'',
 					saleVolume:'',
+					taskId:this.$route.query.taskTypeID,
+				},
+				pickerOptions: {
+					disabledDate(time) {
+						return time.getTime() > Date.now();
+					}
 				},
 				rules:{
 					tradeDate:[{ required:true,message:'',trigger: 'blur' }],
@@ -120,7 +127,7 @@
 					}
 				},function(response){
 					if(response.status == 200) {
-						self.businessTypesOption = response.data;
+						self.businessTypesOption = response.data.shopTypes;
 					}
 				},function(response){
 	                //失败回调
@@ -147,6 +154,7 @@
 									duration: 2000
 								});
 								self.getList()
+								self.$refs.addInfo.resetFields();
 							} else {
 								self.$message({
 									type: 'error',
@@ -171,11 +179,11 @@
 					center: true
 				}).then(() => {
 					var self = this;
-					self.$http.get(self.api.delSelfSupportSaleInfo, {
+					self.$http.get(self.api.delEnergySaleInfo, {
 						params: {
 							accessToken: self.$store.state.user.token,
 							info:{
-								incomeId: ID
+								saleId: ID
 							}
 							
 						}
@@ -186,8 +194,7 @@
 								message: '删除成功',
 								duration: 2000
 							})
-							// self.getList() ;
-							// self.getListCount();
+							self.getList() ;
 						}else{
 							self.$message({
 								type: 'warning',

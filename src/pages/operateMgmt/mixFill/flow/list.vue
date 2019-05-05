@@ -11,33 +11,34 @@
 					<el-date-picker
 					v-model="addInfo.tradeDate"
 					type="month"
+					:picker-options="pickerOptions"
 					value-format="yyyy-MM"
 					placeholder="选择月份">
 					</el-date-picker>
 				</el-form-item>
-				<el-form-item label="车型" prop='paymentTypeID'>
-					<el-select v-model="addInfo.paymentTypeID" clearable>
+				<el-form-item label="车型" prop='vehicleType'>
+					<el-select v-model="addInfo.vehicleType" clearable>
 						<el-option label="客车" value="客车"></el-option>
 						<el-option label="货车" value="货车"></el-option>
 					</el-select>
 				</el-form-item>			
 				<el-form-item label="一型车流量">
-					<input v-model.number="addInfo.paymentAmout" class="queryIpt" />
+					<input v-model.number="addInfo.typeFlow1" class="queryIpt" />
 				</el-form-item>
                 <el-form-item label="二型车流量">
-					<input v-model.number="addInfo.paymentAmout" class="queryIpt" />
+					<input v-model.number="addInfo.typeFlow2" class="queryIpt" />
 				</el-form-item>
                 <el-form-item label="三型车流量">
-					<input v-model.number="addInfo.paymentAmout" class="queryIpt" />
+					<input v-model.number="addInfo.typeFlow3" class="queryIpt" />
 				</el-form-item>
                 <el-form-item label="四型车流量">
-					<input v-model.number="addInfo.paymentAmout" class="queryIpt" />
+					<input v-model.number="addInfo.typeFlow4" class="queryIpt" />
 				</el-form-item>
                 <el-form-item label="五型车流量">
-					<input v-model.number="addInfo.paymentAmout" class="queryIpt" />
+					<input v-model.number="addInfo.typeFlow5" class="queryIpt" />
 				</el-form-item>
                 <el-form-item label="六型车流量">
-					<input v-model.number="addInfo.paymentAmout" class="queryIpt" />
+					<input v-model.number="addInfo.typeFlow6" class="queryIpt" />
 				</el-form-item>
 				<el-form-item  class="right">
 					<el-button type="primary" @click="addEvent">添加</el-button>
@@ -65,7 +66,7 @@
 					<tr v-for="(info,index) in tableDataList">
 						<td>{{index+1}}</td>
 						<td>{{info.tradeDate}}</td>
-						<td>{{info.vehicleType}}</td>
+						<td>{{info.vehicleType=='1'?'客车':info.vehicleType=='2'?'货车':''}}</td>
 						<td>{{info.typeFlow1}}</td>
 						<td>{{info.typeFlow2}}</td>
                         <td>{{info.typeFlow3}}</td>
@@ -100,6 +101,12 @@
                     typeFlow4:'',
                     typeFlow5:'',
 					typeFlow6:'',
+					taskId:this.$route.query.taskId
+				},
+				pickerOptions: {
+					disabledDate(time) {
+						return time.getTime() > Date.now();
+					}
 				},
 				rules:{
 					tradeDate:[{ required:true,message:'',trigger: 'blur' }],
@@ -130,38 +137,38 @@
 			},
 			addEvent() {			
 				let self = this;
-				if(self.addInfo.tradeDate == ''){
-					self.$message.error('请选择月份')
-				}else if(self.addInfo.vehicleType == ''){
-					self.$message.error('请选择车型')
-				}else{				
-					let params = new FormData()
-					params.append('accessToken', self.$store.state.user.token);
-					params.append('info', JSON.stringify(self.addInfo));
-					self.$http.post(self.api.addSectionVehicleFlowInfo, params, {
-						headers: {
-							//'Content-type': 'application/x-www-form-urlencoded'
-							"Content-Type": "multipart/form-data"
-						},
-					}, function(response) {
-						if(response.data) {
-							self.$message({
-								type: 'success',
-								message: '新增成功',
-								duration: 2000
-							});
-							self.getList()
-						} else {
-							self.$message({
-								type: 'error',
-								message: '新增失败',
-								duration: 2000
-							});
-						}
-					}, function(response) {
-						//失败回调
-					})
-				}
+				this.$refs.addInfo.validate((valid) => {
+					if (valid) {
+						self.$http.get(self.api.addSectionVehicleFlowInfo, {
+							params:{
+								accessToken:self.$store.state.user.token,
+								info:self.addInfo,
+
+							}
+						}, function(response) {
+							if(response.data) {
+								self.$message({
+									type: 'success',
+									message: '新增成功',
+									duration: 2000
+								});
+								self.getList()
+								self.$refs.addInfo.resetFields();
+							} else {
+								self.$message({
+									type: 'error',
+									message: '新增失败',
+									duration: 2000
+								});
+							}
+						}, function(response) {
+							//失败回调
+						})
+					} else {
+						self.$message.error('带星号的为必填项')
+						return false;
+					}
+				});
 			},
 			disableEvent(ID) {
 				this.$confirm('确认删除？', '提示', {
@@ -212,7 +219,7 @@
 					}
 				},function(response){
 					if(response.status == 200) {
-						self.tableDataList = response.data.sectionFlows;
+						self.tableDataList = response.data
 					}
 				},function(response){
 	                //失败回调

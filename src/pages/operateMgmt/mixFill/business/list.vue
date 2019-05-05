@@ -155,15 +155,7 @@
                 let self = this;
                 this.$refs.addInfo.validate((valid) => {
                     if (valid) {
-						// let params = new FormData()
-						// params.append('accessToken', self.$store.state.user.token);
-						// params.append('info', JSON.stringify(self.addInfo));
-						// self.$http.post(self.api.addPaymentInfo, params, {
-						// 	headers: {
-						// 		//'Content-type': 'application/x-www-form-urlencoded'
-						// 		"Content-Type": "multipart/form-data"
-						// 	},
-						// }, function(response) {
+						
                         self.$http.get(self.api.addCooperationInfo, {
 							params:{
 								accessToken:self.$store.state.user.token,
@@ -177,7 +169,8 @@
                                     message: '新增成功',
                                     duration: 2000
                                 });
-                                self.getList()
+								self.getList()
+								self.$refs.addInfo.resetFields();
                             } else {
                                 self.$message({
                                     type: 'error',
@@ -244,7 +237,7 @@
 					}
 				},function(response){
 					if(response.status == 200) {
-						self.tableDataList = response.data.shopCooperations;
+						self.tableDataList = response.data;
 					}
 				},function(response){
 	                //失败回调

@@ -26,7 +26,7 @@
 						<td>{{info.tradeDate}}</td>
 						<td>{{info.festivalName}}</td>
                         <td>{{info.whatDays}}</td>
-						<td></td>
+						<td>{{info.vehicleFlow}}</td>
                         <td>{{info.energyVolume}}</td>
 						<td>{{info.restaurantSales}}</td>
                         <td>{{info.marketSales}}</td>
@@ -100,12 +100,12 @@
 			},		
 			getList() {
 				let self = this;
-				this.$http.get(this.api.getFestivalSaleInfoPreview, {
+				this.$http.get(this.api.getFestivalSaleInfo, {
 					params: {
-						accessToken: this.$store.state.user.token,		
+						accessToken: this.$store.state.user.token,			
 						info:{
-							incomeType:1,
-						}	//income表的typeId			
+							taskId:this.$route.query.taskTypeID,
+						}					
 					}
 				},function(response){
 					if(response.status == 200) {
@@ -115,7 +115,7 @@
 	                //失败回调
 	            })
 				
-			},
+			}
 		},
 
 	}

@@ -11,6 +11,7 @@
 					<el-date-picker
 					v-model="addInfo.tradeDate"
 					type="month"
+					:picker-options="pickerOptions"
 					value-format="yyyy-MM"
 					placeholder="选择月份">
 					</el-date-picker>
@@ -87,6 +88,11 @@
 					shopName:'',
 					amount:'',
 				},
+				pickerOptions: {
+					disabledDate(time) {
+						return time.getTime() > Date.now();
+					}
+				},
 				rules:{
 					tradeDate:[{ required:true,message:'',trigger: 'blur' }],
 					shopType: [{ required:true,message:'',trigger: 'blur' }],
@@ -108,8 +114,7 @@
 			
 		},
 		mounted() {
-			// this.getList();
-			// this.getListCount();
+			this.getList();
 			this.getShopType();
 			this.getShops()
 			var height = document.documentElement.clientHeight;
@@ -130,7 +135,7 @@
 					}
 				},function(response){
 					if(response.status == 200) {
-						self.businessTypesOption = response.data;
+						self.businessTypesOption = response.data.shopTypes;
 					}
 				},function(response){
 	                //失败回调
@@ -198,10 +203,12 @@
 					center: true
 				}).then(() => {
 					var self = this;
-					self.$http.get(self.api.disableOutcomeInfo, {
+					self.$http.get(self.api.delSelfSupportSaleInfo, {
 						params: {
 							accessToken: self.$store.state.user.token,
-							outcomeId: ID,
+							info:{
+								incomeId: ID
+							}
 						}
 					},function(response){
 						if(response.data) {
@@ -211,7 +218,6 @@
 								duration: 2000
 							})
 							self.getList() ;
-							self.getListCount();
 						}else{
 							self.$message({
 								type: 'warning',
@@ -235,11 +241,12 @@
 				let self = this;
 				self.beginRow = self.pageSize * (self.currentPage-1)+1;
 				self.endRow = self.currentPage * self.pageSize;
-				this.$http.get(this.api.getRentInfo, {
+				this.$http.get(this.api.getSelfSupportSaleInfo, {
 					params: {
 						accessToken: this.$store.state.user.token,
-						taskID:this.$route.query.taskId,
-											
+						info:{
+							taskId:this.$route.query.taskTypeID,
+						}
 					}
 				},function(response){
 					if(response.status == 200) {
