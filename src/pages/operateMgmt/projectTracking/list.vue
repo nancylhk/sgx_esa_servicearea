@@ -12,7 +12,11 @@
 				</el-form-item>            
 				<el-form-item label="项目类型">
 					<el-select v-model="type"  clearable>
-						<el-option :label="item.projectName" :value="item.projectID" :key="item.projectID" v-for='item in projectList'></el-option>						
+						<el-option :label="item.projectName" 
+                        :value="item.projectID" 
+                        :key="item.projectID" 
+                        v-for='item in projectList'>
+                        </el-option>						
 					</el-select>
 				</el-form-item>
                 <el-form-item label="是否完成">
@@ -94,7 +98,7 @@ export default {
     methods:{
         getProjectType() {        
             var self = this;
-            this.$http.get(this.api.getProjectTypeList,{
+            this.$http.get(this.api.getProjectType,{
                 params: {
                     accessToken: self.$store.state.user.token
                 }
@@ -177,10 +181,10 @@ export default {
                 center: true
             }).then(() => {
                 var self = this;
-                self.$http.get(self.api.deleteOtherInfrastructure, {
+                self.$http.get(self.api.deleteMajorProject, {
                     params: {
                         accessToken: self.$store.state.user.token,
-                        InfrastructureID: ID,
+                        projectID: id,
                     }
                 },function(response){
                     if(response.data) {

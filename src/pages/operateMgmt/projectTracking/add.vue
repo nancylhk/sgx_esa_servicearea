@@ -42,7 +42,7 @@
                         </el-select>
                     </el-form-item>
                     <el-form-item label="完成进度" prop="process">
-                        <el-input v-model="addInfo.progress"></el-input></el-input><span class="unit">%</span>
+                        <el-input v-model="addInfo.progress"></el-input><span class="unit">%</span>
                     </el-form-item>
                     <el-form-item label="项目描述" prop="projectContent">
                         <el-input type="textarea" v-model="addInfo.projectContent" rows="5"></el-input>                    

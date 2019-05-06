@@ -37,60 +37,59 @@
                     <ul class="baseMsgBox">
                         <li class="item bd">停车场</li>
                         <li class="item">
-                            <!-- <span class="itemLeft">面积：</span><span class="itemRight">{{InfrastructureInfo.parking.measure}}</span>
-                            <span class="itemLeft">客车车位：</span><span class="itemRight">{{InfrastructureInfo.parking.busParkingNumber}}</span>
-                            <span class="itemLeft">货车车位：</span><span class="itemRight">{{InfrastructureInfo.parking.truckParkingNumber}}</span>
-                            <span class="itemLeft">危险品车位：</span><span class="itemRight">{{InfrastructureInfo.parking.dangerCarryingNumber}}</span> -->
+                            <span class="itemLeft">面积：</span><span class="itemRight">{{InfrastructureInfo.parkingLot[0].measure}}</span>
+                            <span class="itemLeft">客车车位：</span><span class="itemRight">{{InfrastructureInfo.parkingLot[0].busParkingNumber}}</span>
+                            <span class="itemLeft">货车车位：</span><span class="itemRight">{{InfrastructureInfo.parkingLot[0].truckParkingNumber}}</span>
+                            <span class="itemLeft">危险品车位：</span><span class="itemRight">{{InfrastructureInfo.parkingLot[0].dangerCarryingNumber}}</span>
                         </li>
                         <li class="item bd">卫生间</li>
                         <li class="item">
-                            <!-- <span class="itemLeft">数量：</span><span class="itemRight">{{InfrastructureInfo.toilet.num}}</span>
-                            <span class="itemLeft">面积：</span><span class="itemRight">{{InfrastructureInfo.toilet.measure}}</span>
-                            <span class="itemLeft">男蹲位：</span><span class="itemRight">{{InfrastructureInfo.toilet.mealSquattingNumber}}</span>
-                            <span class="itemLeft">男便池：</span><span class="itemRight">{{InfrastructureInfo.toilet.mealUrinalNumber}}</span>
-                            <span class="itemLeft">女蹲位：</span><span class="itemRight">{{InfrastructureInfo.toilet.femealSquattingNumber}}</span> -->
+                            <span class="itemLeft">数量：</span><span class="itemRight">{{toiletNum}}</span>
+                            <span class="itemLeft">面积：</span><span class="itemRight">{{measure}}</span>
+                            <span class="itemLeft">男蹲位：</span><span class="itemRight">{{manToilet.squattingNumber}}</span>
+                            <span class="itemLeft">男便池：</span><span class="itemRight">{{manToilet.urinalNumber}}</span>
+                            <span class="itemLeft">女蹲位：</span><span class="itemRight">{{womenToilet.squattingNumber}}</span>
                         </li>
                         <li class="item bd">其他设施</li>
                         <li class="item">
-                            <!-- <template v-for="other in InfrastructureInfo.Infrastructures">
-                                <span class="itemLeft">{{other.InfrastructureName}}：</span><span class="itemRight">{{other.num}}</span>
-                            </template> -->
-                            <!-- <span class="itemLeft">母婴室：</span><span class="itemRight">{{InfrastructureInfo.toilet.num}}</span>
-                            <span class="itemLeft">第三卫生间：</span><span class="itemRight">2010年10月</span>
-                            <span class="itemLeft">信息港：</span><span class="itemRight">2010年10月</span>
-                            <span class="itemLeft">充电站：</span><span class="itemRight">2010年10月</span>
-                            <span class="itemLeft">加气站：</span><span class="itemRight">2010年10月</span>
-                            <span class="itemLeft">苏通卡代理点：</span><span class="itemRight">2010年10月</span>
-                            <span class="itemLeft">旅游服务：</span><span class="itemRight">2010年10月</span> -->
+                            <template v-for="other in InfrastructureInfo.otherInfrastructure">
+                                <span><span class="itemLeft">{{other.INFRASTRUCTURE_NAME}}：</span><span class="itemRight">{{other.INFRASTRUCTURE_NUM}}</span></span>
+                            </template>
+                            <template v-for="other in InfrastructureInfo.otherInfrastructureOilNum">
+                                <span><span class="itemLeft">加油站：</span><span class="itemRight">{{other.oilNum}}</span></span>
+                            </template>
+                            <template v-for="other in InfrastructureInfo.otherInfrastructureAutoMobileNum">
+                                <span><span class="itemLeft">汽修：</span><span class="itemRight">{{other.autoMobileNum}}</span></span>
+                            </template>
                         </li>
                     </ul>
                 </div>
             </el-card>
-            <el-card class="box-card">
+            <!-- <el-card class="box-card">
                 <div slot="header" class="clearfix">
                     <span>经营模式</span>
                 </div>
                 <div class="">
                     <ul class="baseMsgBox">                     
                         <li class="item">
-                            <!-- <template v-for="info in businessInfo">
+                           <template v-for="info in businessInfo">
                                 <span class="itemLeft">{{info.businessProject}}：</span><span class="itemRight">{{info.businessType}}</span>
-                            </template> -->
-                            <!-- <span class="itemLeft">餐饮小吃：</span><span class="itemRight">2010年10月</span>
+                            </template> 
+                            <span class="itemLeft">餐饮小吃：</span><span class="itemRight">2010年10月</span>
                             <span class="itemLeft">超市特产：</span><span class="itemRight">2010年10月</span>
                             <span class="itemLeft">休闲或特色商品：</span><span class="itemRight">2010年10月</span>
-                            <span class="itemLeft">汽车修理：</span><span class="itemRight">2010年10月</span> -->
+                            <span class="itemLeft">汽车修理：</span><span class="itemRight">2010年10月</span> 
                         </li>                       
-                        <!-- <li class="item">
+                        <li class="item">
                             <span class="itemLeft">客房：</span><span class="itemRight">2010年10月</span>
                             <span class="itemLeft">加油：</span><span class="itemRight">2010年10月</span>
                             <span class="itemLeft">加气：</span><span class="itemRight">2010年10月</span>
                             <span class="itemLeft">充电桩：</span><span class="itemRight">2010年10月</span>
-                        </li>                      -->
+                        </li>                      
                     </ul>
                 </div>
-            </el-card>
-            <el-card class="box-card">
+            </el-card>-->
+            <!-- <el-card class="box-card">
                 <div slot="header" class="clearfix">
                     <span>其他</span>
                 </div>
@@ -109,7 +108,7 @@
                         </li>                    
                     </ul>
                 </div>
-            </el-card>
+            </el-card> -->
         </div>
 	</div>
 </template>
@@ -119,13 +118,18 @@ export default {
         return {
             baseInfo:'',
             InfrastructureInfo:'',
-            businessInfo:''
+            businessInfo:'',
+            manToilet:'',
+            womenToilet:'',
+            toiletNum:0,
+            measure:0,
+
         }
     },
     mounted() {
         this.getRestAreaInfo();
         this.getInfrastructure1();
-        this.getRestaAreaBusiness()
+        // this.getRestaAreaBusiness()
     },
     methods:{
         getRestAreaInfo() {
@@ -151,6 +155,22 @@ export default {
             }, function(response) {
                 if(response.status == 200) {
                     self.InfrastructureInfo = response.data;
+                    if(self.InfrastructureInfo.toilet.length>0){
+                        let toiletNum = self.toiletNum;
+                        let measure = self.measure;
+                        self.InfrastructureInfo.toilet.forEach(e => {
+                            toiletNum += parseInt(e.toiletNum);
+                            measure += parseInt(e.measure);
+                            if(e.typeName == '男'){
+                                self.manToilet = e
+                            }else{
+                                self.womenToilet = e
+                            }
+                        });
+                        self.toiletNum = toiletNum;
+                        self.measure = measure
+                    }
+                    
                 }
             }, function(response) {
                 //失败回调

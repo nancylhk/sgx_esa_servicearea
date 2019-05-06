@@ -1,4 +1,4 @@
-const BASE_URL = 'http://192.168.2.139:10029'; //9009   /serviceArea  http://192.168.2.195:9006
+const BASE_URL = ''; //9009   /serviceArea  http://192.168.2.195:9006
 export default {
 		
 	//登录
@@ -251,28 +251,28 @@ export default {
 
 	
 	// 基本资料--基础信息
-	"getRestAreaInfo": BASE_URL + '/restArea/getRestAreaInfo1',//查看服务区基础信息
-	"getInfrastructure1": BASE_URL + "/restarea/getInfrastructure1",//基本设施
+	"getRestAreaInfo": BASE_URL + '/restarea/restArea/getRestAreaInfo1',//查看服务区基础信息
+	"getInfrastructure1": BASE_URL + "/restarea/restarea/getInfrastructure1",//基本设施
 	"getRestaAreaBusiness": BASE_URL + "/restarea/getRestaAreaBusiness",//经营模式
 	// 基本资料--人员结构
-	"getManagePost": BASE_URL + '/post/getManagePost',//查看管理岗位信息
-	"getProducePost":BASE_URL +'/post/getProducePost',//生产岗位
-	"getRenterUnitPost":BASE_URL +'/post/getRenterUnitPost',//承租单位岗位信息
+	"getManagePost": BASE_URL + '/post/post/getManagePost',//查看管理岗位信息
+	"getProducePost":BASE_URL +'/post/post/getProducePost',//生产岗位
+	"getRenterUnitPost":BASE_URL +'/post/post/getRenterUnitPost',//承租单位岗位信息
 	
 	//基础设施-其他设施
-	"getOtherInfrastructure": BASE_URL + '/basedev/getOtherInfrastructure',
-	"updateOtherInfrastructure": BASE_URL +'/basedev/updateOtherInfrastructure',
-	"deleteOtherInfrastructure": BASE_URL +"/basedev/deleteOtherInfrastructure",
-	"addOtherInfrastructure": BASE_URL + "/basedev/addOtherInfrastructure",
-	'getOtherInfrastructureInfo':BASE_URL +'/basedev/getOtherInfrastructureInfo',
+	"getOtherInfrastructure": BASE_URL + '/basedev/basedev/getOtherInfrastructure',
+	"updateOtherInfrastructure": BASE_URL +'/basedev/basedev/updateOtherInfrastructure',
+	"deleteOtherInfrastructure": BASE_URL +"/basedev/basedev/deleteOtherInfrastructure",
+	"addOtherInfrastructure": BASE_URL + "/basedev/basedev/addOtherInfrastructure",
+	'getOtherInfrastructureInfo':BASE_URL +'/basedev/basedev/getOtherInfrastructureInfo',
 	// 项目跟踪
-	"getMajorProjectInfoList":BASE_URL +"/project/getMajorProjectInfoList",
-	"getProjectTypeList":BASE_URL +'/project/getProjectTypeList',
-	"addMajorProjectInfo":BASE_URL +'/project/addMajorProjectInfo',//
-	"getMajorProjectInfo":BASE_URL +'/project/getMajorProjectInfo',//
-	"updateMajorProjectInfo":BASE_URL +'/project/updateMajorProjectInfo',//
-	"getTaskProgress":BASE_URL +'/task/getTaskProgress',//
-	"":BASE_URL +'/',//
+	"getMajorProjectInfoList":BASE_URL +"/datacollection/project/getMajorProjectInfoList",
+	"getProjectTypeList":BASE_URL +'/datacollection/project/getProjectTypeList',
+	"addMajorProjectInfo":BASE_URL +'/datacollection/project/addMajorProjectInfo',//
+	"getMajorProjectInfo":BASE_URL +'/datacollection/project/getMajorProjectInfo',//
+	"updateMajorProjectInfo":BASE_URL +'/datacollection/project/updateMajorProjectInfo',//
+	"getTaskProgress":BASE_URL +'/task/getTaskProgress',//上报
+	"deleteMajorProject":BASE_URL +'/project/project/deleteMajorProject',//删除
 	
 	// 收入填报---自营收入
 	
@@ -300,6 +300,7 @@ export default {
 	"addFestivalSaleInfo":BASE_URL +'/datacollection/income/addFestivalSaleInfo',//
 	"getFestivalSaleInfoPreview":BASE_URL +'/datacollection/income/getFestivalSaleInfoPreview',//
 	"delFestivalSaleInfo":BASE_URL +'/datacollection/income/delFestivalSaleInfo',//
+
 	// 成本填报 -- 主要成本
 	"getNonIncomeTask":BASE_URL +'/datacollection/nonIncome/getNonIncomeTask',//
 	"getPaymentInfo":BASE_URL +'/datacollection/nonIncome/getPaymentInfo',//
@@ -331,7 +332,7 @@ export default {
 	"shopType":BASE_URL +'/system/dimension/shopType',//店铺类型
 	"getfundsSourceType":BASE_URL +'/system/dimension/getfundsSourceType',//资金来源
 	"getProjectType":BASE_URL +'/system/dimension/getProjectType',//
-	"getShops":BASE_URL +'/system/shop/getShops',//
+	"getShops":BASE_URL +'/restarea/shop/getShops',//
 	"getPFestval":BASE_URL +'/system/dimension/getPFestval',//
 	
 	"":BASE_URL +'/',//

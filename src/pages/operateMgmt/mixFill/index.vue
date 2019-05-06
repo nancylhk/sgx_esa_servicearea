@@ -27,11 +27,6 @@
     </div>
 </template>
 <script>
-// var routerList = [
-//     {fill:'/operateMgmt/costFill',view:'/operateMgmt/costView'},
-//     {fill:'/operateMgmt/flowFill',view:'/operateMgmt/flowView'},
-//     {fill:'/operateMgmt/businessFill',view:'/operateMgmt/businessView'},
-// ]
 export default {
     
     data() {
