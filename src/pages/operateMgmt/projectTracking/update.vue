@@ -42,7 +42,7 @@
                         </el-select>
                     </el-form-item>
                     <el-form-item label="完成进度" prop="progress">
-                        <el-input v-model="addInfo.progress"></el-input></el-input><span class="unit">%</span>
+                        <el-input v-model.number="addInfo.progress"></el-input><span class="unit">%</span>
                     </el-form-item>
                     <el-form-item label="项目描述" prop="projectContent">
                         <el-input type="textarea" v-model="addInfo.projectContent" rows="5"></el-input>                    
@@ -102,6 +102,7 @@ export default {
                 ],
                 progress:[
                      {required: true,message: '请输入进度',trigger: 'blur'},
+                    
                 ]
             },
             projectList:[],
@@ -133,7 +134,7 @@ export default {
         },    
         getfundsSourceType() {        
             var self = this;
-            this.$http.get(this.api.getProjectTypeList,{
+            this.$http.get(this.api.getfundsSourceType,{
                 params: {
                     accessToken: self.$store.state.user.token
                 }
@@ -170,6 +171,7 @@ export default {
                                 message: '修改成功',
                                 duration: 2000
                             });
+                            self.$router.back(-1)
                         } else {
                             self.$message({
                                 type: 'warning',

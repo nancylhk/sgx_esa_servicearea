@@ -1,4 +1,4 @@
-const BASE_URL = ''; //9009   /serviceArea  http://192.168.2.195:9006
+const BASE_URL = 'http://192.168.2.66:60'; //9009   /serviceArea  http://192.168.2.195:9006
 export default {
 		
 	//登录
@@ -320,31 +320,20 @@ export default {
 	"getCooperationInfoPreview":BASE_URL +'/datacollection/nonIncome/getCooperationInfoPreview',//
 	"deleteCooperationByCooperationId":BASE_URL +'/datacollection/nonIncome/deleteCooperationByCooperationId',
 	// 消息
-	"getUnreadMessageNum":BASE_URL +'/message/getUnreadMessageNum',//
-	"getUnreadMessageList":BASE_URL +'/message/getUnreadMessageList',//
-	"updateAllUnreadMessage":BASE_URL +'/message/updateAllUnreadMessage',//
-	"getUnreadMessage":BASE_URL +'/message/getUnreadMessage',//
-	"updateUnreadMessage":BASE_URL +'/message/updateUnreadMessage',//
-	"deleteMessage":BASE_URL +'/message/deleteMessage',//
+	"getUnreadMessageNum":BASE_URL +'/message/message/getUnreadMessageNum',//
+	"getUnreadMessageList":BASE_URL +'/message/message/getUnreadMessageList',//
+	"updateAllUnreadMessage":BASE_URL +'/message/message/updateAllUnreadMessage',//
+	"getUnreadMessage":BASE_URL +'/message/message/getUnreadMessage',//
+	"updateUnreadMessage":BASE_URL +'/message/message/updateUnreadMessage',//
+	"deleteMessage":BASE_URL +'/message/message/deleteMessage',//
 	"":BASE_URL +'/',//
 	
 	// 维表接口
 	"shopType":BASE_URL +'/system/dimension/shopType',//店铺类型
 	"getfundsSourceType":BASE_URL +'/system/dimension/getfundsSourceType',//资金来源
 	"getProjectType":BASE_URL +'/system/dimension/getProjectType',//
-	"getShops":BASE_URL +'/restarea/shop/getShops',//
+	"getShops":BASE_URL +'/system/dimension/getShops',//
 	"getPFestval":BASE_URL +'/system/dimension/getPFestval',//
 	
-	"":BASE_URL +'/',//
-	"":BASE_URL +'/',//
-	"":BASE_URL +'/',//
-	"":BASE_URL +'/',//
-	"":BASE_URL +'/',//
-	"":BASE_URL +'/',//
-	"":BASE_URL +'/',//
-	"":BASE_URL +'/',//
-	"":BASE_URL +'/',//
-	"":BASE_URL +'/',//
-	"":BASE_URL +'/',//
-	"":BASE_URL +'/',//
+	
 }

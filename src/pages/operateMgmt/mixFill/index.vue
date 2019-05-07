@@ -85,14 +85,14 @@ export default {
     }
     .iconBox{       
         width: 30%;
-        margin-top: 10px;   
+        margin-top: 0px;   
     }
     .leftpan{
         width: 100px;
     }
     .tableIcon{
-        width: 100%;
-        height: auto;
+        width: 100px;
+        height: 100px;
     }
     .handleBtns{
         background: #f7f9fa;

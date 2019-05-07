@@ -2,7 +2,6 @@
     <div class="app-container">
 		<h5 class="app-crumb">
 			<em class="app-crumb-line"></em>
-			<span>项目跟踪</span>
 			<span><em class="next-arrow"></em>{{nowPathName}}</span>
 		</h5>
         <div class="app-form mt20 ml40">
@@ -13,7 +12,10 @@
                     </el-form-item>
                     <el-form-item label="项目类型" prop="projectTypeID">
 					    <el-select v-model="addInfo.projectTypeID"  clearable>
-                            <el-option :label="item.projectName" :value="item.projectID" :key="item.projectID" v-for='item in projectList'></el-option>						
+                            <el-option :label="item.projectName" 
+                            :value="item.projectID" 
+                            :key="item.projectID" 
+                            v-for='item in projectList'></el-option>						
                         </el-select>
                     </el-form-item>
                     <el-form-item label="投资金额：" prop="investment">
@@ -131,7 +133,7 @@ export default {
         },    
         getfundsSourceType() {        
             var self = this;
-            this.$http.get(this.api.getProjectTypeList,{
+            this.$http.get(this.api.getfundsSourceType,{
                 params: {
                     accessToken: self.$store.state.user.token
                 }

@@ -21,8 +21,8 @@
 				</el-form-item>
                 <el-form-item label="是否完成">
 					<el-select v-model="isCompleted"  clearable>
-						<el-option label="商超" value="sc"></el-option>
-						<el-option label="餐厅" value="ct"></el-option>
+						<el-option label="是" value="1"></el-option>
+						<el-option label="否" value="0"></el-option>
 					</el-select>
 				</el-form-item>
 				<el-form-item  class="right">
@@ -53,7 +53,7 @@
 						<td>{{info.investment}}元</td>
 						<td>{{info.isFinishi}}</td>
 						<td>
-							<a @click ="viewEvent(info.projectID)">查看</a>
+							<!-- <a @click ="viewEvent(info.projectID)">查看</a> -->
                             <a @click ="updateEvent(info.projectID)">修改</a>
 							<a @click ="deleteEvent(info.projectID)">删除</a>
 						</td>
@@ -98,7 +98,7 @@ export default {
     methods:{
         getProjectType() {        
             var self = this;
-            this.$http.get(this.api.getProjectType,{
+            this.$http.get(this.api.getProjectTypeList,{
                 params: {
                     accessToken: self.$store.state.user.token
                 }
@@ -119,8 +119,11 @@ export default {
             }else{
                 info.projectTypeID = self.type;
             }
-            
-            info.isFinishi = self.isCompleted;
+            if(this.isCompleted == null) {
+                info.isFinishi = '';
+            }else{
+                info.isFinishi = this.isCompleted;
+            }
             this.$http.get(this.api.getMajorProjectInfoList,{
                 params: {
                     accessToken: self.$store.state.user.token,
@@ -143,7 +146,11 @@ export default {
             }else{
                 info.projectTypeID = self.type;
             }
-            info.isFinishi = self.isCompleted;
+            if(this.isCompleted == null) {
+                info.isFinishi = '';
+            }else{
+                info.isFinishi = this.isCompleted;
+            }
             this.$http.get(this.api.getMajorProjectInfoList,{
                 params: {
                     accessToken: self.$store.state.user.token,

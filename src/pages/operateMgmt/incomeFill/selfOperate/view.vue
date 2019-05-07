@@ -35,18 +35,18 @@
                             <td>{{sale==''?'0':sale}}</td>
                         </template>
 					</tr>
-                    <tr v-show="tableDataList.length > 0">
+                    <tr v-show="tableDataList.resultShop.length > 0">
                         <td colspan="3">合计</td>
                        <td v-for="total in tableDataList.resultMonth">{{total==''?'0':total}}</td>
                     </tr>
-                    <tr v-show="tableDataList.length > 0">
+                    <tr v-show="tableDataList.resultShop.length > 0">
                         <td colspan="3">综合</td>
                         <td colspan="12">{{tableDataList.total}}</td>
                     </tr>
 				</tbody>
 			</table>
 
-			<p v-show="tableDataList.length == 0" class="noDataTip">没有找到相关数据！</p>
+			<p v-show="tableDataList.resultShop.length == 0" class="noDataTip">没有找到相关数据！</p>
 		</div>
 		<div class="upLoadBox" v-if="barId==13">
 			<el-button class="upload" type="primary" @click="report">上&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;报</el-button>

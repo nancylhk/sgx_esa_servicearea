@@ -112,7 +112,7 @@
 				},function(response){
 					console.log(response)
 					if(response.status == 200) {
-						self.tableDataList = response.data.shopCooperations;
+						self.tableDataList = response.data;
 					}
 				},function(response){
 	                //失败回调

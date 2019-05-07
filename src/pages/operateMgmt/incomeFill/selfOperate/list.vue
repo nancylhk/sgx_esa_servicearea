@@ -7,13 +7,13 @@
 		</h5>		
 		<div class="app-search ml10 mt5">
 			<el-form :inline="true" :model="addInfo" ref="addInfo"  class="demo-form-inline coop" :rules="rules">
-				<el-form-item label="选择月份" prop='tradeDate'>
+				<el-form-item label="交易日期" prop='tradeDate'>
 					<el-date-picker
 					v-model="addInfo.tradeDate"
-					type="month"
+					type="date"
 					:picker-options="pickerOptions"
-					value-format="yyyy-MM"
-					placeholder="选择月份">
+					value-format="yyyy-MM-dd"
+					placeholder="交易日期">
 					</el-date-picker>
 				</el-form-item>
 				<el-form-item label="商户类型" prop="shopType">
@@ -140,7 +140,7 @@
 			},
 			getShops() {
 				let self = this;
-				this.$http.get(this.api.getShops, {
+				this.$http.get(this.api.getAllShop, {
 					params: {
 						accessToken: this.$store.state.user.token,					
 					}

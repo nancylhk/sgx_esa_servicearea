@@ -213,8 +213,8 @@ export default {
         width: 100px;
     }
     .tableIcon{
-        width: 100%;
-        height: auto;
+        width: 100px;
+        height: 100px;
     }
     .handleBtns{
         background: #f7f9fa;

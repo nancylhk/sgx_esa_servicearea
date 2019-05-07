@@ -7,13 +7,13 @@
 		</h5>		
 		<div class="app-search ml10 mt5">
 			<el-form :inline="true"  :model="addInfo" :rules="rules" ref="addInfo"  class="demo-form-inline coop">
-				<el-form-item label="选择月份" prop='tradeDate'>
+				<el-form-item label="选交易日期" prop='tradeDate'>
 					<el-date-picker
 					v-model="addInfo.tradeDate"
 					type="date"
 					:picker-options="pickerOptions"
 					value-format="yyyy-MM-dd"
-					placeholder="选择月份">
+					placeholder="交易日期">
 					</el-date-picker>
 				</el-form-item>
 				<el-form-item label="支出类型" prop='paymentTypeID'>
