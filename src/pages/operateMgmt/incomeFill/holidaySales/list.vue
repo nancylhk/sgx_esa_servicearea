@@ -118,7 +118,17 @@
 					tradeDate:[{ required:true,message:'',trigger: 'blur' }],
 					shopType: [{ required:true,message:'',trigger: 'blur' }],
 					shopName:[{ required:true,message:'',trigger: 'blur' }],
-					amount:[{ required:true,message:'',trigger: 'blur' }],
+					amount: [{
+							required: true,
+							message: '请输入销售额',
+							trigger: 'blur'
+						},
+						{
+							validator: validateRules.isNumber,
+							trigger: 'blur',
+							required: true,
+						}
+					],
 				},
 				tableDataList:'',
 				dayOptions:['放假前三天','放假前两天','放假前一天','放假第一天','放假第二天','放假第三天','放假第四天',

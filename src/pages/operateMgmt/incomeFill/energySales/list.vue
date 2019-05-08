@@ -91,7 +91,17 @@
 					tradeDate:[{ required:true,message:'',trigger: 'blur' }],
 					shopType: [{ required:true,message:'',trigger: 'blur' }],
 					oilType:[{ required:true,message:'',trigger: 'blur' }],
-					saleVolume:[{ required:true,message:'',trigger: 'blur' }],
+					saleVolume: [{
+							required: true,
+							message: '请输入销售额',
+							trigger: 'blur'
+						},
+						{
+							validator: validateRules.isNumber,
+							trigger: 'blur',
+							required: true,
+						}
+					],
 				},
 				tableDataList:'',
 				businessTypesOption:[]

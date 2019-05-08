@@ -7,7 +7,7 @@
 		</h5>		
 		<div class="app-search ml10 mt5">
 			<el-form :inline="true"  :model="addInfo" :rules="rules" ref="addInfo"  class="demo-form-inline coop">
-				<el-form-item label="选交易日期" prop='tradeDate'>
+				<el-form-item label="交易日期" prop='tradeDate'>
 					<el-date-picker
 					v-model="addInfo.tradeDate"
 					type="date"

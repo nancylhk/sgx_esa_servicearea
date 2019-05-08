@@ -50,7 +50,7 @@
 				</tbody>
 			</table>
 
-			<p v-show="tableDataList.length == 0" class="noDataTip">没有找到相关数据！</p>
+			<p v-show="tableDataList.EnergySaleInfoPreview.length == 0" class="noDataTip">没有找到相关数据！</p>
 		</div>
 		<div class="upLoadBox" v-if="barId==13">
 			<el-button class="upload" type="primary" @click="report()">上&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;报</el-button>

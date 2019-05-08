@@ -97,7 +97,17 @@
 					tradeDate:[{ required:true,message:'',trigger: 'blur' }],
 					shopType: [{ required:true,message:'',trigger: 'blur' }],
 					shopName:[{ required:true,message:'',trigger: 'blur' }],
-					amount:[{ required:true,message:'',trigger: 'blur' }],
+					amount: [{
+							required: true,
+							message: '请输入租金金额',
+							trigger: 'blur'
+						},
+						{
+							validator: validateRules.isNumber,
+							trigger: 'blur',
+							required: true,
+						}
+					],
 				},
 				tableDataList:'',
 				businessTypesOption:[],
