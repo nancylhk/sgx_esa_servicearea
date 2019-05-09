@@ -295,6 +295,7 @@ export default {
 	"addEnergySaleInfo":BASE_URL +'/datacollection/income/addEnergySaleInfo',//
 	"getEnergySaleInfoPreview":BASE_URL +'/datacollection/income/getEnergySaleInfoPreview',//
 	"delEnergySaleInfo":BASE_URL +'/datacollection/income/delEnergySaleInfo',//
+	"getEnergyType":BASE_URL +'/system/dimension/getEnergyType',
 	// 收入填报 --- 节假日销售统计数据填报
 	"getFestivalSaleInfo":BASE_URL +'/datacollection/income/getFestivalSaleInfo',//
 	"addFestivalSaleInfo":BASE_URL +'/datacollection/income/addFestivalSaleInfo',//
@@ -333,7 +334,7 @@ export default {
 	"getfundsSourceType":BASE_URL +'/system/dimension/getfundsSourceType',//资金来源
 	"getProjectType":BASE_URL +'/system/dimension/getProjectType',//
 	"getShops":BASE_URL +'/system/dimension/getShops',//
-	"getPFestval":BASE_URL +'/system/dimension/getPFestval',//
+	"getFestivals":BASE_URL +'/system/dimension/getFestivals',//
 	
 	
 }

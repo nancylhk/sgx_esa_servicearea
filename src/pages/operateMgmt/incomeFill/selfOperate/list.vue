@@ -17,20 +17,20 @@
 					</el-date-picker>
 				</el-form-item>
 				<el-form-item label="商户类型" prop="shopType">
-					<el-select v-model="addInfo.shopType">
+					<el-select v-model="addInfo.shopType" value-key="shopTypeCode"  @change="getShops">
 						<el-option v-for="(item,index) in businessTypesOption" 
 						:key="item.shopTypeCode" 
 						:label="item.shopTypeName" 
-						:value="item.shopTypeCode">
+						:value="item">
 						</el-option>
 					</el-select>
 				</el-form-item>
 				<el-form-item label="商户" prop='shopName'>
-					<el-select v-model="addInfo.shopName" >
+					<el-select v-model="addInfo.shopName">
 						<el-option v-for="(item,index) in businessOption" 
 						:key="item.shopID" 
 						:label="item.shopName" 
-						:value="item.shopID">
+						:value="item.shopName">
 						</el-option>
 					</el-select>
 				</el-form-item>
@@ -64,7 +64,7 @@
 						<td>{{info.amount}}</td>
 						<td>{{info.filledTime}}</td>
 						<td>
-							<a @click ="disableEvent(info.incomeID)">删除</a>
+							<a @click ="disableEvent(info.incomeID)" v-if="!info.filledTime">删除</a>
 						</td>
 					</tr>
 				</tbody>
@@ -87,6 +87,8 @@
 					shopType: '',
 					shopName:'',
 					amount:'',
+					taskId:this.$route.query.typeId,
+					incomeType:1
 				},
 				pickerOptions: {
 					disabledDate(time) {
@@ -126,7 +128,6 @@
 		mounted() {
 			this.getList();
 			this.getShopType()
-			this.getShops()
 			var height = document.documentElement.clientHeight;
 			document.getElementById("app-main").style.height = (height > 700) ? (height-200 + 'px'):(height+'px') ;
 		},
@@ -150,18 +151,25 @@
 				
 			},
 			getShops() {
-				let self = this;
-				this.$http.get(this.api.getAllShop, {
-					params: {
-						accessToken: this.$store.state.user.token,					
-					}
-				},function(response){
-					if(response.status == 200) {
-						self.businessOption = response.data;
-					}
-				},function(response){
-	                //失败回调
-	            })
+				if(this.addInfo.shopType.shopTypeParentId == '2') {
+					this.addInfo.shopName = this.addInfo.shopType.shopTypeName
+				}else{
+					this.addInfo.shopName = ''
+					let self = this;
+					this.$http.get(this.api.getShops, {
+						params: {
+							accessToken: this.$store.state.user.token,	
+							shopType:this.addInfo.shopType.shopTypeCode			
+						}
+					},function(response){
+						if(response.status == 200) {
+							self.businessOption = response.data;
+						}
+					},function(response){
+						//失败回调
+					})
+				}
+				
 				
 			},
 			addEvent() {			
@@ -169,6 +177,7 @@
 				this.$refs.addInfo.validate((valid) => {
 					if (valid) {
 						let params = new FormData()
+						this.addInfo.shopType = this.addInfo.shopType.shopTypeParentId;
 						params.append('accessToken', self.$store.state.user.token);
 						params.append('info', JSON.stringify(self.addInfo));
 						self.$http.post(self.api.addSelfSupportSaleInfo, params, {
@@ -184,6 +193,7 @@
 									duration: 2000
 								});
 								self.getList()
+								self.$refs.addInfo.resetFields();
 							} else {
 								self.$message({
 									type: 'error',
@@ -195,7 +205,7 @@
 							//失败回调
 						})
 					} else {
-						self.$message.error('带星号的为必填项')
+						self.$message.error('请正确填写添加项目')
 						return false;
 					}
 				});
@@ -249,7 +259,7 @@
 					params: {
 						accessToken: this.$store.state.user.token,			
 						info:{
-							taskId:this.$route.query.taskTypeID,
+							taskId:this.$route.query.typeId,
 						}					
 					}
 				},function(response){

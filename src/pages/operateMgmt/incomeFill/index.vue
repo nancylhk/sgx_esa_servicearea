@@ -14,136 +14,19 @@
                         </div>
                     </div>
                     <div class="handleBtns">
-                        <router-link :to="{path:item.fillLink,query: {barId:'03',taskTypeID:item.taskTypeID}}">
+                        <router-link :to="{path:item.fillLink,query: {barId:'03',taskTypeID:item.taskTypeID,typeId:item.taskID}}">
                             <div class="fillBtn">填报</div>
                         </router-link>
-                        <router-link :to="{path:item.preview,query: {barId:'03',taskTypeID:item.taskTypeID,typeId:item.typeId}}">
+                        <router-link :to="{path:item.preview,query: {barId:'03',taskTypeID:item.taskTypeID,typeId:item.taskID}}">
                             <div class="viewBtn">预览</div>
                         </router-link>
                     </div>
                 </el-card>
-            </el-col>
-            <!-- <el-col :span="8">
-                <el-card  :body-style="{ padding: '0px' }">
-                    <div class="item">
-                        <h1 class="title">自营收入表</h1>
-                        <div class="timeBox">
-                            <p><span class="leftpan">最近填报时间</span><span>2019-04-21</span></p>
-                            <p><span class="leftpan">截止时间</span><span>2019-04-21</span></p>
-                        </div>
-                        <div class="iconBox">
-                            <img src="../../../assets/images/table.png" class="tableIcon"/>
-                        </div>
-                    </div>
-                    <div class="handleBtns">
-                        <router-link :to="{path:'/operateMgmt/selfIncomeFill',query: {barId:'03'}}">
-                            <div class="fillBtn">填报</div>
-                        </router-link>
-                        <router-link :to="{path:'/operateMgmt/selfIncomeView',query: {barId:'03'}}">
-                            <div class="viewBtn">预览</div>
-                        </router-link>
-                    </div>
-                </el-card>
-            </el-col>
-           <el-col :span="8">
-                <el-card  :body-style="{ padding: '0px' }">
-                    <div class="item">
-                        <h1 class="title">商户收入表</h1>
-                        <div class="timeBox">
-                            <p><span class="leftpan">最近填报时间</span><span>2019-04-21</span></p>
-                            <p><span class="leftpan">截止时间</span><span>2019-04-21</span></p>
-                        </div>
-                        <div class="iconBox">
-                            <img src="../../../assets/images/table.png" class="tableIcon"/>
-                        </div>
-                    </div>
-                    <div class="handleBtns">
-                        <router-link :to="{path:'/operateMgmt/businessIncomeFill',query: {barId:'03'}}">
-                            <div class="fillBtn">填报</div>
-                        </router-link>
-                        <router-link :to="{path:'/operateMgmt/businessIncomeView',query: {barId:'03'}}">
-                            <div class="viewBtn">预览</div>
-                        </router-link>
-                    </div>
-                </el-card>
-            </el-col>
-            <el-col :span="8">
-                <el-card  :body-style="{ padding: '0px' }">
-                    <div class="item">
-                        <h1 class="title">租金收入表</h1>
-                        <div class="timeBox">
-                            <p><span class="leftpan">最近填报时间</span><span>2019-04-21</span></p>
-                            <p><span class="leftpan">截止时间</span><span>2019-04-21</span></p>
-                        </div>
-                        <div class="iconBox">
-                            <img src="../../../assets/images/table.png" class="tableIcon"/>
-                        </div>
-                    </div>
-                    <div class="handleBtns">
-                        <router-link :to="{path:'/operateMgmt/rentIncomeFill',query: {barId:'03'}}">
-                            <div class="fillBtn">填报</div>
-                        </router-link>
-                        <router-link :to="{path:'/operateMgmt/rentIncomeView',query: {barId:'03'}}">
-                            <div class="viewBtn">预览</div>
-                        </router-link>
-                    </div>
-                </el-card>
-            </el-col>
-            <el-col :span="8">
-                <el-card  :body-style="{ padding: '0px' }">
-                    <div class="item">
-                        <h1 class="title">能源收入表</h1>
-                        <div class="timeBox">
-                            <p><span class="leftpan">最近填报时间</span><span>2019-04-21</span></p>
-                            <p><span class="leftpan">截止时间</span><span>2019-04-21</span></p>
-                        </div>
-                        <div class="iconBox">
-                            <img src="../../../assets/images/table.png" class="tableIcon"/>
-                        </div>
-                    </div>
-                    <div class="handleBtns">
-                         <router-link :to="{path:'/operateMgmt/energySalesFill',query: {barId:'03'}}">
-                            <div class="fillBtn">填报</div>
-                         </router-link>
-                         <router-link :to="{path:'/operateMgmt/energySalesView',query: {barId:'03'}}">
-                            <div class="viewBtn">预览</div>
-                         </router-link>
-                    </div>
-                </el-card>
-            </el-col>
-            <el-col :span="8">
-                <el-card  :body-style="{ padding: '0px'}">
-                    <div class="item">
-                        <h1 class="title">服务区节假日营业情况表</h1>
-                        <div class="timeBox">
-                            <p><span class="leftpan">最近填报时间</span><span>2019-04-21</span></p>
-                            <p><span class="leftpan">截止时间</span><span>2019-04-21</span></p>
-                        </div>
-                        <div class="iconBox">
-                            <img src="../../../assets/images/table.png" class="tableIcon"/>
-                        </div>
-                    </div>
-                    <div class="handleBtns">
-                        <router-link :to="{path:'/operateMgmt/holidaySalesFill',query: {barId:'03'}}">
-                            <div class="fillBtn">填报</div>
-                        </router-link>
-                        <router-link :to="{path:'/operateMgmt/holidaySalesView',query: {barId:'03'}}">
-                            <div class="viewBtn">预览</div>
-                        </router-link>
-                    </div>
-                </el-card>
-            </el-col> -->
+            </el-col>          
         </el-row>
     </div>
 </template>
 <script>
-// var routerList = [
-//     {fill:'/operateMgmt/selfIncomeFill',view:'/operateMgmt/selfIncomeView'},
-//     {fill:'/operateMgmt/businessIncomeFill',view:'/operateMgmt/businessIncomeView'},
-//     {fill:'/operateMgmt/rentIncomeFill',view:'/operateMgmt/rentIncomeView'},
-//     {fill:'/operateMgmt/energySalesFill',view:'/operateMgmt/energySalesView'},
-//     {fill:'/operateMgmt/holidaySalesFill',view:'/operateMgmt/holidaySalesView'},
-// ]
 export default {
     data() {
         return {

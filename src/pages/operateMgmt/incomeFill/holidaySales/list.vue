@@ -16,7 +16,7 @@
 					placeholder="交易日期">
 					</el-date-picker>
 				</el-form-item>
-				<el-form-item label="放假第几天" prop="shopType">
+				<el-form-item label="放假第几天" prop="whatDays">
 					<el-select v-model="addInfo.whatDays" >
 						<el-option v-for="(item,index) in dayOptions" 
 						:key="index" 
@@ -25,10 +25,10 @@
 						</el-option>
 					</el-select>
 				</el-form-item>
-				<el-form-item label="车流量" prop='amount'>
-					<input v-model="addInfo.amount" class="queryIpt" />
+				<el-form-item label="车流量" prop='vehicleFlow'>
+					<input v-model="addInfo.vehicleFlow" class="queryIpt" />
 				</el-form-item>
-				<el-form-item label="节日" prop='shopName'>
+				<el-form-item label="节日" prop='festivalID'>
 					<el-select v-model="addInfo.festivalID" >
 						<el-option v-for="(item,index) in festivalOption" 
 						:key="item.festivalCode" 
@@ -37,16 +37,16 @@
 						</el-option>
 					</el-select>
 				</el-form-item>
-                <el-form-item label="汽柴销售量" prop='amount'>
+                <el-form-item label="汽柴销售量" prop='energyVolume'>
 					<input v-model="addInfo.energyVolume" class="queryIpt" />
 				</el-form-item>
-                <el-form-item label="汽柴销售额" prop='amount'>
+                <el-form-item label="汽柴销售额" prop='energySales'>
 					<input v-model="addInfo.energySales" class="queryIpt" />
 				</el-form-item>
-                <el-form-item label="餐饮小吃销售" prop='amount'>
+                <el-form-item label="餐饮小吃销售额" prop='restaurantSales'>
 					<input v-model="addInfo.restaurantSales" class="queryIpt" />
 				</el-form-item>
-                <el-form-item label="超市、特色商店销售额" prop='amount'>
+                <el-form-item label="超市、特色商店销售额" prop='marketSales'>
 					<input v-model="addInfo.marketSales" class="queryIpt" />
 				</el-form-item>
 				<el-form-item  class="right">
@@ -84,7 +84,7 @@
 						<td>{{info.marketSales}}</td>
 						<td>{{info.fillTime}}</td>
 						<td>
-							<a @click ="disableEvent(info.saleID)">删除</a>
+							<a @click ="disableEvent(info.saleID)"  v-if="!info.filledTime">删除</a>
 						</td>
 					</tr>
 				</tbody>
@@ -97,6 +97,7 @@
 </template>
 
 <script>
+	import validateRules from '../../../../utils/validate';
 	export default {
 		data() {
 			return {
@@ -107,7 +108,9 @@
                     energySales : "",
                     restaurantSales : "",
                     marketSales : "",
-                    whatDays: ""
+					whatDays: "",
+					vehicleFlow:'',
+					taskId:this.$route.query.typeId,
 				},
 				pickerOptions: {
 					disabledDate(time) {
@@ -116,23 +119,28 @@
 				},
 				rules:{
 					tradeDate:[{ required:true,message:'',trigger: 'blur' }],
-					shopType: [{ required:true,message:'',trigger: 'blur' }],
-					shopName:[{ required:true,message:'',trigger: 'blur' }],
-					amount: [{
-							required: true,
-							message: '请输入销售额',
-							trigger: 'blur'
-						},
-						{
-							validator: validateRules.isNumber,
-							trigger: 'blur',
-							required: true,
-						}
+					whatDays:[{ required:true,message:'',trigger: 'change' }],
+					festivalID:[{ required:true,message:'请选择节日',trigger: 'change' }],
+					energyVolume : [{required: true,message: '请输入销售额',trigger: 'blur'},
+						{validator: validateRules.isNumber,trigger: 'blur',required: true}
+					],
+                    energySales : [{required: true,message: '请输入销售额',trigger: 'blur'},
+						{validator: validateRules.isNumber,trigger: 'blur',required: true}
+					],
+                    restaurantSales :[{required: true,message: '请输入销售额',trigger: 'blur'},
+						{validator: validateRules.isNumber,trigger: 'blur',required: true}
+					],
+                    marketSales : [{required: true,message: '请输入销售额',trigger: 'blur'},
+						{validator: validateRules.isNumber,trigger: 'blur',required: true}
+					],
+					whatDays:[{required: true,message: '请选择放假第几天',trigger: 'change'}],
+					vehicleFlow:[{required: true,message: '请输入车流量',trigger: 'blur'},
+						{validator: validateRules.isInteger,trigger: 'blur',required: true}
 					],
 				},
 				tableDataList:'',
 				dayOptions:['放假前三天','放假前两天','放假前一天','放假第一天','放假第二天','放假第三天','放假第四天',
-				'放假第五天','放假第六天','放假第七天','放假第八天','放假后一天','放假后两天天','放假后三天'],
+				'放假第五天','放假第六天','放假第七天','放假第八天','放假后一天','放假后两天','放假后三天'],
 				festivalOption:[]
 
 			}
@@ -147,7 +155,7 @@
 		},
 		mounted() {
 			this.getList();
-			this.getPFestval()
+			this.getFestivals()
 			var height = document.documentElement.clientHeight;
 			document.getElementById("app-main").style.height = (height > 700) ? (height-200 + 'px'):(height+'px') ;
 		},
@@ -155,9 +163,9 @@
 			goBack() {
 				this.$router.back(-1)
 			},
-			getPFestval() {
+			getFestivals() {
 				let self = this;
-				this.$http.get(this.api.getPFestval, {
+				this.$http.get(this.api.getFestivals, {
 					params: {
 						accessToken: this.$store.state.user.token,						
 					}
@@ -200,7 +208,7 @@
 							//失败回调
 						})
 					} else {
-						self.$message.error('带星号的为必填项')
+						self.$message.error('请正确填写添加项目')
 						return false;
 					}
 				});
@@ -253,7 +261,7 @@
 					params: {
 						accessToken: this.$store.state.user.token,			
 						info:{
-							taskId:this.$route.query.taskTypeID,
+							taskId:this.$route.query.typeId,
 						}					
 					}
 				},function(response){

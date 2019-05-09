@@ -17,14 +17,22 @@
 					</el-date-picker>
 				</el-form-item>
 				<el-form-item label="品名" prop='oilType'>
-					<input v-model="addInfo.oilType" class="queryIpt" />
+					<el-select v-model="addInfo.oilType" clearable>
+						<el-option v-for="(item,index) in oilTypesOption" 
+						:key="item.energyTypeId" 
+						:label="item.energyName" 
+						:value="item.energyTypeId"
+						>
+						</el-option>
+					</el-select>
 				</el-form-item>
 				<el-form-item label="商户类型" prop="shopType">
 					<el-select v-model="addInfo.shopType" clearable>
 						<el-option v-for="(item,index) in businessTypesOption" 
 						:key="item.shopTypeCode" 
 						:label="item.shopTypeName" 
-						:value="item.shopTypeCode">
+						:value="item.shopTypeCode"
+						v-if="item.shopTypeParentId=='2'">
 						</el-option>
 					</el-select>
 				</el-form-item>
@@ -58,7 +66,7 @@
 						<td>{{info.amount}}</td>
 						<td>{{info.filledTime}}</td>
 						<td>
-							<a @click ="disableEvent(info.saleID)">删除</a>
+							<a @click ="disableEvent(info.saleID)"  v-if="!info.filledTime">删除</a>
 						</td>
 					</tr>
 				</tbody>
@@ -72,6 +80,7 @@
 
 <script>
 	import { mapGetters } from 'vuex';
+	import validateRules from '../../../../utils/validate';
 	export default {
 		data() {
 			return {
@@ -80,13 +89,14 @@
 					shopType: '',
 					oilType:'',
 					saleVolume:'',
-					taskId:this.$route.query.taskTypeID,
+					taskId:this.$route.query.typeId,
 				},
 				pickerOptions: {
 					disabledDate(time) {
 						return time.getTime() > Date.now();
 					}
 				},
+				oilTypesOption:[],
 				rules:{
 					tradeDate:[{ required:true,message:'',trigger: 'blur' }],
 					shopType: [{ required:true,message:'',trigger: 'blur' }],
@@ -118,7 +128,8 @@
 		},
 		mounted() {
 			this.getList();
-			this.getShopType()
+			this.getShopType();
+			this.getEnergyType();
 			var height = document.documentElement.clientHeight;
 			document.getElementById("app-main").style.height = (height > 700) ? (height-200 + 'px'):(height+'px') ;
 		},
@@ -126,14 +137,26 @@
 			goBack() {
 				this.$router.back(-1)
 			},
+			getEnergyType() {
+				let self = this;
+				this.$http.get(this.api.getEnergyType, {
+					params: {
+						accessToken: this.$store.state.user.token,					
+					}
+				},function(response){
+					if(response.status == 200) {
+						self.oilTypesOption = response.data;
+					}
+				},function(response){
+	                //失败回调
+	            })
+				
+			},
 			getShopType() {
 				let self = this;
 				this.$http.get(this.api.getShopType, {
 					params: {
-						accessToken: this.$store.state.user.token,			
-						info:{
-							taskId:this.$route.query.taskTypeID,
-						}					
+						accessToken: this.$store.state.user.token,						
 					}
 				},function(response){
 					if(response.status == 200) {
@@ -176,7 +199,7 @@
 							//失败回调
 						})
 					} else {
-						self.$message.error('带星号的为必填项')
+						self.$message.error('请正确填写添加项目')
 						return false;
 					}
 				});
@@ -230,7 +253,7 @@
 					params: {
 						accessToken: this.$store.state.user.token,			
 						info:{
-							taskId:this.$route.query.taskTypeID,
+							taskId:this.$route.query.typeId,
 						}					
 					}
 				},function(response){
