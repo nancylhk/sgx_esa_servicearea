@@ -1,7 +1,7 @@
 <template>
-    <div class="app-container fillBox">
+    <div class="app-container fillTaskBox">
         <el-row :gutter="25">
-            <el-col :span="8" v-for="item in dataList" :key="item.taskId">
+            <!-- <el-col :span="8" v-for="item in dataList" :key="item.taskId">
                 <el-card  :body-style="{ padding: '0px' }">
                     <div class="item">
                         <h1 class="title">{{item.taskTypeName}}</h1>
@@ -22,7 +22,37 @@
                         </router-link>
                     </div>
                 </el-card>
-            </el-col>
+            </el-col> -->
+            <el-col :span="8" v-for="(item,index) in dataList" :key="item.planID" class="col-container">
+                <el-card  :body-style="{ padding: '0px' }" >
+                    <div slot="header" class="clearfix">
+                        <span>
+                            <i class="el-icon-warning-outline" style="color:#f00;margin-right:5px;font-size:16px;" v-if="item.finishNum=item.totalNum"></i>
+                            <i class="el-icon-circle-check" style="color:#4cb45b;margin-right:5px;font-size:16px;" v-else></i>
+                            {{item.taskTypeName}}
+                        </span>
+                    </div>
+                    <div class="item">
+                        <div class="timeBox">
+                            <p>
+                                <span class="leftpan">最近填报时间：</span><span>{{item.fillTime}}</span>
+                            </p>
+                            <p>
+                                <span class="leftpan">填报截止日期：</span><span class="unfinish">{{item.endTime}}</span>
+                            </p>
+                        </div> 
+                        <div class="iconBox">
+                            <img src="../../../assets/images/finish.png" class="iconImg" v-if="item.isFilledIn=='1'"/>
+                            <img src="../../../assets/images/nofinish.png" class="iconImg" v-else/>
+                        </div> 
+                        <div style="height:1px;background:#eee;margin-top:20px"></div>                
+                    </div>
+                    <div class="btns">
+                        <el-button @click="fill(item.fillLink,item.taskTypeID,item.taskID)"><img src='../../../assets/images/edit.png' class="doIcon"/>填报</el-button>
+                        <el-button  @click="viewInfo(item.preview,item.taskTypeID,item.taskID)"><img src='../../../assets/images/view.png' class="doIcon"/>查看</el-button>
+                    </div>
+                </el-card>
+            </el-col> 
         </el-row>
     </div>
 </template>
@@ -38,6 +68,26 @@ export default {
         this.getList()
     },
     methods:{
+        fill(fillLink,taskTypeID,typeId) {
+            this.$router.push({
+                path:fillLink,
+                query:{
+                    barId:'03',
+                    taskTypeID:taskTypeID,
+                    typeId:typeId
+                }
+            })
+        },
+        viewInfo(fillLink,taskTypeID,typeId) {
+            this.$router.push({
+                path:fillLink,
+                query:{
+                    barId:'03',
+                    taskTypeID:taskTypeID,
+                    typeId:typeId
+                }
+            })
+        },
         getList() {
             let self = this;     
             this.$http.get(this.api.getNonIncomeTask, {
@@ -57,63 +107,5 @@ export default {
 }
 </script>
 <style lang="scss">
-.fillBox{
-    padding: 20px 40px 20px 20px;
-    .box-card{
-        margin-bottom: 20px;
-    }
-    .title{
-        font-size: 20px;
-        font-weight: 600;
-    }
-    .item{
-        padding: 20px;
-    }
-    .timeBox{      
-        width: 63%; 
-        margin-top: 10px;       
-        p{
-            line-height: 20px;
-            margin-top: 22px;
-            font-size: 14px;
-            color: #666;
-        }
-    }
-    .iconBox,.timeBox,.leftpan,.fillBtn,.viewBtn{
-        display: inline-block;
-        vertical-align: top;
-    }
-    .iconBox{       
-        width: 30%;
-        margin-top: 0px;   
-    }
-    .leftpan{
-        width: 100px;
-    }
-    .tableIcon{
-        width: 100px;
-        height: 100px;
-    }
-    .handleBtns{
-        background: #f7f9fa;
-        padding: 8px 0;
-        border-top: 1px solid #f0f0f0;
-    }
-    .fillBtn,.viewBtn{
-        width: 49%;
-        padding: 6px 0;
-        text-align: center;
-        color: #666;
-        cursor: pointer;
-    }
-    .fillBtn{
-        border-right: 1px solid #ccc;
-    }
-    .el-card.is-always-shadow{
-        border:none;
-        box-shadow: 0 2px 8px 0 rgba(0,0,0,.1);
-        margin-bottom: 25px;
-    }
-}
 
 </style>

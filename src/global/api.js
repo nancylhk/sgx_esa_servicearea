@@ -272,7 +272,7 @@ export default {
 	"getMajorProjectInfo":BASE_URL +'/datacollection/project/getMajorProjectInfo',//
 	"updateMajorProjectInfo":BASE_URL +'/datacollection/project/updateMajorProjectInfo',//
 	"getTaskProgress":BASE_URL +'/task/getTaskProgress',//上报
-	"deleteMajorProject":BASE_URL +'/project/project/deleteMajorProject',//删除
+	"deleteMajorProject":BASE_URL +'/datacollection/project/deleteMajorProject',//删除
 	
 	// 收入填报---自营收入
 	
@@ -331,7 +331,7 @@ export default {
 	
 	// 维表接口
 	"shopType":BASE_URL +'/system/dimension/shopType',//店铺类型
-	"getfundsSourceType":BASE_URL +'/system/dimension/getfundsSourceType',//资金来源
+	"getfundsSourceType":BASE_URL +'/system/dimension/getFundsSourceType',//资金来源
 	"getProjectType":BASE_URL +'/system/dimension/getProjectType',//
 	"getShops":BASE_URL +'/system/dimension/getShops',//
 	"getFestivals":BASE_URL +'/system/dimension/getFestivals',//

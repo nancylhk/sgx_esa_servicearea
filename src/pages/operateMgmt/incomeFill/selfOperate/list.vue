@@ -79,6 +79,7 @@
 <script>
 	import { mapGetters } from 'vuex';
 	import validateRules from '../../../../utils/validate';
+	import lastMonth_lastDay from '../../../../utils/lastMonth_lastDay';
 	export default {
 		data() {
 			return {
@@ -123,7 +124,7 @@
 			}
 		},
 		created() {
-			
+			// console.log(lastMonth_lastDay.lastDay())
 		},
 		mounted() {
 			this.getList();

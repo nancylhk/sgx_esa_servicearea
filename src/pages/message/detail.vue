@@ -9,6 +9,7 @@
             </div>
             <p class="postTime">{{detail.createTime}}</p>
 		</div>
+        <el-button type="primary" @click="goback()">返回</el-button>
     </div>
 </template>
 <script>
@@ -22,6 +23,9 @@ export default {
         this.getDetail()
     },
     methods:{
+        goback() {
+            this.$router.back(-1)
+        },
         getDetail() {
             let self = this;
             self.$http.get(self.api.getUnreadMessage, {

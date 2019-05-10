@@ -2,7 +2,7 @@
     <div class="app-container">
 		<h5 class="app-crumb">
 			<em class="app-crumb-line"></em>
-			<span>项目跟踪</span>
+			<span @click="goBack()" class="cp">项目跟踪</span>
 			<span><em class="next-arrow"></em>{{nowPathName}}</span>
 		</h5>
         <div class="app-form mt20 ml40">
@@ -17,21 +17,35 @@
                         </el-select>
                     </el-form-item>
                     <el-form-item label="投资金额：" prop="investment">
-                        <el-input  v-model.number="addInfo.investment"></el-input>
+                        <el-input  v-model="addInfo.investment"></el-input>
                     </el-form-item>
                     <el-form-item label="控股批复金额" prop="reviewAmount">
-                        <el-input  v-model.number="addInfo.reviewAmount"></el-input>
+                        <el-input  v-model="addInfo.reviewAmount"></el-input>
                     </el-form-item>
-                    <el-form-item label="开始日期：" prop="beginTime">
-                        <!-- <el-input v-model="addInfo.beginTime"></el-input> -->
-                        <el-date-picker value-format='yyyy-MM-dd'  v-model="addInfo.beginTime" type="date" placeholder="选择开始日期"></el-date-picker>
+                     <el-form-item label="开始日期：" prop="beginTime">
+                        <el-date-picker 
+                        value-format='yyyy-MM-dd'  
+                        v-model="addInfo.beginTime" 
+                        type="date"
+                        :picker-options="pickerOptions0"
+                        @change="limitEndTime"
+                        placeholder="选择开始日期"></el-date-picker>
                     </el-form-item>
                     <el-form-item label="结束日期：" prop="endTime">
-                        <el-date-picker  value-format='yyyy-MM-dd'  v-model="addInfo.endTime" type="date" placeholder="选择结束日期"></el-date-picker>
+                        <el-date-picker  value-format='yyyy-MM-dd'  
+                        v-model="addInfo.endTime" 
+                        type="date" 
+                        @change="limitStartTime"
+                        :picker-options="pickerOptions1"
+                        placeholder="选择结束日期"></el-date-picker>
                     </el-form-item>
                     <el-form-item label="资金来源类型：" prop="fundsSourceID">
                         <el-select v-model="addInfo.fundsSourceID">
-                            <el-option v-for="(item,index) in projectList" :key="item.projectID" :label="item.typeName" :value="item.projectID">
+                            <el-option 
+                            v-for="(item,index) in fundsList" 
+                            :key="item.fundsSourceID" 
+                            :label="item.fundsSourceName" 
+                            :value="item.fundsSourceID">
                             </el-option>
                         </el-select>
                     </el-form-item>
@@ -42,7 +56,7 @@
                         </el-select>
                     </el-form-item>
                     <el-form-item label="完成进度" prop="progress">
-                        <el-input v-model.number="addInfo.progress"></el-input><span class="unit">%</span>
+                        <el-input v-model="addInfo.progress"></el-input><span class="unit">%</span>
                     </el-form-item>
                     <el-form-item label="项目描述" prop="projectContent">
                         <el-input type="textarea" v-model="addInfo.projectContent" rows="5"></el-input>                    
@@ -57,8 +71,21 @@
 	</div>
 </template>
 <script>
+import validateRules from '../../../utils/validate';
 export default {
     data() {
+        var checkProgress = (rule, value, callback) => {
+            const reg =  /^[0-9]+(\.[0-9]{1,2})?$/;// 
+            if (!value) {
+                return callback(new Error('年龄不能为空'));
+            }else if(!reg.test(value)) {
+                callback(new Error('请输入整数或小数点后两位'));
+            }else if(value>100) {
+                callback(new Error('进度不能大于100%'));
+            }else{
+                callback();
+            }       
+        };
         return {
             addInfo:{
                 projectName:"",
@@ -67,45 +94,45 @@ export default {
                 reviewAmount:"",
                 beginTime:"",
                 endTime:"",
-                fundsSourceID:"1",
+                fundsSourceID:"",
                 isFinishi:"",
                 progress:'',
                 projectContent:""
-            },
+            },   
+            pickerOptions0: {},
+            pickerOptions1: {},
             rules:{
-                projectName:[
+               projectName:[
                     {required: true,message: '请输入项目名称',trigger: 'blur'},
                 ],
                 projectTypeID:[
-                    {required: true,message: '请选择项目类型',trigger: 'blur'},
+                    {required: true,message: '请选择项目类型',trigger: 'change'},
                 ],
-                investment:[
-                    {required: true,message: '请输入投资金额',trigger: 'blur'},
+                investment : [{required: true,message: '请输入投资金额',trigger: 'blur'},
+                    {validator: validateRules.isNumber,trigger: 'blur',required: true}
                 ],
-                // "reviewAmount":[
-                //     {required: true,message: '请输入金额',trigger: 'blur'},
-                // ],
+                reviewAmount:[
+                    {validator: validateRules.isNumber,trigger: 'blur',required: true}
+                ],
                 beginTime:[
-                    {required: true,message: '请输入开始时间',trigger: 'blur'},
+                    {required: true,message: '请选择开始时间',trigger: 'blur'},
                 ],
-                // "endTime":[
-                //     {required: true,message: '请输入金额',trigger: 'blur'},
-                // ],
                 fundsSourceID:[
                     {required: true,message: '请选择资金来源',trigger: 'change'},
                 ],
                 isFinishi:[
-                    {required: true,message: '请选择是否完成',trigger: 'blur'},
+                    {required: true,message: '请选择是否完成',trigger: 'change'},
                 ],
                 projectContent:[
                     {required: true,message: '请输入项目描述',trigger: 'blur'},
                 ],
-                progress:[
-                     {required: true,message: '请输入进度',trigger: 'blur'},
-                    
-                ]
+                progress:[{
+                    validator:checkProgress,
+                    trigger: 'blur'	
+                }],
             },
             projectList:[],
+            fundsList:[]
             
         }
     },
@@ -120,6 +147,29 @@ export default {
         this.getInfo()
     },
     methods:{
+        goBack() {
+            this.$router.back(-1)
+        },
+        getTime(useDate) {
+            let date = new Date(useDate);
+            let time1 = date.getTime();
+            return time1
+        },
+        limitEndTime() {
+            this.pickerOptions1 = Object.assign({}, this.pickerOptions1, {
+                disabledDate: (time) => {
+                    return time.getTime() < this.getTime(this.addInfo.beginTime)
+                }
+            })
+        },
+        limitStartTime() {
+            this.pickerOptions0 = Object.assign({}, this.pickerOptions0, {
+                // 可通过箭头函数的方式访问到this
+                disabledDate: (time) => {
+                    return time.getTime() > this.getTime(this.addInfo.endTime)
+                }
+            })
+        },
         getProjectType() {        
             var self = this;
             this.$http.get(this.api.getProjectTypeList,{
@@ -140,7 +190,7 @@ export default {
                 }
             },function(response){
                 if(response.status == 200) {
-                   self.projectList = response.data
+                   self.fundsList = response.data
                 }
             },function(response){})
         },
@@ -152,7 +202,9 @@ export default {
                     projectID: self.$route.params.id
                 }
             },function(response){
-                self.addInfo = response.data
+                self.addInfo = response.data;
+                self.limitEndTime();
+                self.limitStartTime();
             },function(response){})
         },
         submitForm(formName) {
