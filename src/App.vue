@@ -13,7 +13,8 @@
 </script>
 
 <style lang="scss">
-  	@import './style/common';
+		@import './style/common';
+		@import './style/other';
 		.coop .el-form-item__error{
         display: none;
 		}

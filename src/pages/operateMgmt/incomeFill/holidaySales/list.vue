@@ -5,53 +5,73 @@
 			<span @click="goBack()" class="cp">收入填报</span>
 			<span><em class="next-arrow"></em>{{nowPath}}</span>
 		</h5>		
-		<div class="app-search ml10 mt5">
-			<el-form :inline="true" :model="addInfo" ref="addInfo"  class="demo-form-inline coop" :rules="rules">
-				<el-form-item label="交易日期" prop='tradeDate'>
-					<el-date-picker
-					v-model="addInfo.tradeDate"
-					type="date"
-					:picker-options="pickerOptions"
-					value-format="yyyy-MM-dd"
-					placeholder="交易日期">
-					</el-date-picker>
-				</el-form-item>
-				<el-form-item label="放假第几天" prop="whatDays">
-					<el-select v-model="addInfo.whatDays" >
-						<el-option v-for="(item,index) in dayOptions" 
-						:key="index" 
-						:label="item" 
-						:value="item">
-						</el-option>
-					</el-select>
-				</el-form-item>
-				<el-form-item label="车流量" prop='vehicleFlow'>
-					<input v-model="addInfo.vehicleFlow" class="queryIpt" />
-				</el-form-item>
-				<el-form-item label="节日" prop='festivalID'>
-					<el-select v-model="addInfo.festivalID" >
-						<el-option v-for="(item,index) in festivalOption" 
-						:key="item.festivalCode" 
-						:label="item.festivalName" 
-						:value="item.festivalCode">
-						</el-option>
-					</el-select>
-				</el-form-item>
-                <el-form-item label="汽柴销售量" prop='energyVolume'>
-					<input v-model="addInfo.energyVolume" class="queryIpt" />
-				</el-form-item>
-                <el-form-item label="汽柴销售额" prop='energySales'>
-					<input v-model="addInfo.energySales" class="queryIpt" />
-				</el-form-item>
-                <el-form-item label="餐饮小吃销售额" prop='restaurantSales'>
-					<input v-model="addInfo.restaurantSales" class="queryIpt" />
-				</el-form-item>
-                <el-form-item label="超市、特色商店销售额" prop='marketSales'>
-					<input v-model="addInfo.marketSales" class="queryIpt" />
-				</el-form-item>
-				<el-form-item  class="right">
-					<el-button type="primary" @click="addEvent">添加</el-button>
-				</el-form-item>
+		<div class="app-search ml10 mt5 add-top-container add-top-container2">
+			<el-form :inline="true" label-width="180px" :model="addInfo" ref="addInfo"  class="demo-form-inline coop" :rules="rules">
+				<el-row>
+					<el-col :span="12">
+						<el-form-item label="交易日期" prop='tradeDate'>
+							<el-date-picker
+							v-model="addInfo.tradeDate"
+							type="date"
+							:picker-options="pickerOptions"
+							value-format="yyyy-MM-dd"
+							placeholder="交易日期">
+							</el-date-picker>
+						</el-form-item>
+					</el-col>
+					<el-col :span="12">
+						<el-form-item label="放假第几天" prop="whatDays">
+							<el-select v-model="addInfo.whatDays" >
+								<el-option v-for="(item,index) in dayOptions" 
+								:key="index" 
+								:label="item" 
+								:value="item">
+								</el-option>
+							</el-select>
+						</el-form-item>
+					</el-col>
+					<el-col :span="12">
+						<el-form-item label="车流量" prop='vehicleFlow'>
+							<input v-model="addInfo.vehicleFlow" class="queryIpt" />
+						</el-form-item>
+					</el-col>
+					<el-col :span="12">
+						<el-form-item label="节日" prop='festivalID'>
+							<el-select v-model="addInfo.festivalID" >
+								<el-option v-for="(item,index) in festivalOption" 
+								:key="item.festivalCode" 
+								:label="item.festivalName" 
+								:value="item.festivalCode">
+								</el-option>
+							</el-select>
+						</el-form-item>
+					</el-col>
+					<el-col :span="12">
+						<el-form-item label="汽柴销售量" prop='energyVolume'>
+							<input v-model="addInfo.energyVolume" class="queryIpt" />
+						</el-form-item>
+					</el-col>
+					<el-col :span="12">
+						<el-form-item label="汽柴销售额" prop='energySales'>
+							<input v-model="addInfo.energySales" class="queryIpt" />
+						</el-form-item>
+					</el-col>
+					<el-col :span="12">
+						<el-form-item label="餐饮小吃销售额" prop='restaurantSales'>
+							<input v-model="addInfo.restaurantSales" class="queryIpt" />
+						</el-form-item>
+					</el-col>
+					<el-col :span="12">
+						<el-form-item label="超市、特色商店销售额" prop='marketSales'>
+							<input v-model="addInfo.marketSales" class="queryIpt" />
+						</el-form-item>
+					</el-col>
+					<el-col :span="24">
+						<el-form-item  class="center">
+							<el-button type="success" @click="addEvent">添加</el-button>
+						</el-form-item>
+					</el-col>
+				</el-row>
 			</el-form>
 		</div>
 		<div class="app-main" id="app-main">

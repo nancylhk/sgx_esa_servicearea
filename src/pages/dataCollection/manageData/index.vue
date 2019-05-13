@@ -242,7 +242,7 @@ export default {
         },
         report(taskID) {    
             let self = this;     
-            this.$http.get(this.api.getTaskProgress, {
+            this.$http.get(this.api.taskSubmit, {
                 params: {
                     accessToken: this.$store.state.user.token, 
                     taskID:taskID                					

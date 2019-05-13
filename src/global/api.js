@@ -1,4 +1,4 @@
-const BASE_URL = 'http://192.168.2.66:60'; //9009   /serviceArea  http://192.168.2.195:9006
+const BASE_URL = 'http://192.168.2.66:60'; //9009   /serviceArea  http://192.168.2.195:9006   http://192.168.2.66:60
 export default {
 		
 	//登录
@@ -271,7 +271,8 @@ export default {
 	"addMajorProjectInfo":BASE_URL +'/datacollection/project/addMajorProjectInfo',//
 	"getMajorProjectInfo":BASE_URL +'/datacollection/project/getMajorProjectInfo',//
 	"updateMajorProjectInfo":BASE_URL +'/datacollection/project/updateMajorProjectInfo',//
-	"getTaskProgress":BASE_URL +'/task/getTaskProgress',//上报
+
+	"taskSubmit":BASE_URL +'/datacollection/nonIncome/taskSubmit',//上报
 	"deleteMajorProject":BASE_URL +'/datacollection/project/deleteMajorProject',//删除
 	
 	// 收入填报---自营收入

@@ -1,0 +1,193 @@
+.fillTaskBox{
+    padding: 20px 40px 20px 20px;
+    .el-card__header{
+        padding: 8px 8px;
+        color: #000;
+        background: #dce7f9;
+        font-size: 14px;
+    }
+    .listTitle{
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        width: 100%;
+        padding: 8px 15px;
+        font-size: 14px;
+        background: #dce7f9
+    }
+    .box-card{
+        margin-bottom: 20px;
+    }
+    .item{
+        padding: 20px 20px 10px;
+        position: relative;
+    }
+    .iconBox{
+        position: absolute;
+        right: 10px;
+        top: 15px;
+    }
+    .iconImg{
+        width: 70px;
+        height: 70px;
+    }
+    .ring-income{
+         width: 100px;
+        height: 100px;
+    }
+    .timeBox{      
+        margin-top: 10px;    
+        p{
+            margin-top: 12px;
+            font-size: 12px;
+            color: #666;
+        }
+    }
+    .addIcon{
+        width: 70px;
+        height: auto;
+        margin: 40px auto 0;
+    }
+    .leftpan,.fillBtn,.viewBtn{
+        display: inline-block;
+        vertical-align: top;
+    }
+    .rightpan{
+
+    }
+    .leftpan{
+        width: 100px;
+        font-size: 12px;
+    }
+    .finish{
+        color: #47bde3;
+        font-weight: bold
+    }
+    .unfinish{
+        color: #ffd447;
+        font-weight: bold
+    }
+    .el-checkbox-group{
+        width: 90%;
+        margin: 0 auto
+    }
+    .el-checkbox{
+        width: 50%;
+        padding-left: 30px;
+        margin-right: 0;
+        box-sizing: border-box;
+        line-height: 24px;
+    }
+    .handleBtns{
+        background: #f7f9fa;
+        padding: 8px 0;
+       
+    }
+    .el-dialog__footer{
+        text-align: center;
+        .el-button--primary,.el-button--default{
+            background-color: #14a8da;
+            box-shadow: 0 2px 8px 0 rgba(0,0,0,.1);
+            color:#fff;
+            padding: 6px 28px;
+        }
+        .el-button--default{
+            background: #ccc;
+        }
+    }
+    .el-checkbox__input.is-checked .el-checkbox__inner{
+        // background-color: #fff;
+        // border-color: #ccc;
+    }
+    .el-checkbox__inner::after{
+        // border: 1px solid #0099cc
+    }
+    .el-checkbox__input.is-checked + .el-checkbox__label{
+        color: #666;
+    }
+    .fillBtn,.viewBtn{
+        width: 49%;
+        padding: 6px 0;
+        text-align: center;
+        color: #666;
+        cursor: pointer;
+    }
+    .fillBtn{
+        border-right: 1px solid #ccc;
+    }
+    .el-card.is-always-shadow{
+        border:none;
+        box-shadow: 0 2px 8px 0 rgba(0,0,0,.1);
+        margin-bottom: 25px;
+    }
+    .btns{
+        padding: 0 0 10px;
+        text-align: right;
+    }
+    .el-button{
+        background: #fff;
+        border:none;
+        color:#666;
+        padding: 6px 20px;
+    }
+    .doIcon{
+        width: 15px;
+        height: 17px;
+        margin-right: 3px;
+        position: relative;
+        top: -1px;
+    }
+    .littleIcon{
+        width: 14px;
+        height: 14px;;
+    }
+    .leftMarg{
+        margin-left: -5px;
+    }
+    .el-icon-view{
+        font-size: 16px;
+        color: #47bde3;
+        position: relative;
+        top: 2px;
+    }
+}
+.add-top-container{
+    margin: 10px 0px 10px 0px;
+    .el-row{
+        width: 800px;
+        margin: 0 auto;
+        padding: 15px 0 10px;
+    }
+    .coop{
+        background: #fcfcfc;
+        .el-col{
+            padding-left: 40px;
+        }
+        .queryIpt{
+            width: 220px;
+        }
+        .el-select>.el-input{
+            width: 220px
+        }
+        .center{
+            text-align: center;
+            display: block;
+        }
+        .el-textarea__inner{
+            width: 220px;
+        }
+        .el-textarea{
+            margin-top: 10px;
+        }
+    }
+}
+.add-top-container2{
+    .el-row{
+        width: 1000px;
+    }
+    .coop{
+        .el-col{
+            padding-left: 10px;
+        }
+    }
+}

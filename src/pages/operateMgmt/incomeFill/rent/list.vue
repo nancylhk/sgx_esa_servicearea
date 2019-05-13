@@ -5,41 +5,53 @@
 			<span @click="goBack()" class="cp">收入填报</span>
 			<span><em class="next-arrow"></em>{{nowPath}}</span>
 		</h5>		
-		<div class="app-search ml10 mt5">
-			<el-form :inline="true" :model="addInfo" :rules="rules" ref="addInfo" class="demo-form-inline coop">
-				<el-form-item label="交易日期" prop='tradeDate'>
-					<el-date-picker
-					v-model="addInfo.tradeDate"
-					type="date"
-					:picker-options="pickerOptions"
-					value-format="yyyy-MM-dd"
-					placeholder="交易日期">
-					</el-date-picker>
-				</el-form-item>
-				<el-form-item label="商户类型" prop="shopType">
-					<el-select v-model="addInfo.shopType" value-key="shopTypeCode"  @change="getShops">
-						<el-option v-for="(item,index) in businessTypesOption" 
-						:key="item.shopTypeCode" 
-						:label="item.shopTypeName" 
-						:value="item">
-						</el-option>
-					</el-select>
-				</el-form-item>
-				<el-form-item label="商户" prop='shopName'>
-					<el-select v-model="addInfo.shopName">
-						<el-option v-for="(item,index) in businessOption" 
-						:key="item.shopID" 
-						:label="item.shopName" 
-						:value="item.shopName">
-						</el-option>
-					</el-select>
-				</el-form-item>
-				<el-form-item label="租金金额" prop='amount'>
-					<input v-model="addInfo.amount" class="queryIpt" />
-				</el-form-item>
-				<el-form-item  class="right">
-					<el-button type="primary" @click="addEvent">添加</el-button>
-				</el-form-item>
+		<div class="app-search ml10 mt5 add-top-container">
+			<el-form :inline="true" label-width="80px" :model="addInfo" :rules="rules" ref="addInfo" class="demo-form-inline coop">
+				<el-row>
+					<el-col :span="12">
+						<el-form-item label="交易日期" prop='tradeDate'>
+							<el-date-picker
+							v-model="addInfo.tradeDate"
+							type="date"
+							:picker-options="pickerOptions"
+							value-format="yyyy-MM-dd"
+							placeholder="交易日期">
+							</el-date-picker>
+						</el-form-item>
+					</el-col>
+					<el-col :span="12">
+						<el-form-item label="商户类型" prop="shopType">
+							<el-select v-model="addInfo.shopType" value-key="shopTypeCode"  @change="getShops">
+								<el-option v-for="(item,index) in businessTypesOption" 
+								:key="item.shopTypeCode" 
+								:label="item.shopTypeName" 
+								:value="item">
+								</el-option>
+							</el-select>
+						</el-form-item>
+					</el-col>
+					<el-col :span="12">
+						<el-form-item label="商户" prop='shopName'>
+							<el-select v-model="addInfo.shopName">
+								<el-option v-for="(item,index) in businessOption" 
+								:key="item.shopID" 
+								:label="item.shopName" 
+								:value="item.shopName">
+								</el-option>
+							</el-select>
+						</el-form-item>
+					</el-col>
+					<el-col :span="12">
+						<el-form-item label="租金金额" prop='amount'>
+							<input v-model="addInfo.amount" class="queryIpt" />
+						</el-form-item>
+					</el-col>
+					<el-col :span="24">
+						<el-form-item  class="center">
+							<el-button type="success" @click="addEvent">添加</el-button>
+						</el-form-item>
+					</el-col>
+				</el-row>
 			</el-form>
 		</div>
 		<div class="app-main" id="app-main">
@@ -93,7 +105,29 @@
 				},
 				pickerOptions: {
 					disabledDate(time) {
-						return time.getTime() > Date.now();
+						// 上个月的第一天和最后一天
+						var nowdays = new Date();
+						var year = nowdays.getFullYear();
+						var month = nowdays.getMonth();
+						var nowdate = nowdays.getDate();
+						if(month==0)
+						{
+							month=12;
+							year=year-1;
+						}
+						if (month < 10) {
+							month = "0" + month;
+						}
+						var firstDay = year + "-" + month + "-" + "01";//上个月的第一天	
+						var myDate = new Date(year, month, 0);
+						var lastDay = year + "-" + month + "-" + myDate.getDate();//上个月的最后一天
+						
+						let curDate = (new Date()).getTime();
+            			let onemonth = myDate.getDate() * 24 * 3600 * 1000;//上一个月的毫秒数
+						let thisMonthAgo = nowdate * 24 * 3600 * 1000;//这个月初到现在经过的毫秒数
+						let maxTime = curDate - thisMonthAgo;
+						let minTime = curDate - thisMonthAgo - onemonth;
+						return time.getTime() > maxTime || time.getTime() < minTime;
 					}
 				},
 				rules:{
@@ -124,7 +158,20 @@
 			}
 		},
 		created() {
-			
+			var nowdays = new Date();
+			var year = nowdays.getFullYear();
+			var month = nowdays.getMonth();
+			var nowdate = nowdays.getDate();
+			if(month==0)
+			{
+				month=12;
+				year=year-1;
+			}
+			if (month < 10) {
+				month = "0" + month;
+			}
+			var firstDayOfPreMonth = year + "-" + month + "-" + "01";//上个月的第一天
+			this.addInfo.tradeDate =firstDayOfPreMonth;
 		},
 		mounted() {
 			this.getList();
