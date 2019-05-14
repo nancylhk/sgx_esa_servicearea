@@ -337,5 +337,6 @@ export default {
 	"getShops":BASE_URL +'/system/dimension/getShops',//
 	"getFestivals":BASE_URL +'/system/dimension/getFestivals',//
 	
-	
+	// 首页右下角
+	"getFilledTaskList":BASE_URL +"/datacollection/nonIncome/getFilledTaskList",
 }

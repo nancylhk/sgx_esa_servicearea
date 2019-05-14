@@ -28,7 +28,7 @@
 					"10": "商品管理",
 					"11": "我的待办",
 					"12": "基本资料",
-					"13":"报表数据采集"
+					// "13":"报表数据采集"
 				},
 				navSubTitData: [
 					/*{
@@ -111,6 +111,13 @@
 						"parentId": "03",
 						"parentName": "营运管理"
 					},
+					// {
+					// 	"title": "填报情况",
+					// 	"description": "",
+					// 	"path": "/operateMgmt/fillList",
+					// 	"parentId": "03",
+					// 	"parentName": "营运管理"
+					// },
 					{
 						"title": "成本填报",
 						"description": "",
@@ -293,19 +300,20 @@
 						"path": "/basicInfo/memberOrg",
 						"parentId": "12",
 						"parentName": "基本资料"
-					},{
-						"title": "基础数据",
-						"description": "",
-						"path": "/dataCollection/baseData",
-						"parentId": "13",
-						"parentName": "数据采集"
-					},{
-						"title": "经营数据",
-						"description": "",
-						"path": "/dataCollection/manageData",
-						"parentId": "13",
-						"parentName": "数据采集"
 					},
+					// {
+					// 	"title": "基础数据",
+					// 	"description": "",
+					// 	"path": "/dataCollection/baseData",
+					// 	"parentId": "13",
+					// 	"parentName": "数据采集"
+					// },{
+					// 	"title": "经营数据",
+					// 	"description": "",
+					// 	"path": "/dataCollection/manageData",
+					// 	"parentId": "13",
+					// 	"parentName": "数据采集"
+					// },
 				]
 			}
 		},

@@ -29,7 +29,8 @@ const BasicToilet = r => require.ensure([], () => r(require('../pages/infrastruc
 const BasicOther = r => require.ensure([], () => r(require('../pages/infrastructure/other/index')), 'other')
 //商超管理
 const CommodityInfo = r => require.ensure([], () => r(require('../pages/marketMgmt/commodityInfo/index')), 'commodityInfo')
-
+// 填报情况
+const fillList = r => require.ensure([], () => r(require('../pages/fillTaskList/list')), 'fillTaskList')
 //营运管理
 const OperateIncome = r => require.ensure([], () => r(require('../pages/operateMgmt/income/index')), 'income')
 const OperateOutcome = r => require.ensure([], () => r(require('../pages/operateMgmt/outcome/index')), 'outcome')
@@ -261,6 +262,11 @@ const routes = [
 			component: OperateIncomeFill,
 			name: '收入填报',
 			meta:'03'
+		},{
+			path: 'fillList',
+			component: fillList,
+			name: '填报列表',
+			meta:'03',
 		},{
 			path: 'selfIncomeFill',
 			component: OperateSelfIncomeFill,

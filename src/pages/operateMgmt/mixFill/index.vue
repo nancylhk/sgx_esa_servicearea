@@ -1,7 +1,7 @@
 <template>
     <div class="app-container fillTaskBox">
         <el-row :gutter="25">
-            <el-col :span="8" v-for="(item,index) in dataList" :key="item.taskID" class="col-container">
+            <el-col :span="8" v-for="(item,index) in dataList" :key="item.taskId" class="col-container">
                 <el-card  :body-style="{ padding: '0px' }" >
                     <div slot="header" class="clearfix">
                         <span>
@@ -26,9 +26,9 @@
                         <div style="height:1px;background:#eee;margin-top:20px"></div>                
                     </div>
                     <div class="btns">
-                        <el-button @click="fill(item.fillLink,item.taskTypeID,item.taskID)"><img src='../../../assets/images/edit.png' class="doIcon"/>填报</el-button>
-                        <el-button  @click="viewInfo(item.preview,item.taskTypeID,item.taskID)"><img src='../../../assets/images/view.png' class="doIcon"/>查看</el-button>
-                        <el-button  @click="report(item.taskID)" class="leftMarg"><img src='../../../assets/images/upInfo.png' class="doIcon littleIcon"/>上报</el-button>
+                        <el-button  v-if="item.isFilledIn=='0'" @click="fill(item.fillLink,item.taskTypeId,item.taskId)"><img src='../../../assets/images/edit.png' class="doIcon"/>填报</el-button>
+                        <el-button  @click="viewInfo(item.preview,item.taskTypeId,item.taskId)"><img src='../../../assets/images/view.png' class="doIcon"/>查看</el-button>
+                        <el-button  v-if="item.isFilledIn=='0'"  @click="report(item.taskId)" class="leftMarg"><img src='../../../assets/images/upInfo.png' class="doIcon littleIcon"/>上报</el-button>
                     </div>
                 </el-card>
             </el-col> 
@@ -37,7 +37,6 @@
 </template>
 <script>
 export default {
-    
     data() {
         return {
             dataList:[]
@@ -68,23 +67,35 @@ export default {
             })
         },
         report(id) {
-            let self = this;   
-            this.$http.get(this.api.taskSubmit, {
-                params: {
-                    accessToken: this.$store.state.user.token, 
-                    taskID:id                					
-                }
-            },function(response){
-                if(response.status == 200) {
-                    if(response.data){
-                        self.$message.success('上报成功')
-                    }else{
-                        self.$message.error('上报失败')
+            let self = this;  
+            this.$confirm('确认上报数据吗，此操作不可逆？', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                center: true
+            }).then(() => {  
+                this.$http.get(this.api.taskSubmit, {
+                    params: {
+                        accessToken: this.$store.state.user.token, 
+                        taskId:id                					
                     }
-                }
-            },function(response){
-                //失败回调
-            })
+                },function(response){
+                    if(response.status == 200) {
+                        if(response.data){
+                            self.$message.success('上报成功')
+                        }else{
+                            self.$message.error('上报失败')
+                        }
+                    }
+                },function(response){
+                    //失败回调
+                })
+            }).catch(() => {
+                this.$message({
+                    type: 'info',
+                    message: '已取消',
+                    duration: 2000
+                });
+            });
         },
         getList() {
             let self = this;     

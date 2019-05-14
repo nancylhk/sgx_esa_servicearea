@@ -88,21 +88,20 @@
 					</el-col>
 					<el-col :span="6">
 						<section class="section-sty">
-							<h5 class="lh32">畅销商品TOP5
+							<h5 class="lh32">填报任务完成情况
 								<span class="right sellSort">
 									<!--<a :class="{ 'gray': sellRank == 'num'}" @click="sellRank = 'num'">销量</a>|-->
-									<a :class="{ 'gray': sellRank == 'money'}" @click="sellRank = 'money'">销售额</a>
+									<a class="gray" @click="toDetail()">详情</a>
 								</span>
 							</h5>
 							<div class="pd10-3">
-								<section v-for="(item,index) in bestSellsByNum" class="mt15" v-show="sellRank == 'num'">
-									<p class="best-sell-tit">{{index+1}} {{item.commodityName}} {{item.income}} {{item.specificationName}}</p>
-									<el-progress :show-text="false" :stroke-width="6" :percentage="item.rate"></el-progress>
-								</section>
-								<section v-for="(item,index) in bestSellsByMoney" class="mt15"  v-show="sellRank == 'money'">
-									<p class="best-sell-tit">{{index+1}} {{item.commodityName}} {{item.income}} {{item.specificationName}}</p>
-									<el-progress :show-text="false" :stroke-width="6" :percentage="item.rate"></el-progress>
-								</section>
+								<ul>
+									<li v-for="(item,index) in fillList" class="fillListBox">
+										<span class="sign">{{index+1}}</span>
+										<span>{{item.taskTypeName}}</span>
+										<span :class="item.isFilledIn=='0'?'red':''">{{item.isFilledIn=='0'?'未完成':'已完成'}}</span>
+									</li>
+								</ul>
 							</div>
 						</section>
 					</el-col>
@@ -135,9 +134,8 @@
 				commodityRange: [], //{"name":"商超","value":10},{"name":"餐厅","value":10},{"name":"加油站","value":10},{"name":"汽修","value":10}
 				yearData: {},
 				bestSellsByNum: '',
-				bestSellsByMoney:'',
+				fillList:[],
 				colorList: ['#b898ee', '#ffd447', '#7bdad4', '#47bde3'],
-				sellRank:'money',
 				yearPercent: {
 					outcome:0,
 					income:0,
@@ -268,15 +266,17 @@
                 //失败回调
             })
 						
-			//畅销产品-销售额
-			this.$http.get(this.api.getTopSaleMoneyCommodityInfo,
+			//填报任务完成情况
+			this.$http.get(this.api.getFilledTaskList,
 			{
 				params: {
 					accessToken: this.$store.state.user.token,
+					taskId:'',
+					isFilledIn:''
 				}
 			},function(response){
 				if(response.status == 200) {
-					self.bestSellsByMoney = response.data;
+					self.fillList = response.data;
 				}
 			},function(response){
                 //失败回调
@@ -299,6 +299,14 @@
 		methods: {
 			resize: function() {
 				this.$refs.incomeTrendChart.chartItem.resize();
+			},
+			toDetail() {
+				this.$router.push({
+					path:'/operateMgmt/fillList',
+					query:{
+						barId:'03'
+					}
+				})
 			}
         },
         mounted () {
