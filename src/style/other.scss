@@ -151,6 +151,14 @@
         top: 2px;
     }
 }
+.ehidden{
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    width: 66px;
+    vertical-align: middle;
+    display: inline-block;
+}
 .fillListBox{
     line-height: 32px;
     .sign{

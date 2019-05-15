@@ -101,7 +101,7 @@
 					shopType: '',
 					oilType:'',
 					saleVolume:'',
-					taskId:this.$route.query.typeId,
+					taskId:this.$route.query.taskId,
 				},
 				pickerOptions: {
 					disabledDate(time) {
@@ -300,7 +300,7 @@
 					params: {
 						accessToken: this.$store.state.user.token,			
 						info:{
-							taskId:this.$route.query.typeId,
+							taskId:this.$route.query.taskId,
 						}					
 					}
 				},function(response){

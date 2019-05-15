@@ -38,8 +38,8 @@
 					    </el-option>
 					</el-select>
 				</el-form-item>
-				<el-form-item label="商铺类型" prop="shopType">
-					<el-select v-model="addInfo.shopType" @change ="getShopBusinessRange(true)">
+				<el-form-item label="商铺类型" prop="shopTypeID">
+					<el-select v-model="addInfo.shopTypeID" @change ="getShopBusinessRange(true)">
 						<el-option v-for="(item,index) in shopTypeList" :key="item.shopTypeCode" :label="item.shopTypeName" :value="item.shopTypeCode">
 						</el-option>
 					</el-select>
@@ -72,7 +72,7 @@
 					businessType: '',
 					pricingType: '',
 					businessRange: [],
-					shopType:''
+					shopTypeID:''
 				},
 				businessTypes:[],
 				distributions:[],
@@ -107,7 +107,7 @@
 						required: true,
 						message: '请选择定价方式',
 					}],
-					shopType: [{
+					shopTypeID: [{
 						trigger: 'change',
 						required: true,
 						message: '请选择商铺类型',

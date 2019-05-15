@@ -10,7 +10,8 @@
 							<p class="indicators-tit">营业额(万)</p>
 							<div class="indicators-cont">
 								<span class="indicators-date">昨日&nbsp;&nbsp;|&nbsp;&nbsp;今日</span>
-								<p class="indicators-num"><span>{{businessNumber.yesterday}}</span> <em class="indicators-line">|</em><span>{{businessNumber.today}}</span> </p>
+								<!-- <p class="indicators-num"><span>{{businessNumber.yesterday}}</span> <em class="indicators-line">|</em><span>{{businessNumber.today}}</span> </p> -->
+								<p class="indicators-num"><span>35408.3</span> <em class="indicators-line">|</em><span>34012.2</span> </p>
 							</div>
 						</div>
 					</el-col>
@@ -20,7 +21,8 @@
 							<p class="indicators-tit">人流量</p>
 							<div class="indicators-cont">
 								<span class="indicators-date">昨日&nbsp;&nbsp;|&nbsp;&nbsp;今日</span>
-								<p class="indicators-num"><span>{{personNumber.yesterday}}</span> <em class="indicators-line">|</em><span>{{personNumber.today}}</span> </p>
+								<!-- <p class="indicators-num"><span>{{personNumber.yesterday}}</span> <em class="indicators-line">|</em><span>{{personNumber.today}}</span> </p> -->
+								<p class="indicators-num"><span>7096</span> <em class="indicators-line">|</em><span>6578</span> </p>
 							</div>
 						</div>
 					</el-col>
@@ -30,7 +32,8 @@
 							<p class="indicators-tit">车流量</p>
 							<div class="indicators-cont">
 								<span class="indicators-date">昨日&nbsp;&nbsp;|&nbsp;&nbsp;今日</span>
-								<p class="indicators-num"><span>{{carNumber.yesterday}}</span> <em class="indicators-line">|</em><span>{{carNumber.today}}</span> </p>
+								<!-- <p class="indicators-num"><span>{{carNumber.yesterday}}</span> <em class="indicators-line">|</em><span>{{carNumber.today}}</span> </p> -->
+								<p class="indicators-num"><span>5308</span> <em class="indicators-line">|</em><span>4894</span> </p>
 							</div>
 						</div>
 					</el-col>
@@ -40,14 +43,20 @@
 							<p class="indicators-tit">数量</p>
 							<div class="indicators-cont">
 								<span class="indicators-date">商超&nbsp;&nbsp;|&nbsp;&nbsp; 餐厅</span>
-								<p class="indicators-num"><span>{{marketNumber}}</span> <em class="indicators-line">|</em><span>{{restaurantNumber}}</span> </p>
+								<!-- <p class="indicators-num"><span>{{marketNumber}}</span> <em class="indicators-line">|</em><span>{{restaurantNumber}}</span> </p> -->
+								<p class="indicators-num"><span>2</span> <em class="indicators-line">|</em><span>6</span> </p>
 							</div>
 						</div>
 					</el-col>
 				</el-row>
 				<el-row :gutter="15" style="margin-top:15px;">
 					<el-col :span="24">
-						<lineComp class="chart-container" ref="incomeTrendChart" :_id="'incomeTrend'" :_titleText="'服务区收入趋势图(万)'" :_chartData="incomeTrendData">
+						<lineComp 
+						class="chart-container" 
+						ref="incomeTrendChart" 
+						:_id="'incomeTrend'" 
+						:_titleText="'服务区收入趋势图(万)'" 
+						:_chartData="incomeTrendData">
 						</lineComp>
 					</el-col>
 
@@ -56,7 +65,11 @@
 					<el-col :span="6">
 						<section class="section-sty">
 							<h5 class="lh32">产品营业额占比</h5>
-							<pieComp class="product-rate" ref="commodityRangeChart" :_id="'commodityRange'" :_chartData="commodityRange" :_colorList="colorList">
+							<pieComp class="product-rate" 
+							ref="commodityRangeChart" 
+							:_id="'commodityRange'" 
+							:_chartData="commodityRange" 
+							:_colorList="colorList">
 							</pieComp>
 						</section>
 					</el-col>
@@ -65,14 +78,17 @@
 							<h5 class="lh32">年度完成情况</h5>
 							<div class="year-situation-item">
 								<p class="year-situation-tit">年度支出</p>
-								<ringComp class="ring-income" ref="yearOutcomeChart" :_id="'yearOutcome'" :_chartData="yearPercent.outcome" :_color="'#47bde3'">
+								<ringComp class="ring-income" ref="yearOutcomeChart" 
+								:_id="'yearOutcome'" 
+								:_chartData="yearPercent.outcome" :_color="'#47bde3'">
 								</ringComp>
 								<p class="year-situation-sum"><em class="total-circle"></em><span>总 {{yearData.outcomeTarget}}</span></p>
 								<p class="year-situation-sum"><em class="blue-circle"></em><span>已{{yearData.outcome}}</span></p>
 							</div>
 							<div class="year-situation-item ml5p">
 								<p class="year-situation-tit">年度收入</p>
-								<ringComp class="ring-income" ref="yeariIncomeChart" :_id="'yearIncome'" :_chartData="yearPercent.income" :_color="'#43d154'">
+								<ringComp class="ring-income" ref="yeariIncomeChart" :_id="'yearIncome'" 
+								:_chartData="yearPercent.income" :_color="'#43d154'">
 								</ringComp>
 								<p class="year-situation-sum"><em class="total-circle"></em><span>总&nbsp;{{yearData.incomeTarget}}</span></p>
 								<p class="year-situation-sum"><em class="green-circle"></em><span>已&nbsp;{{yearData.income}}</span></p>
@@ -130,16 +146,41 @@
 				carNumber: '',
 				marketNumber: '',
 				restaurantNumber: '',
-				incomeTrendData: [],
-				commodityRange: [], //{"name":"商超","value":10},{"name":"餐厅","value":10},{"name":"加油站","value":10},{"name":"汽修","value":10}
+				incomeTrendData: [
+					{	name:'',
+						data:{
+							'04-01':3592,
+							'04-02':3905,
+							'04-03':4003,
+							'04-04':3567,
+							'04-05':3876,
+							'04-06':3098,
+							'04-07':3200,
+							'04-08':3808,
+							'04-09':2988,
+							'04-10':3721,
+							'04-11':3770,
+							'04-12':4500,
+							'04-13':4098,
+							'04-14':3087,
+							'04-15':4098,
+						}
+					}
+				],
+				commodityRange: [
+					{"name":"餐饮小吃类","value":1308024},
+					{"name":"超市特产类","value":492074},
+					{"name":"特色商店类","value":138925},
+					{"name":"其他类","value":107877}
+				], //
 				yearData: {},
 				bestSellsByNum: '',
 				fillList:[],
 				colorList: ['#b898ee', '#ffd447', '#7bdad4', '#47bde3'],
 				yearPercent: {
-					outcome:0,
-					income:0,
-					profit:0
+					outcome:35,
+					income:46,
+					profit:32
 				},
 				todoCount:''
 			}
@@ -223,31 +264,31 @@
             })
 			
 			//收入趋势
-			this.$http.get(this.api.getIncomeTrend,
-			{
-				params: {
-					accessToken: this.$store.state.user.token,
-				}
-			},function(response){
-				if(response.status == 200) {
-					self.incomeTrendData = response.data;
-				}
-			},function(response){
-                //失败回调
-            })
+			// this.$http.get(this.api.getIncomeTrend,
+			// {
+			// 	params: {
+			// 		accessToken: this.$store.state.user.token,
+			// 	}
+			// },function(response){
+			// 	if(response.status == 200) {
+			// 		self.incomeTrendData = response.data;
+			// 	}
+			// },function(response){
+            //     //失败回调
+            // })
 			
 			//产品营业占比
-			this.$http.get(this.api.getCommodityRange, {
-				params: {
-					accessToken: this.$store.state.user.token,
-				}
-			},function(response){
-				if(response.status == 200) {
-					self.commodityRange = response.data;
-				}
-			},function(response){
-                //失败回调
-            })
+			// this.$http.get(this.api.getCommodityRange, {
+			// 	params: {
+			// 		accessToken: this.$store.state.user.token,
+			// 	}
+			// },function(response){
+			// 	if(response.status == 200) {
+			// 		self.commodityRange = response.data;
+			// 	}
+			// },function(response){
+            //     //失败回调
+            // })
 
 			//年度目标
 			this.$http.get(this.api.getYearTarget,

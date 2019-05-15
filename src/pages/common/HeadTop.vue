@@ -146,13 +146,14 @@
 		<div class="header-info">
 			<input class="header-search" />
 			<span class="ml40"><em class="user-logo"></em>欢迎您,陈雪颖</span>
-			<span class="ml20">注销</span>
+			<span class="ml20 cp" @click="logout">注销</span>
 		</div>
 	</div>
 
 </template>
 
 <script>
+import Cookies from 'js-cookie';
 	export default {
 		data() {
 			return {
@@ -305,6 +306,12 @@
 						"title": "成本填报",
 						"description": "各项成本,车流量,商户合作填报",
 						"path": "/operateMgmt/mixFill",
+						"parentId": "03",
+						"parentName": "营运管理"
+					},{
+						"title": "填报情况",
+						"description": "各项填报任务列表",
+						"path": "/operateMgmt/fillList",
 						"parentId": "03",
 						"parentName": "营运管理"
 					},{
@@ -467,6 +474,11 @@
 			},
 			changeParentId(parentId) {
 				this.$store.dispatch('setNavbarId', parentId)
+			},
+			logout() {
+				this.$store.dispatch('LogOut');
+				Cookies.remove('_rest_token'); 
+				window.location.href = 'http://139.198.190.189:10028/start/index.html#/'
 			}
 		},
 		watch: {

@@ -50,7 +50,7 @@
 						<td>{{info.endTime}}</td>
 						<td>{{info.isFilledIn=='0'?'未完成':'已完成'}}</td>
 						<td>
-							<router-link :to='info.fillLink'>
+							<router-link  :to="{path:info.fillLink,query: {barId:'03'}}">
                                 填报
                             </router-link>
 						</td>

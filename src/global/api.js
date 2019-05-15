@@ -1,4 +1,4 @@
-const BASE_URL = 'http://192.168.2.66:60'; //9009   /serviceArea  http://192.168.2.195:9006   http://192.168.2.66:60
+const BASE_URL = 'http://192.168.0.70:60'; //9009   /serviceArea  http://192.168.2.195:9006   http://192.168.2.66:60
 export default {
 		
 	//登录

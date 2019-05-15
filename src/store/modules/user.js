@@ -36,6 +36,16 @@ const user = {
 			//commit('SET_TIMESTAMP', timeStamp);
 		
 		},
+		LogOut({
+			commit,
+			state
+		}) {
+			return new Promise((resolve, reject) => {
+				commit('SET_TOKEN', '')
+				Cookies.remove('_rest_token'); 
+				resolve()
+			})
+		},
 		// 获取用户信息
 //		GetInfo({
 //			dispatch,

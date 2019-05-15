@@ -52,7 +52,7 @@ export default {
                 query:{
                     barId:'03',
                     taskTypeID:taskTypeID,
-                    typeId:typeId
+                    taskId:typeId
                 }
             })
         },

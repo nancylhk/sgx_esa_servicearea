@@ -111,13 +111,7 @@
 						"parentId": "03",
 						"parentName": "营运管理"
 					},
-					// {
-					// 	"title": "填报情况",
-					// 	"description": "",
-					// 	"path": "/operateMgmt/fillList",
-					// 	"parentId": "03",
-					// 	"parentName": "营运管理"
-					// },
+					
 					{
 						"title": "成本填报",
 						"description": "",
@@ -129,6 +123,13 @@
 						"title": "项目跟踪与商业合作",
 						"description": "",
 						"path": "/operateMgmt/projectList",
+						"parentId": "03",
+						"parentName": "营运管理"
+					},
+					{
+						"title": "填报情况",
+						"description": "",
+						"path": "/operateMgmt/fillList",
 						"parentId": "03",
 						"parentName": "营运管理"
 					},

@@ -100,7 +100,7 @@
 					shopType: '',
 					shopName:'',
 					amount:'',
-					taskId:this.$route.query.typeId,
+					taskId:this.$route.query.taskId,
 					incomeType:2
 				},
 				pickerOptions: {
@@ -303,7 +303,7 @@
 					params: {
 						accessToken: this.$store.state.user.token,
 						info:{
-							taskId:this.$route.query.typeId,
+							taskId:this.$route.query.taskId,
 						}							
 					}
 				},function(response){

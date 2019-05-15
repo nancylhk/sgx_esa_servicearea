@@ -3,7 +3,12 @@
 		<div class="per-center">
 			<h5 class="per-tit">个人中心<img class="per-icon" src="../../assets/images/set.png"/></h5>
 			<div class="mt15 ml25">
-				<img src="../../assets/images/user-info.png" /><span class="ml20">账号&nbsp;:&nbsp;</span><span>{{currentUserInfo.userName}}</span>
+				<img src="../../assets/images/user-info.png" />
+				<span class="ml20">账号&nbsp;:&nbsp;</span>
+				
+				<el-tooltip class="item" effect="dark" :content="currentUserInfo.userName" placement="top-start">
+					<span class="cp ehidden">{{currentUserInfo.userName}}</span>
+				</el-tooltip>
 			</div>
 			<ul class="user-info">
 				<li>
@@ -53,21 +58,23 @@
 			<section class="sys-cont">
 				<h5 class="per-tit">最新公告<img class="per-icon" src="../../assets/images/more.png"/></h5>
 				<ul class="sys-cont-detail">
+					<li v-for="(item,index) in newsList" :key="index"><em></em>{{item}}</li>
+					<!-- <li><em></em>关于苏通卡苏通大桥服务区充值点营业时间充值点营业时间</li>
 					<li><em></em>关于苏通卡苏通大桥服务区充值点营业时间充值点营业时间</li>
 					<li><em></em>关于苏通卡苏通大桥服务区充值点营业时间充值点营业时间</li>
 					<li><em></em>关于苏通卡苏通大桥服务区充值点营业时间充值点营业时间</li>
-					<li><em></em>关于苏通卡苏通大桥服务区充值点营业时间充值点营业时间</li>
-					<li><em></em>关于苏通卡苏通大桥服务区充值点营业时间充值点营业时间</li>
+					<li><em></em>关于苏通卡苏通大桥服务区充值点营业时间充值点营业时间</li> -->
 				</ul>
 			</section>
 			<section class="sys-cont">
 				<h5 class="per-tit">最新政策<img class="per-icon" src="../../assets/images/more.png"/></h5>
 				<ul class="sys-cont-detail">
+					<li v-for="(item,index) in ceList" :key="index"><em></em>{{item}}</li>
+					<!-- <li><em></em>关于苏通卡苏通大桥服务区充值点营业时间充值点营业时间</li>
 					<li><em></em>关于苏通卡苏通大桥服务区充值点营业时间充值点营业时间</li>
 					<li><em></em>关于苏通卡苏通大桥服务区充值点营业时间充值点营业时间</li>
 					<li><em></em>关于苏通卡苏通大桥服务区充值点营业时间充值点营业时间</li>
-					<li><em></em>关于苏通卡苏通大桥服务区充值点营业时间充值点营业时间</li>
-					<li><em></em>关于苏通卡苏通大桥服务区充值点营业时间充值点营业时间</li>
+					<li><em></em>关于苏通卡苏通大桥服务区充值点营业时间充值点营业时间</li> -->
 				</ul>
 			</section>
 		</article>
@@ -82,6 +89,22 @@
 				msgNum: '',
 				todoNum: '',
 				currentUserInfo: '',
+				newsList:[
+					'交通控股首开“集中养护”先河 创树“苏式养护”品牌',
+					'交通控股公司组织开展招标与采购业务培训',
+					'交通控股公司特邀南大旅美建筑设计师共同研讨绘制服务区精谨细腻“工笔画”',
+					'控股系统2019年度优秀QC成果发布会顺利召开',
+					'控股公司举办第三期“苏高速·茉莉花” 调度和清排障业务轮训班',
+					// '内控建设 聚众合力——联网公司内控体系建设掠影'
+				],
+				ceList:[
+					'苏通大桥公司｜搭建平台筑品牌 聚焦品质谱新篇——举办“苏高速茉莉花”品牌展示会',
+					'工程养护公司｜创新“3+2”工作法 激发“党建+安全”源动力',
+					'广靖锡澄公司单方向全封闭集中养护施工“整装待发”',
+					'东部高速公司｜融合发展 力促企业文化建设“新画卷”渐次展开',
+					'扬子大桥公司｜江阴大桥清障救援驿站投入使用',
+					// '京沪公司｜江苏省首个高速公路服务区“航空服务站”正式启用'
+				]
 			}
 		},
 		components: {
@@ -182,7 +205,7 @@
 					overflow: hidden;
 					text-overflow: ellipsis;
 					white-space: nowrap;
-					width: 60%;
+					width: 52%;
 				}
 			}
 			.info-icon {

@@ -32,8 +32,8 @@
 					<tr v-for="(info,index) in toiletList">
 						<td>{{index+1}}</td>
 						<td>{{info.toiletName}}</td>
-						<td v-show="info.gender == 0">男</td>
-						<td v-show="info.gender == 1">女</td>
+						<td v-show="info.gender == '2'">男</td>
+						<td v-show="info.gender == '1'">女</td>
 						<td>{{info.distribution}}</td>
 						<td>{{info.measure}}</td>
 						<td>
