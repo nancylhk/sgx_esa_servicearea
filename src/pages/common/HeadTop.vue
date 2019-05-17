@@ -89,7 +89,7 @@
 								</router-link>
 							</ul>
 						</el-tab-pane>
-						<el-tab-pane label="餐厅管理">
+						<!-- <el-tab-pane label="餐厅管理">
 							<ul class="product-list">
 								<router-link v-for="(nav,index) in navItem" :to="{path:nav.path,query: {barId:nav.parentId}}" :key="nav.path" v-if="nav.parentId == '05'">
 									<li class="mt15" @click="changeParentId(nav.parentId)">
@@ -98,7 +98,7 @@
 									</li>
 								</router-link>
 							</ul>
-						</el-tab-pane>
+						</el-tab-pane> -->
 						<el-tab-pane label="POS机管理">
 							<ul class="product-list">
 								<router-link v-for="(nav,index) in navItem" :to="{path:nav.path,query: {barId:nav.parentId}}" :key="nav.path" v-if="nav.parentId == '07'">

@@ -112,10 +112,10 @@
 							</h5>
 							<div class="pd10-3">
 								<ul>
-									<li v-for="(item,index) in fillList" class="fillListBox">
+									<li v-for="(item,index) in fillList.slice(0,9)" class="fillListBox">
 										<span class="sign">{{index+1}}</span>
 										<span>{{item.taskTypeName}}</span>
-										<span :class="item.isFilledIn=='0'?'red':''">{{item.isFilledIn=='0'?'未完成':'已完成'}}</span>
+										<span :class="item.isFilledIn=='0'?'red':'fRight'">{{item.isFilledIn=='0'?'未完成':'已完成'}}</span>
 									</li>
 								</ul>
 							</div>
@@ -149,21 +149,21 @@
 				incomeTrendData: [
 					{	name:'',
 						data:{
-							'04-01':3592,
-							'04-02':3905,
-							'04-03':4003,
-							'04-04':3567,
-							'04-05':3876,
-							'04-06':3098,
-							'04-07':3200,
-							'04-08':3808,
-							'04-09':2988,
-							'04-10':3721,
-							'04-11':3770,
-							'04-12':4500,
-							'04-13':4098,
-							'04-14':3087,
-							'04-15':4098,
+							'05-01':3.592,
+							'05-02':3.905,
+							'05-03':4.003,
+							'05-04':3.567,
+							'05-05':3.876,
+							'05-06':3.098,
+							'05-07':3.200,
+							'05-08':3.808,
+							'05-09':2.988,
+							'05-10':3.721,
+							'05-11':3.770,
+							'05-12':4.500,
+							'05-13':4.098,
+							'05-14':3.087,
+							'05-15':4.098,
 						}
 					}
 				],
@@ -291,21 +291,21 @@
             // })
 
 			//年度目标
-			this.$http.get(this.api.getYearTarget,
-			{
-				params: {
-					accessToken: this.$store.state.user.token,
-				}
-			},function(response){
-				if(response.status == 200) {
-					self.yearData = response.data;
-					self.yearPercent.outcome = self.yearData.outcome <= 0 ? 0 : parseInt(self.yearData.outcome / self.yearData.outcomeTarget * 100);
-					self.yearPercent.income = self.yearData.income <= 0 ? 0 : parseInt(self.yearData.income / self.yearData.incomeTarget * 100);
-					self.yearPercent.profit = self.yearData.profit <= 0 ? 0 : parseInt(self.yearData.profit / self.yearData.profitTarget * 100);
-				}
-			},function(response){
-                //失败回调
-            })
+			// this.$http.get(this.api.getYearTarget,
+			// {
+			// 	params: {
+			// 		accessToken: this.$store.state.user.token,
+			// 	}
+			// },function(response){
+			// 	if(response.status == 200) {
+			// 		self.yearData = response.data;
+			// 		self.yearPercent.outcome = self.yearData.outcome <= 0 ? 0 : parseInt(self.yearData.outcome / self.yearData.outcomeTarget * 100);
+			// 		self.yearPercent.income = self.yearData.income <= 0 ? 0 : parseInt(self.yearData.income / self.yearData.incomeTarget * 100);
+			// 		self.yearPercent.profit = self.yearData.profit <= 0 ? 0 : parseInt(self.yearData.profit / self.yearData.profitTarget * 100);
+			// 	}
+			// },function(response){
+            //     //失败回调
+            // })
 						
 			//填报任务完成情况
 			this.$http.get(this.api.getFilledTaskList,
@@ -338,9 +338,9 @@
             })
 		},
 		methods: {
-			resize: function() {
-				this.$refs.incomeTrendChart.chartItem.resize();
-			},
+			// resize: function() {
+			// 	this.$refs.incomeTrendChart.chartItem.resize();
+			// },
 			toDetail() {
 				this.$router.push({
 					path:'/operateMgmt/fillList',
@@ -352,9 +352,9 @@
         },
         mounted () {
             const that = this
-            window.onresize = () => {
-            	that.resize();
-            }
+            // window.onresize = () => {
+            // 	that.resize();
+            // }
         }
 
 	}

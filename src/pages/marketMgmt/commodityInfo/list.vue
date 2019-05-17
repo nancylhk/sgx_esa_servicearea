@@ -89,7 +89,7 @@
 				beginRow: '',
 				endRow: '',
 				priceDialogVisible: false,
-				commodityList: '',
+				commodityList: [],
 				commodityInfo: '',
 				price: '',
 				shopType:'',

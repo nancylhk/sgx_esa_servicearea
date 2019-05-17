@@ -76,7 +76,7 @@
 						<td>{{info.amount}}</td>
 						<td>{{info.filledTime}}</td>
 						<td>
-							<a @click ="disableEvent(info.incomeID)" v-if="!info.filledTime">删除</a>
+							<a @click ="disableEvent(info.incomeID)" >删除</a>
 						</td>
 					</tr>
 				</tbody>
@@ -223,7 +223,7 @@
 				this.$refs.addInfo.validate((valid) => {
 					if (valid) {				
 						let params = new FormData()
-						this.addInfo.shopType = this.addInfo.shopType.shopTypeParentId;
+						this.addInfo.shopType = this.addInfo.shopType.shopTypeCode;
 						params.append('accessToken', self.$store.state.user.token);
 						params.append('info', JSON.stringify(self.addInfo));
 						self.$http.post(self.api.addSelfSupportSaleInfo, params, {

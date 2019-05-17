@@ -78,7 +78,7 @@
 						<td>{{info.amount}}</td>
 						<td>{{info.filledTime}}</td>
 						<td>
-							<a @click ="disableEvent(info.saleID)"  v-if="!info.filledTime">删除</a>
+							<a @click ="disableEvent(info.saleID)"  >删除</a>
 						</td>
 					</tr>
 				</tbody>

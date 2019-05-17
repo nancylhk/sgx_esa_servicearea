@@ -2,7 +2,7 @@
 	<div class="app-container">
 		<h5 class="app-crumb">
 			<em class="app-crumb-line"></em>
-			<span  @click="toShow('sectionList')" v-bind:class="{cp: arrowIsShow }">商品信息管理</span>
+			<span  @click="toShow('sectionList')" v-bind:class="{cp: arrowIsShow }">我的商品列表</span>
 			<span v-show="arrowIsShow"><em class="next-arrow"></em>{{subTit}}</span>
 		</h5>
 		<keep-alive :include="includedComponents">

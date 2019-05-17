@@ -82,6 +82,7 @@ export default {
                     if(response.status == 200) {
                         if(response.data){
                             self.$message.success('上报成功')
+                            self.getList()
                         }else{
                             self.$message.error('上报失败')
                         }
