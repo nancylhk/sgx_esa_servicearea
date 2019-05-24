@@ -6,9 +6,9 @@
 			<span><em class="next-arrow"></em>{{nowPath}}</span>
 		</h5>		
 		<div class="app-search  mt5 add-top-container">
-			<el-form :inline="true" label-width="80px" :model="addInfo" ref="addInfo"  class="demo-form-inline coop" :rules="rules">
+			<el-form :inline="true" label-width="80px" :model="addInfo" ref="addInfo"  class="demo-form-inline coop" :rules="rules" :inline-message="true">
 				<el-row>
-					<el-col :span="12">
+					<el-col :span="10">
 						<el-form-item label="交易日期" prop='tradeDate'>
 							<el-date-picker
 							v-model="addInfo.tradeDate"
@@ -19,7 +19,7 @@
 							</el-date-picker>
 						</el-form-item>
 					</el-col>
-					<el-col :span="12">
+					<el-col :span="10">
 						<el-form-item label="品名" prop='oilType'>
 							<el-select v-model="addInfo.oilType" clearable>
 								<el-option v-for="(item,index) in oilTypesOption" 
@@ -31,7 +31,9 @@
 							</el-select>
 						</el-form-item>
 					</el-col>
-					<el-col :span="12">
+				</el-row>
+				<el-row>
+					<el-col :span="10">
 						<el-form-item label="商户类型" prop="shopType">
 							<el-select v-model="addInfo.shopType" clearable>
 								<el-option v-for="(item,index) in businessTypesOption" 
@@ -43,17 +45,16 @@
 							</el-select>
 						</el-form-item>
 					</el-col>
-					<el-col :span="12">
+					<el-col :span="10">
 						<el-form-item label="销售量" prop='saleVolume'>
 							<input v-model="addInfo.saleVolume" class="queryIpt" />
 						</el-form-item>
 					</el-col>
-					<el-col :span="24">
-						<el-form-item  class="center">
-							<el-button type="success" @click="addEvent">添加</el-button>
-						</el-form-item>
-					</el-col>
+					
 				</el-row>
+				<el-form-item  class="center fright">
+					<el-button type="success" @click="addEvent">添加</el-button>
+				</el-form-item>
 			</el-form>
 		</div>
 		<div class="app-main" id="app-main">
@@ -132,14 +133,10 @@
 				},
 				oilTypesOption:[],
 				rules:{
-					tradeDate:[{ required:true,message:'',trigger: 'blur' }],
-					shopType: [{ required:true,message:'',trigger: 'blur' }],
-					oilType:[{ required:true,message:'',trigger: 'blur' }],
-					saleVolume: [{
-							required: true,
-							message: '请输入销售额',
-							trigger: 'blur'
-						},
+					tradeDate:[{ required:true,message:'请选择交易日期',trigger: 'change' }],
+					shopType: [{ required:true,message:'请选择商户类型',trigger: 'change' }],
+					oilType:[{ required:true,message:'请选择品名',trigger: 'change' }],
+					saleVolume: [
 						{
 							validator: validateRules.isNumber,
 							trigger: 'blur',
@@ -246,7 +243,7 @@
 							//失败回调
 						})
 					} else {
-						self.$message.error('请正确填写添加项目')
+						// self.$message.error('请正确填写添加项目')
 						return false;
 					}
 				});

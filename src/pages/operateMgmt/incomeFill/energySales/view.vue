@@ -60,7 +60,14 @@
 	export default {
 		data() {
 			return {
-				tableDataList:'',
+				tableDataList:  { 
+					"EnergySaleInfoPreview":[],
+        			"EnergySaleInfoByMonth":[],
+        			"oilTotal":"0",
+        			"gasTotal":"0",
+        			"elcTotal":"0",
+        			"total":"0"
+				},
 				barId:this.$route.query.barId
 
 			}
@@ -94,7 +101,6 @@
 				},function(response){
 					if(response.status == 200) {
 						self.tableDataList = response.data;
-						console.log(response.data)
 					}
 				},function(response){
 	                //失败回调

@@ -5,10 +5,10 @@
 			<span @click="goBack()" class="cp">收入填报</span>
 			<span><em class="next-arrow"></em>{{nowPath}}</span>
 		</h5>		
-		<div class="app-search ml10 mt5 add-top-container add-top-container2">
-			<el-form :inline="true" label-width="180px" :model="addInfo" ref="addInfo"  class="demo-form-inline coop" :rules="rules">
+		<div class="app-search ml10 mt5 add-top-container ">
+			<el-form :inline="true" label-width="142px" :model="addInfo" ref="addInfo"  class="demo-form-inline coop" :rules="rules" :inline-message="true">
 				<el-row>
-					<el-col :span="12">
+					<el-col :span="10">
 						<el-form-item label="交易日期" prop='tradeDate'>
 							<el-date-picker
 							v-model="addInfo.tradeDate"
@@ -19,7 +19,7 @@
 							</el-date-picker>
 						</el-form-item>
 					</el-col>
-					<el-col :span="12">
+					<el-col :span="10">
 						<el-form-item label="放假第几天" prop="whatDays">
 							<el-select v-model="addInfo.whatDays" >
 								<el-option v-for="(item,index) in dayOptions" 
@@ -30,12 +30,14 @@
 							</el-select>
 						</el-form-item>
 					</el-col>
-					<el-col :span="12">
+				</el-row>
+				<el-row>
+					<el-col :span="10">
 						<el-form-item label="车流量" prop='vehicleFlow'>
 							<input v-model="addInfo.vehicleFlow" class="queryIpt" />
 						</el-form-item>
 					</el-col>
-					<el-col :span="12">
+					<el-col :span="10">
 						<el-form-item label="节日" prop='festivalID'>
 							<el-select v-model="addInfo.festivalID" >
 								<el-option v-for="(item,index) in festivalOption" 
@@ -46,32 +48,34 @@
 							</el-select>
 						</el-form-item>
 					</el-col>
-					<el-col :span="12">
+				</el-row>
+				<el-row>
+					<el-col :span="10">
 						<el-form-item label="汽柴销售量" prop='energyVolume'>
 							<input v-model="addInfo.energyVolume" class="queryIpt" />
 						</el-form-item>
 					</el-col>
-					<el-col :span="12">
+					<el-col :span="10">
 						<el-form-item label="汽柴销售额" prop='energySales'>
 							<input v-model="addInfo.energySales" class="queryIpt" />
 						</el-form-item>
 					</el-col>
-					<el-col :span="12">
+				</el-row>
+				<el-row>
+					<el-col :span="10">
 						<el-form-item label="餐饮小吃销售额" prop='restaurantSales'>
 							<input v-model="addInfo.restaurantSales" class="queryIpt" />
 						</el-form-item>
 					</el-col>
-					<el-col :span="12">
+					<el-col :span="10">
 						<el-form-item label="超市、特色商店销售额" prop='marketSales'>
 							<input v-model="addInfo.marketSales" class="queryIpt" />
 						</el-form-item>
 					</el-col>
-					<el-col :span="24">
-						<el-form-item  class="center">
-							<el-button type="success" @click="addEvent">添加</el-button>
-						</el-form-item>
-					</el-col>
-				</el-row>
+				</el-row>	
+				<el-form-item  class="center fright">
+					<el-button type="success" @click="addEvent">添加</el-button>
+				</el-form-item>
 			</el-form>
 		</div>
 		<div class="app-main" id="app-main">
@@ -138,8 +142,7 @@
 					}
 				},
 				rules:{
-					tradeDate:[{ required:true,message:'',trigger: 'blur' }],
-					whatDays:[{ required:true,message:'',trigger: 'change' }],
+					tradeDate:[{ required:true,message:'请选择交易日期',trigger: 'change' }],
 					festivalID:[{ required:true,message:'请选择节日',trigger: 'change' }],
 					energyVolume : [{required: true,message: '请输入销售额',trigger: 'blur'},
 						{validator: validateRules.isNumber,trigger: 'blur',required: true}
@@ -228,7 +231,7 @@
 							//失败回调
 						})
 					} else {
-						self.$message.error('请正确填写添加项目')
+						// self.$message.error('请正确填写添加项目')
 						return false;
 					}
 				});

@@ -107,7 +107,7 @@
 							<h5 class="lh32">填报任务完成情况
 								<span class="right sellSort">
 									<!--<a :class="{ 'gray': sellRank == 'num'}" @click="sellRank = 'num'">销量</a>|-->
-									<a class="gray" @click="toDetail()">详情</a>
+									<a class="gray" @click="toDetail()">更多</a>
 								</span>
 							</h5>
 							<div class="pd10-3">
@@ -264,48 +264,48 @@
             })
 			
 			//收入趋势
-			// this.$http.get(this.api.getIncomeTrend,
-			// {
-			// 	params: {
-			// 		accessToken: this.$store.state.user.token,
-			// 	}
-			// },function(response){
-			// 	if(response.status == 200) {
-			// 		self.incomeTrendData = response.data;
-			// 	}
-			// },function(response){
-            //     //失败回调
-            // })
+			this.$http.get(this.api.getIncomeTrend,
+			{
+				params: {
+					accessToken: this.$store.state.user.token,
+				}
+			},function(response){
+				if(response.status == 200) {
+					self.incomeTrendData = response.data;
+				}
+			},function(response){
+                //失败回调
+            })
 			
 			//产品营业占比
-			// this.$http.get(this.api.getCommodityRange, {
-			// 	params: {
-			// 		accessToken: this.$store.state.user.token,
-			// 	}
-			// },function(response){
-			// 	if(response.status == 200) {
-			// 		self.commodityRange = response.data;
-			// 	}
-			// },function(response){
-            //     //失败回调
-            // })
+			this.$http.get(this.api.getCommodityRange, {
+				params: {
+					accessToken: this.$store.state.user.token,
+				}
+			},function(response){
+				if(response.status == 200) {
+					self.commodityRange = response.data;
+				}
+			},function(response){
+                //失败回调
+            })
 
 			//年度目标
-			// this.$http.get(this.api.getYearTarget,
-			// {
-			// 	params: {
-			// 		accessToken: this.$store.state.user.token,
-			// 	}
-			// },function(response){
-			// 	if(response.status == 200) {
-			// 		self.yearData = response.data;
-			// 		self.yearPercent.outcome = self.yearData.outcome <= 0 ? 0 : parseInt(self.yearData.outcome / self.yearData.outcomeTarget * 100);
-			// 		self.yearPercent.income = self.yearData.income <= 0 ? 0 : parseInt(self.yearData.income / self.yearData.incomeTarget * 100);
-			// 		self.yearPercent.profit = self.yearData.profit <= 0 ? 0 : parseInt(self.yearData.profit / self.yearData.profitTarget * 100);
-			// 	}
-			// },function(response){
-            //     //失败回调
-            // })
+			this.$http.get(this.api.getYearTarget,
+			{
+				params: {
+					accessToken: this.$store.state.user.token,
+				}
+			},function(response){
+				if(response.status == 200) {
+					self.yearData = response.data;
+					self.yearPercent.outcome = self.yearData.outcome <= 0 ? 0 : parseInt(self.yearData.outcome / self.yearData.outcomeTarget * 100);
+					self.yearPercent.income = self.yearData.income <= 0 ? 0 : parseInt(self.yearData.income / self.yearData.incomeTarget * 100);
+					self.yearPercent.profit = self.yearData.profit <= 0 ? 0 : parseInt(self.yearData.profit / self.yearData.profitTarget * 100);
+				}
+			},function(response){
+                //失败回调
+            })
 						
 			//填报任务完成情况
 			this.$http.get(this.api.getFilledTaskList,

@@ -107,4 +107,12 @@ export default {
         border: 1px dashed #f0f0f0;
     }
 }
+.next-arrow {
+		display: inline-block;
+		width: 16px;
+		height: 16px;
+		background: url(../../../../assets/images/next.png) no-repeat;
+		vertical-align: middle;
+		margin: 0 5px;
+	}
 </style>

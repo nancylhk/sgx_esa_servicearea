@@ -182,30 +182,51 @@
 .add-top-container{
     margin: 10px 0px 10px 0px;
     .el-row{
-        width: 800px;
-        margin: 0 auto;
-        padding: 15px 0 10px;
+        // width: 800px;
+        // margin: 0 auto;
+        // padding: 10px 0 10px;
     }
     .coop{
         background: #fcfcfc;
+        padding: 10px 0 10px;
+        position: relative;
+        .el-date-editor.el-input, .el-date-editor.el-input__inner{
+            width: 180px;
+        }
         .el-col{
-            padding-left: 40px;
+            padding-left: 20px;
+        }
+        .el-col-10{
+            width: 510px;
+        }
+        .fright{
+            position: absolute;
+            top: 10px;
+            right: 20px;
         }
         .queryIpt{
-            width: 220px;
+            width: 180px;
+        }
+        .el-form-item__error--inline{
+            width: 150px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
         .el-select>.el-input{
-            width: 220px
+            width: 180px
         }
         .center{
             text-align: center;
             display: block;
         }
         .el-textarea__inner{
-            width: 220px;
+            width: 180px;
         }
         .el-textarea{
             margin-top: 10px;
+            width: 180px;
+            margin-bottom: 5px;
         }
     }
 }
@@ -216,6 +237,21 @@
     .coop{
         .el-col{
             padding-left: 10px;
+        }
+    }
+}
+@media  screen and (max-width:1920px) and (min-width:1367px){
+    .add-top-container{
+        .coop{
+            .el-col-10{
+                width: 560px
+            }
+            .el-form-item__error--inline{
+                width: 160px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
         }
     }
 }

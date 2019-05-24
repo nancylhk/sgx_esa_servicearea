@@ -5,80 +5,90 @@
 			<span @click="goBack()" class="cp">成本填报</span>
 			<span><em class="next-arrow"></em>{{nowPath}}</span>
 		</h5>		
-		<div class="app-search mt5 add-top-container add-top-container2">
-			<el-form  label-width="140px" :inline="true" :model="addInfo" :rules="rules" ref="addInfo"  class="demo-form-inline coop"  >		
+		<div class="app-search mt5 add-top-container">
+			<el-form  label-width="140px" :inline="true" :model="addInfo" :rules="rules" ref="addInfo"  class="demo-form-inline coop" :inline-message="true" >		
 				<el-row>
-					<el-col :span="12">
+					<el-col :span="10">
 						<el-form-item label="商户名称" prop='shopName'>
 							<input v-model.number="addInfo.shopName" class="queryIpt" />
 						</el-form-item>
 					</el-col>
-					<el-col :span="12">
+					<el-col :span="10">
 						<el-form-item label="合作形式" prop='cooperationType'>
 							<input v-model.number="addInfo.cooperationType" class="queryIpt" />
 						</el-form-item>
 					</el-col>
-					<el-col :span="12">
+				</el-row>
+				<el-row>
+					<el-col :span="10">
 						<el-form-item label="年增长率或年增长额" prop='annualGrowth'>
 							<input v-model.number="addInfo.annualGrowth" class="queryIpt" />
 						</el-form-item>
 					</el-col>
-					<el-col :span="12">
+					<el-col :span="10">
 						<el-form-item label="第一年租金或平均租金" prop='averageRent'>
 							<input v-model.number="addInfo.averageRent" class="queryIpt" />
 						</el-form-item>
 					</el-col>
-					<el-col :span="12">
+				</el-row>
+				<el-row>
+					<el-col :span="10">
 						<el-form-item label="合同期总租金" prop='totalRent'>
 							<input v-model.number="addInfo.totalRent" class="queryIpt" />
 						</el-form-item>
 					</el-col>
-					<el-col :span="12">
+					<el-col :span="10">
 						<el-form-item label="保底额" prop='guaranteeAmount'>
 							<input v-model="addInfo.guaranteeAmount" class="queryIpt" />
 						</el-form-item>
 					</el-col>
-					<el-col :span="12">
+				</el-row>
+				<el-row>
+					<el-col :span="10">
 						<el-form-item label="提成比例或金额" prop="rentRate1">
 							<input v-model.number="addInfo.rentRate1" class="queryIpt" />
 						</el-form-item>
 					</el-col>
-					<el-col :span="12">
+					<el-col :span="10">
 						<el-form-item label="提成比例或金额2" prop="rentRate2">
 							<input v-model.number="addInfo.rentRate2" class="queryIpt" />
 						</el-form-item>
 					</el-col>
-					<el-col :span="12">
+				</el-row>
+				<el-row>
+					<el-col :span="10">
 						<el-form-item label="提成比例或金额3" prop="rentRate3">
 							<input v-model="addInfo.rentRate3" class="queryIpt" />
 						</el-form-item>
 					</el-col>
-					<el-col :span="12">
+					<el-col :span="10">
 						<el-form-item label="合作年限" prop='contractYear'>
 							<input v-model.number="addInfo.contractYear" class="queryIpt" />
 						</el-form-item>
 					</el-col>
-					<el-col :span="12">
+				</el-row>
+				<el-row>
+					<el-col :span="10">
 						<el-form-item label="合同合作期" prop="contractPeriod">
 							<input v-model.number="addInfo.contractPeriod" class="queryIpt" />
 						</el-form-item>
 					</el-col>
-					<el-col :span="12">
+					<el-col :span="10">
 						<el-form-item label="上半年履约评分得分" prop="firstHalfYearPoint">
 							<input v-model="addInfo.firstHalfYearPoint" class="queryIpt" />
 						</el-form-item>
 					</el-col>
-					<el-col :span="12">
+				</el-row>
+				<el-row>
+					<el-col :span="10">
 						<el-form-item label="下半年履约评分得分" prop="secondHalfYearPoint">
 							<input v-model="addInfo.secondHalfYearPoint" class="queryIpt" />
 						</el-form-item>
 					</el-col>
-					<el-col :span="24">
-						<el-form-item  class="center">
-							<el-button type="success" @click="addEvent">添加</el-button>
-						</el-form-item>
-					</el-col>
 				</el-row>
+				<el-form-item  class="center fright">
+					<el-button type="success" @click="addEvent">添加</el-button>
+				</el-form-item>
 			</el-form>
 		</div>
 		<div class="app-main mt20" id="app-main">
@@ -131,6 +141,7 @@
 
 <script>
 	import { mapGetters } from 'vuex';
+	import validateRules from '../../../../utils/validate';
 	export default {
 		data() {
 			return {
@@ -151,12 +162,20 @@
 					taskID:this.$route.query.taskId
 				},
 				rules:{
-                    shopName: [{ required: true, message: '', trigger: 'blur' }],
-                    cooperationType:[{ required: true, message: '', trigger: 'blur' }],
-                    contractYear:[{ required: true, message: '', trigger: 'blur' }],
-                    contractPeriod :[{ required: true, message: '', trigger: 'blur' }],
-                    firstHalfYearPoint:[{ required: true, message: '', trigger: 'blur' }],
-                    secondHalfYearPoint:[{ required: true, message: '', trigger: 'blur' }],
+                    shopName: [{ required: true, message: '请输入商户名称', trigger: 'blur' }],
+					cooperationType:[{ required: true, message: '请输入合作形式', trigger: 'blur' }],
+					// annualGrowth:[{ validator: validateRules.isNumber,trigger: 'blur'}],
+					// averageRent:[{ validator: validateRules.isNumber,trigger: 'blur'}],
+                    // totalRent:[{ validator: validateRules.isNumber,trigger: 'blur'}],
+                    // guaranteeAmount:[{ validator: validateRules.isNumber,trigger: 'blur'}],
+                    // rentRate1:[{ validator: validateRules.isNumber,trigger: 'blur'}],
+                    // rentRate2:[{ validator: validateRules.isNumber,trigger: 'blur'}],
+                    // rentRate3:[{ validator: validateRules.isNumber,trigger: 'blur'}],
+                    contractYear:[{ required: true, message: '请输入合作年限', trigger: 'blur' }],
+                    contractPeriod :[{ required: true, message: '请输入合同合作期', trigger: 'blur' }],
+                    firstHalfYearPoint:[{ required: true, message: '请输入评价得分', trigger: 'blur' }],
+					secondHalfYearPoint:[{ required: true, message: '请输入评价得分', trigger: 'blur' }],
+					
                 },
 				tableDataList:'',
 				businessTypesOption:[],
@@ -184,8 +203,7 @@
 			addEvent() {			
                 let self = this;
                 this.$refs.addInfo.validate((valid) => {
-                    if (valid) {
-						
+                    if (valid) {					
                         self.$http.get(self.api.addCooperationInfo, {
 							params:{
 								accessToken:self.$store.state.user.token,
@@ -212,7 +230,7 @@
                             //失败回调
                         })
                     } else {
-                        self.$message.error('带星号的为必填项')
+                        // self.$message.error('带星号的为必填项')
                         return false;
                     }
                 });
@@ -287,9 +305,6 @@
 			color: #0099cc;
 		}
 	}
-    .coop .el-form-item__error{
-        display: none;
-    }
 	.next-arrow {
 		display: inline-block;
 		width: 16px;

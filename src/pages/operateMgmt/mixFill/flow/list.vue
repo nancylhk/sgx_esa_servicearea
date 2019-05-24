@@ -6,9 +6,9 @@
 			<span><em class="next-arrow"></em>{{nowPath}}</span>
 		</h5>		
 		<div class="app-search mt5 add-top-container">
-			<el-form :inline="true" label-width="100px"  :model="addInfo" :rules="rules" ref="addInfo"  class="demo-form-inline coop">
+			<el-form :inline="true" label-width="100px"  :model="addInfo" :rules="rules" ref="addInfo"  class="demo-form-inline coop"  :inline-message="true">
 				<el-row>
-					<el-col :span="12">
+					<el-col :span="10">
 						<el-form-item label="交易日期" prop="tradeDate">
 							<el-date-picker
 							v-model="addInfo.tradeDate"
@@ -19,7 +19,7 @@
 							</el-date-picker>
 						</el-form-item>
 					</el-col>
-					<el-col :span="12">
+					<el-col :span="10">
 						<el-form-item label="车型" prop='vehicleType'>
 							<el-select v-model="addInfo.vehicleType" clearable>
 								<el-option label="客车" value="客车"></el-option>
@@ -27,42 +27,47 @@
 							</el-select>
 						</el-form-item>	
 					</el-col>
-					<el-col :span="12">		
-						<el-form-item label="一型车流量">
+				</el-row>
+				<el-row>
+					<el-col :span="10">		
+						<el-form-item label="一型车流量" prop="typeFlow1">
 							<input v-model.number="addInfo.typeFlow1" class="queryIpt" />
 						</el-form-item>
 					</el-col>
-					<el-col :span="12">
-						<el-form-item label="二型车流量">
+					<el-col :span="10">
+						<el-form-item label="二型车流量" prop="typeFlow2">
 							<input v-model.number="addInfo.typeFlow2" class="queryIpt" />
 						</el-form-item>
 					</el-col>
-					<el-col :span="12">
-						<el-form-item label="三型车流量">
+				</el-row>
+				<el-row>
+					<el-col :span="10">
+						<el-form-item label="三型车流量" prop="typeFlow3">
 							<input v-model.number="addInfo.typeFlow3" class="queryIpt" />
 						</el-form-item>
 					</el-col>
-					<el-col :span="12">
-						<el-form-item label="四型车流量">
+					<el-col :span="10">
+						<el-form-item label="四型车流量" prop="typeFlow4">
 							<input v-model.number="addInfo.typeFlow4" class="queryIpt" />
 						</el-form-item>
 					</el-col>
-					<el-col :span="12">
-						<el-form-item label="五型车流量">
+				</el-row>
+				<el-row>
+					<el-col :span="10">
+						<el-form-item label="五型车流量" prop="typeFlow5">
 							<input v-model.number="addInfo.typeFlow5" class="queryIpt" />
 						</el-form-item>
 					</el-col>
-					<el-col :span="12">
-						<el-form-item label="六型车流量">
+					<el-col :span="10">
+						<el-form-item label="六型车流量" prop="typeFlow6">
 							<input v-model.number="addInfo.typeFlow6" class="queryIpt" />
 						</el-form-item>
 					</el-col>
-					<el-col :span="24">
-						<el-form-item  class="center">
-							<el-button type="success" @click="addEvent">添加</el-button>
-						</el-form-item>
-					</el-col>
+					
 				</el-row>
+				<el-form-item  class="center fright">
+					<el-button type="success" @click="addEvent">添加</el-button>
+				</el-form-item>
 			</el-form>
 		</div>
 		<div class="app-main mt20" id="app-main">
@@ -109,6 +114,7 @@
 
 <script>
 	import { mapGetters } from 'vuex';
+	import validateRules from '../../../../utils/validate';
 	export default {
 		data() {
 			return {
@@ -151,8 +157,14 @@
 					}
 				},
 				rules:{
-					tradeDate:[{ required:true,message:'',trigger: 'blur' }],
-					vehicleType: [{ required:true,message:'',trigger: 'blur' }],
+					tradeDate:[{ required:true,message:'请选择交易日期',trigger: 'change' }],
+					vehicleType: [{ required:true,message:'请选择车型',trigger: 'change' }],
+					// typeFlow1:[{ validator: validateRules.isInteger,trigger: 'blur'}],
+					// typeFlow2:[{ validator: validateRules.isInteger,trigger: 'blur'}],
+					// typeFlow3:[{ validator: validateRules.isInteger,trigger: 'blur'}],
+					// typeFlow4:[{ validator: validateRules.isInteger,trigger: 'blur'}],
+					// typeFlow5:[{ validator: validateRules.isInteger,trigger: 'blur'}],
+					// typeFlow6:[{ validator: validateRules.isInteger,trigger: 'blur'}],
 				},
 				tableDataList:'',
 				businessTypesOption:[],
@@ -220,7 +232,7 @@
 							//失败回调
 						})
 					} else {
-						self.$message.error('带星号的为必填项')
+						// self.$message.error('带星号的为必填项')
 						return false;
 					}
 				});

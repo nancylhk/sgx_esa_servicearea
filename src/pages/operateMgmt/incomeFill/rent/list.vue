@@ -6,9 +6,9 @@
 			<span><em class="next-arrow"></em>{{nowPath}}</span>
 		</h5>		
 		<div class="app-search ml10 mt5 add-top-container">
-			<el-form :inline="true" label-width="80px" :model="addInfo" :rules="rules" ref="addInfo" class="demo-form-inline coop">
+			<el-form :inline="true" label-width="80px" :model="addInfo" :rules="rules" ref="addInfo" class="demo-form-inline coop" :inline-message="true">
 				<el-row>
-					<el-col :span="12">
+					<el-col :span="10">
 						<el-form-item label="交易日期" prop='tradeDate'>
 							<el-date-picker
 							v-model="addInfo.tradeDate"
@@ -19,7 +19,7 @@
 							</el-date-picker>
 						</el-form-item>
 					</el-col>
-					<el-col :span="12">
+					<el-col :span="10">
 						<el-form-item label="商户类型" prop="shopType">
 							<el-select v-model="addInfo.shopType" value-key="shopTypeCode"  @change="getShops">
 								<el-option v-for="(item,index) in businessTypesOption" 
@@ -30,7 +30,9 @@
 							</el-select>
 						</el-form-item>
 					</el-col>
-					<el-col :span="12">
+				</el-row>
+				<el-row>
+					<el-col :span="10">
 						<el-form-item label="商户" prop='shopName'>
 							<el-select v-model="addInfo.shopName">
 								<el-option v-for="(item,index) in businessOption" 
@@ -41,17 +43,16 @@
 							</el-select>
 						</el-form-item>
 					</el-col>
-					<el-col :span="12">
+					<el-col :span="10">
 						<el-form-item label="租金金额" prop='amount'>
 							<input v-model="addInfo.amount" class="queryIpt" />
 						</el-form-item>
 					</el-col>
-					<el-col :span="24">
-						<el-form-item  class="center">
-							<el-button type="success" @click="addEvent">添加</el-button>
-						</el-form-item>
-					</el-col>
+					
 				</el-row>
+				<el-form-item  class="center fright">
+					<el-button type="success" @click="addEvent">添加</el-button>
+				</el-form-item>
 			</el-form>
 		</div>
 		<div class="app-main" id="app-main">
@@ -131,14 +132,10 @@
 					}
 				},
 				rules:{
-					tradeDate:[{ required:true,message:'',trigger: 'blur' }],
-					shopType: [{ required:true,message:'',trigger: 'blur' }],
-					shopName:[{ required:true,message:'',trigger: 'blur' }],
-					amount: [{
-							required: true,
-							message: '请输入租金金额',
-							trigger: 'blur'
-						},
+					tradeDate:[{ required:true,message:'请选择交易日期',trigger: 'change' }],
+					shopType: [{ required:true,message:'请选择商户类型',trigger: 'change' }],
+					shopName:[{ required:true,message:'请选择商户',trigger: 'change' }],
+					amount: [
 						{
 							validator: validateRules.isNumber,
 							trigger: 'blur',
@@ -251,7 +248,7 @@
 							//失败回调
 						})
 					} else {
-						self.$message.error('请正确填写添加项目')
+						// self.$message.error('请正确填写添加项目')
 						return false;
 					}
 				})

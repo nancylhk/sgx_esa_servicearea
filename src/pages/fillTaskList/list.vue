@@ -50,9 +50,10 @@
 						<td>{{info.endTime}}</td>
 						<td>{{info.isFilledIn=='0'?'未完成':'已完成'}}</td>
 						<td>
-							<router-link  :to="{path:info.fillLink,query: {barId:'03',taskTypeID:info.taskTypeId,taskId:info.taskId}}" v-if="info.isFilledIn=='0'">
+							<!-- <router-link  :to="{path:info.fillLink,query: {barId:'03',taskTypeID:info.taskTypeId,taskId:info.taskId}}" v-if="info.isFilledIn=='0'">
                                 填报
-                            </router-link>
+                            </router-link> -->
+							<span @click="fillDetail(info.fillLink,info.taskTypeId,info.taskId)" v-if="info.isFilledIn=='0'"><a>填报</a></span>
 							<span v-if="info.isFilledIn=='1'">已上报</span>
 						</td>
 					</tr>
@@ -97,7 +98,18 @@
 			},
 			searchTvenet() {
                 this.getList()
-            },
+			},
+			fillDetail(path,taskTypeId,taskId) {
+				this.$router.push({
+					path:path,
+					query: {
+						barId:'03',
+						taskTypeID:taskTypeId,
+						taskId:taskId
+					}
+				})
+				this.$store.dispatch('setNavbarId', '03')
+			},
 			getList() {
 				let self = this;
 				this.$http.get(this.api.getFilledTaskList, {

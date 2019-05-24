@@ -15,9 +15,6 @@
 <style lang="scss">
 		@import './style/common';
 		@import './style/other';
-		.coop .el-form-item__error{
-        display: none;
-		}
 		.upLoadBox{
 			margin: 20px ;
 			text-align: center;

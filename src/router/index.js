@@ -272,54 +272,51 @@ const routes = [
 			component: OperateSelfIncomeFill,
 			name: '自营收入填报',
 			meta:'03',
-			parentPath:'/operateMgmt/incomeFill'
 		},{
 			path: 'selfIncomeView',
 			component: OperateSelfIncomeView,
 			name: '自营收入预览',
 			meta:'03',
-			parentPath:'/operateMgmt/incomeFill'
 		},{
 			path: 'businessIncomeFill',
 			component: OperateBusinessIncomeFill,
 			name: '商户收入填报',
 			meta:'03',
-			parentPath:'/operateMgmt/incomeFill'
 		},{
 			path: 'businessIncomeView',
 			component: OperateBusinessIncomeView,
 			name: '商户收入预览',
-			meta:'03'
+			meta:'03',
 		},{
 			path: 'rentIncomeFill',
 			component: OperateRentIncomeFill,
 			name: '租金收入填报',
-			meta:'03'
+			meta:'03',
 		},{
 			path: 'rentIncomeView',
 			component: OperateRentIncomeView,
 			name: '租金收入预览',
-			meta:'03'
+			meta:'03',
 		},{
 			path: 'energySalesFill',
 			component: OperateEnergySalesFill,
 			name: '能源销售填报',
-			meta:'03'
+			meta:'03',
 		},{
 			path: 'energySalesView',
 			component: OperateEnergySalesView,
 			name: '能源销售预览',
-			meta:'03'
+			meta:'03',
 		},{
 			path: 'holidaySalesFill',
 			component: OperateHolidaySalesFill,
 			name: '节假日营业情况填报',
-			meta:'03'
+			meta:'03',
 		},{
 			path: 'holidaySalesView',
 			component: OperateHolidaySalesView,
 			name: '节假日营业情况预览',
-			meta:'03'
+			meta:'03',
 		},{
 			path: 'mixFill',
 			component: OperateMixFill,

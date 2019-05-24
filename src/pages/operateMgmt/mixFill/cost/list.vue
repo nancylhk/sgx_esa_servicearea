@@ -6,9 +6,9 @@
 			<span><em class="next-arrow"></em>{{nowPath}}</span>
 		</h5>		
 		<div class="app-search  mt5 add-top-container">
-			<el-form :inline="true" label-width="80px"  :model="addInfo" :rules="rules" ref="addInfo"  class="demo-form-inline coop">
+			<el-form :inline="true" label-width="80px"  :model="addInfo" :rules="rules" ref="addInfo"  class="demo-form-inline coop" :inline-message="true">
 				<el-row>
-					<el-col :span="12">
+					<el-col :span="10">
 						<el-form-item label="交易日期" prop='tradeDate'>
 							<el-date-picker
 							v-model="addInfo.tradeDate"
@@ -19,7 +19,7 @@
 							</el-date-picker>
 						</el-form-item>
 					</el-col>
-					<el-col :span="12">
+					<el-col :span="10">
 						<el-form-item label="支出类型" prop='paymentTypeID'>
 							<el-select v-model="addInfo.paymentTypeID" clearable>
 								<el-option v-for="(item,index) in businessTypesOption" 
@@ -30,22 +30,23 @@
 							</el-select>
 						</el-form-item>	
 					</el-col>
-					<el-col :span="12">		
+					
+				</el-row>
+				<el-row>
+					<el-col :span="10">		
 						<el-form-item label="支出金额" prop='paymentAmount'>
 							<input v-model="addInfo.paymentAmount" class="queryIpt" />
 						</el-form-item>
 					</el-col>
-					<el-col :span="12">
+					<el-col :span="10">
 						<el-form-item label="支出明细" prop='comment'>
 							<el-input type="textarea" v-model="addInfo.comment"></el-input>
 						</el-form-item>
 					</el-col>
-					<el-col :span="24">
-						<el-form-item  class="center">
-							<el-button type="success" @click="addEvent">添加</el-button>
-						</el-form-item>
-					</el-col>
 				</el-row>
+				<el-form-item  class="center fright">
+					<el-button type="success" @click="addEvent">添加</el-button>
+				</el-form-item>
 			</el-form>
 		</div>
 		<div class="app-main mt20" id="app-main">
@@ -84,6 +85,7 @@
 
 <script>
 	import { mapGetters } from 'vuex';
+	import validateRules from '../../../../utils/validate';
 	export default {
 		data() {
 			return {
@@ -122,10 +124,10 @@
 					}
 				},
 				rules:{
-					tradeDate:[{ required:true,message:'',trigger: 'blur' }],
-					paymentTypeID: [{ required:true,message:'',trigger: 'blur' }],
-					paymentAmount:[{ required:true,message:'',trigger: 'blur' }],
-					comment:[{ required:true,message:'',trigger: 'blur' }],
+					tradeDate:[{ required:true,message:'请选择交易日期',trigger: 'change' }],
+					paymentTypeID: [{ required:true,message:'请选择支付类型',trigger: 'change' }],
+					paymentAmount:[{ required:true,validator: validateRules.isNumber,trigger: 'blur'}],
+					comment:[{ required:true,message:'请填写支出明细',trigger: 'blur' }],
 				},
 				tableDataList:'',
 				businessTypesOption:[],
@@ -209,7 +211,7 @@
 							//失败回调
 						})
 					} else {
-						self.$message.error('带星号的为必填项')
+						// self.$message.error('带星号的为必填项')
 						return false;
 					}
 				});

@@ -56,7 +56,11 @@
 	export default {
 		data() {
 			return {
-				tableDataList:'',
+				tableDataList:{
+					resultMonth:[],
+					resultShop:[],
+					total:0
+				},
 				barId:this.$route.query.barId
 
 			}
@@ -88,7 +92,6 @@
 						}	//income表的typeId			
 					}
 				},function(response){
-					console.log(response)
 					if(response.status == 200) {
 						self.tableDataList = response.data;
 					}
