@@ -13,6 +13,7 @@
 			<p class="basic-info"><label>等级：</label><span>{{commodityInfo.commodityLevel}}</span></p>
 			<p class="basic-info"><label>规格：</label><span>{{commodityInfo.specificationNum + commodityInfo.specification}}</span></p>
 			<p class="basic-info"><label>保质期：</label><span>{{commodityInfo.guaranteePeriodNum + commodityInfo.guaranteePeriod}}</span></p>
+			<p class="basic-info"><label>图片：</label><span><img :src="commodityInfo.picUrl"/></span></p>
 		</section>
 		<p class="mt20"><em class="app-crumb-line"></em><span>出售信息</span></p>
 		<section>
